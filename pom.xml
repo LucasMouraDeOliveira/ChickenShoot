@@ -1,0 +1,159 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>fr.chicken_shoot_production.app</groupId>
+  <artifactId>ChickenShoot</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>ChickenShoot</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+		<jersey.version>2.16</jersey.version>
+		<jetty.version>9.3.0.M1</jetty.version>
+		<websocket.version>1.1</websocket.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<build>
+		<finalName>ChickenShoot</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<inherited>true</inherited>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+					<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+				</configuration>
+			</plugin>
+		</plugins>
+		
+		<sourceDirectory>src/main/java</sourceDirectory>
+    	<outputDirectory>bin</outputDirectory> 
+    	
+
+				
+	</build>
+
+  <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.glassfish.jersey</groupId>
+				<artifactId>jersey-bom</artifactId>
+				<version>${jersey.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		  <dependency>
+     		 <groupId>junit</groupId>
+     		 <artifactId>junit</artifactId>
+     		 <version>3.8.1</version>
+     		 <scope>test</scope>
+   		 </dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet-core</artifactId>
+			<!-- use the following artifactId if you don't need servlet 2.x compatibility -->
+			<!-- artifactId>jersey-container-servlet</artifactId -->
+		</dependency>
+		<!-- uncomment this to get JSON support -->
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-moxy</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-jdk-http</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
+			<artifactId>jersey-test-framework-provider-jetty</artifactId>
+		</dependency>	
+		<!-- To write basic websockets against -->
+	    <dependency>
+	    	<groupId>org.eclipse.jetty.websocket</groupId>
+	    	<artifactId>websocket-api</artifactId>
+	    	<version>${jetty.version}</version>
+	    </dependency>
+	    <!-- To run servlets in embedded server -->
+	    <dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-servlet</artifactId>
+			<version>${jetty.version}</version>
+	    </dependency>
+	    <!-- To run websockets in embedded server -->
+	    <dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-server</artifactId>
+			<version>${jetty.version}</version>
+	    </dependency>
+	    <!-- To run websockets client -->
+	    <dependency>
+	    	<groupId>org.eclipse.jetty.websocket</groupId>
+	    	<artifactId>websocket-client</artifactId>
+	    	<version>${jetty.version}</version>
+	    </dependency>
+	    <!-- To run http request -->
+	    <dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-http</artifactId>
+			<version>9.2.9.v20150224</version>
+		</dependency>
+		<!-- Other util stuff -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+			<version>9.2.9.v20150224</version>
+		</dependency>   
+		<!-- Simple JSON -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20141113</version>
+		</dependency>
+		<!-- Postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1201-jdbc41</version>
+		</dependency>
+		<!-- SQLite -->
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.8.7</version>
+		</dependency>
+		<!-- JDBI -->
+		<dependency>
+			<groupId>org.jdbi</groupId>
+			<artifactId>jdbi</artifactId>
+			<version>2.59</version>
+		</dependency>
+	</dependencies>
+  
+</project>

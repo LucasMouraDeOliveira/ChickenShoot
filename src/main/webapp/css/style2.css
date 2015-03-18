@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+
+body{
+	background-image: url("../res/fondweb1.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: block;
+}
+
+table {
+	border: 5px black groove;
+	background-color: #333333;
+	margin-left: 500px;
+	padding: 10px;
+}
+
+.player_tr>td {
+	height: 150px;
+	width: 150px;
+	background-color: white;
+	border: 3px black groove;
+}
+
+.name_td {
+	height: 30px;
+	background-color: #EEEEEE;
+	border: 3px black groove;
+}
+
+td{
+	text-align: center;
+}
+
+#button_start {
+	background: url("../res/wood.png") no-repeat;
+	width:200px;
+	line-height:55px;
+	text-align:center;
+	vertical-align:middle;
+	font-weight: bold;
+	font-size: 15px;
+	border: none;
+}

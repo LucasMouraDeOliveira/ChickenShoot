@@ -1,0 +1,40 @@
+body{
+	background-image: url("../res/fondweb1.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: block;
+}
+
+#createButton{
+	margin-bottom: 5px;
+	margin-top: 15%;
+	
+}
+
+#connectButton{
+	height: 200px;
+}
+
+.button {
+	background: url("../res/wood.png") no-repeat;
+	display:block;
+	width:200px;
+	line-height:55px;
+	text-align:center;
+	vertical-align:middle;
+	font-weight: bold;
+	font-size: 15px;
+	border: none;
+	margin-left: 5%;
+}
+
+.button:hover{
+	cursor: pointer;
+	background: url("../res/woodhover.png") no-repeat;
+	color:white;
+}
+
+#mon_canvas{
+	border: 5px #990033 groove;
+}
+
