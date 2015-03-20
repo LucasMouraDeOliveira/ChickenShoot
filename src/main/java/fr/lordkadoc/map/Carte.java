@@ -8,10 +8,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
-import fr.lordkadoc.entities.Chasseur;
-import fr.lordkadoc.entities.Player;
-import fr.lordkadoc.entities.Poulet;
-import fr.remygenius.armechasseur.Arbalete;
+import fr.lordkadoc.entities.Joueur;
 import fr.remygenius.armechasseur.Balle;
 import fr.remygenius.armepoulet.Bombe;
 import fr.remygenius.armepoulet.Explosion;
@@ -27,7 +24,7 @@ public class Carte {
 	}
 
 	private int[][] positions;
-	private List<Player> players;
+	private List<Joueur> players;
 	private List<Balle> balles;
 	private List<Bombe> bombes;
 	private List<Explosion> explosions;
@@ -38,7 +35,7 @@ public class Carte {
 	
 	private void init(int size){
 		this.positions = new int[size][size];
-		this.players = new ArrayList<Player>();
+		this.players = new ArrayList<Joueur>();
 		this.balles = new ArrayList<Balle>();
 		this.bombes = new ArrayList<Bombe>();
 		this.explosions = new ArrayList<Explosion>();
@@ -65,7 +62,7 @@ public class Carte {
 		this.positions = positions;
 	}
 	
-	public List<Player> getPlayers(){
+	public List<Joueur> getPlayers(){
 		return this.players;
 	}
 	
@@ -99,7 +96,7 @@ public class Carte {
 			}
 			mapBuilder.add(line);
 		}
-		for(Player p : players){ // Crée les joueurs
+		for(Joueur p : players){ // Crée les joueurs
 			playerBuilder.add(Json.createObjectBuilder()
 					.add("type",p.getType())
 					.add("x", p.getX())
@@ -141,7 +138,7 @@ public class Carte {
 	}
 	
 	
-	public void deplacer(boolean[] c, Player player){
+	public void deplacer(boolean[] c, Joueur player){
 		
 		List<Point> points = null;
 		int x = 0;
@@ -174,7 +171,7 @@ public class Carte {
 			
 	}
 		
-	private void calculerDeplacement(String direction, int x, int y, List<Point> points,Player player) {
+	private void calculerDeplacement(String direction, int x, int y, List<Point> points,Joueur player) {
 		Point p1 = new Point(points.get(0).x+x,points.get(0).y+y);
 		Point p2 = new Point(points.get(1).x+x,points.get(1).y+y);
 		
@@ -212,7 +209,7 @@ public class Carte {
 	
 	public int getNbPoulets(){
 		int i =0;
-		for(Player p : players){
+		for(Joueur p : players){
 			if(p.getType() =="Poulet"){
 				i++;
 			}
@@ -222,7 +219,7 @@ public class Carte {
 	
 	public int getNbChasseurs(){
 		int i =0;
-		for(Player p : players){
+		for(Joueur p : players){
 			if(p.getType() =="Chasseur"){
 				i++;
 			}
@@ -246,7 +243,7 @@ public class Carte {
 		this.balles = balles;
 	}
 
-	public void setPlayers(List<Player> players) {
+	public void setPlayers(List<Joueur> players) {
 		this.players = players;
 	}
 

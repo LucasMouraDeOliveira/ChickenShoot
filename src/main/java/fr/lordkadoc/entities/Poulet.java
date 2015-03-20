@@ -1,12 +1,17 @@
 package fr.lordkadoc.entities;
 
-import fr.lordkadoc.launcher.ServerInstance;
-import fr.remygenius.armepoulet.BombeBasique;
+public class Poulet extends Joueur {
 
-public class Poulet extends Player {
+	public Poulet(int x, int y) {
+		super(x, y, 30, "Poulet");
+	}
 
-	public Poulet(ServerInstance instance,int x, int y) {
-		super(x, y, 30, "Poulet", new BombeBasique(instance));
+	@Override
+	public void attaquer(int posX, int posY) {
+		if(this.peutTirer()){
+			this.getArme().poser(this.getX(), this.getY());
+			this.getArme().setRechargeTermine(false);
+		}
 	}
 
 }

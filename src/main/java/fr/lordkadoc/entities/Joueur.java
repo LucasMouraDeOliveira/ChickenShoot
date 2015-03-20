@@ -4,36 +4,34 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
-
-import fr.lordkadoc.launcher.ServerInstance;
 import fr.remygenius.arme.Arme;
 
-public class Player {
+public abstract class Joueur {
 	
+	private final int vieInitiale;
+	private int vie;	
+	private int size;
 	private int x;
 	private int y;
 	
 	private double angle;	
 	
-	private final int vieInitiale;
-	private int vie;	
-	private int size;
-	
-	private String type;
+	private String type;	
 	
 	private Arme arme;
 	
 	
-	public Player(int x, int y, int size, String type, Arme arme){
+	public Joueur(int x, int y, int size, String type){
 		this.x = x;
 		this.y = y;
 		this.size = size;
 		this.type = type;
-		this.arme = arme;
 		this.vieInitiale = 50;
 		this.vie = 50;
 	}
-
+	
+	public abstract void attaquer(int posX, int posY);
+	
 	public Polygon hitbox(){
 		List<Point> points = this.hitboxPoints();
 		int[] x = new int[4];
@@ -84,20 +82,6 @@ public class Player {
 		}
 	}
 	
-	public void attaqueChasseur(int x2, int y2){
-		if(this.peutTirer()){
-			this.arme.tirer(this.x, this.y, x2, y2);
-			this.arme.setRechargeTermine(false);
-		}	
-	}
-
-	public void attaquePoulet(int x2, int y2){
-		if(this.peutTirer()){
-			this.arme.poser(this.x, this.y);
-			this.arme.setRechargeTermine(false);
-		}	
-	}
-	
 	public boolean peutTirer(){
 		return (this.arme.getMunitions() > 0 && this.getArme().isRechargeTermine());
 	}
@@ -107,6 +91,8 @@ public class Player {
 		int y1 = j-this.y;
 		this.angle = -Math.atan2(x1, y1)-Math.PI;
 	}
+	
+	// GETTERS AND SETTERS
 	
 	public boolean estEnVie(){
 		return this.vie > 0;

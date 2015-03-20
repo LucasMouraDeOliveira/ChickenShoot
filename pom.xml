@@ -41,10 +41,7 @@
 		</plugins>
 		
 		<sourceDirectory>src/main/java</sourceDirectory>
-    	<outputDirectory>bin</outputDirectory> 
-    	
-
-				
+		<outputDirectory>bin</outputDirectory>
 	</build>
 
   <dependencyManagement>

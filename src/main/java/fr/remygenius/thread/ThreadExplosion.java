@@ -3,7 +3,6 @@ package fr.remygenius.thread;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.remygenius.armechasseur.Balle;
 import fr.remygenius.armepoulet.Explosion;
 
 public class ThreadExplosion extends Thread {

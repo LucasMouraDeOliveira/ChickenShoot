@@ -5,10 +5,6 @@ var tc = 32;
 var chargerCanvas = function(){
 	canvas = document.getElementById("mon_canvas");
 	ctx = canvas.getContext("2d");
-	canvas.style.position = "absolute";
-	var w = 640;
-	canvas.style.left = (window.innerWidth/2-w/2) + "px";
-	canvas.style.top = "0px";
 	window.addEventListener("keyup", release, false );
 	window.addEventListener("keydown", press, false );
 	window.addEventListener("mousedown", clique, false);

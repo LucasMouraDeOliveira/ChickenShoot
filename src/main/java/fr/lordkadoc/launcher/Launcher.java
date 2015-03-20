@@ -5,10 +5,10 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 	
-public class WebSocketTest {
+public class Launcher {
 
     public static void main(String[] args) throws Exception {
-        Server server = new Server(new InetSocketAddress("frene17", 9876));
+        Server server = new Server(new InetSocketAddress("192.168.1.40", 9876));
         WebSocketHandler wsHandler = new WebSocketHandler() {
             @Override
             public void configure(WebSocketServletFactory factory) {

@@ -1,23 +1,15 @@
 var websocket;
 
-var connect = function(){
-	websocket = new WebSocket("ws://frene17:9876/");
+var connect = function(type){
+		
+	websocket = new WebSocket("ws://"+window.location.hostname+":8080/chickenShoot/websocket");
 	websocket.onopen = function(message){ 
-		websocket.send("join");
+		websocket.send(type);
 		processOpen(message);
 	};
 	websocket.onclose = function(message){ processClose(message);};
 	websocket.onmessage = function(message){ processMessage(message);};
-}
-
-var create = function(){
-	websocket = new WebSocket("ws://frene17:9876/");
-	websocket.onopen = function(message){ 
-		websocket.send("create");
-		processOpen(message);
-	};
-	websocket.onclose = function(message){ processClose(message);};
-	websocket.onmessage = function(message){ processMessage(message);};
+	
 }
 
 var processOpen = function(message){
@@ -25,9 +17,11 @@ var processOpen = function(message){
 }
 
 var processClose = function(message){
+	alert("Votre connexion au serveur s'est coupée. Essayez de recharger la page.");
 }
 
 var processError = function(message){
+	console.log(message);
 }
 
 var processMessage = function(message){
@@ -35,7 +29,7 @@ var processMessage = function(message){
 	if(json.type == "Carte"){
 		afficherCarte(json);
 	}else{
-		alert(message.data);
+		alert(json);
 	}
 }
 

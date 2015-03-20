@@ -1,40 +1,73 @@
 body{
-	background-image: url("../res/fondweb1.png");
-	background-repeat: no-repeat;
-	background-size: cover;
-	display: block;
+	background-color:white;
 }
+
+header{
+	background-image: url("../res/header.png");
+	height: 120px;
+	border: 1px black solid; 	
+	font-size: 24px;
+	text-align: center;
+}
+
+#loginBar{
+	background-color: #FFFFCC;
+	border: 1px black solid;
+	padding: 5px;
+	text-align: center;
+}
+
+nav{
+	background-color: #CC0000;
+	border: 1px black solid;
+	float: left;
+	height: 662px;
+	width: 200px;
+}
+
+section{
+	background-color: #FFFFCC;
+	border: 1px black solid;
+	margin-left: 200px;
+	padding: 10px;
+}
+
+li{
+	list-style-type: none;
+}
+
+button{
+	background-color: white;
+}
+
+#mon_canvas{
+	background-color: white;
+	border: 1px black solid;
+	display: block;
+    margin: 0 auto;
+}
+
+footer{
+	text-align: center;
+	background-color: #CC0000;
+	padding: 10px;
+}
+
+<!-- CSS LUDO -->
 
 #createButton{
 	margin-bottom: 5px;
-	margin-top: 15%;
-	
+	margin-top: 15%;	
 }
 
 #connectButton{
 	height: 200px;
 }
 
-.button {
-	background: url("../res/wood.png") no-repeat;
-	display:block;
-	width:200px;
-	line-height:55px;
-	text-align:center;
-	vertical-align:middle;
-	font-weight: bold;
-	font-size: 15px;
-	border: none;
-	margin-left: 5%;
-}
 
 .button:hover{
 	cursor: pointer;
-	background: url("res/woodhover.png") no-repeat;
+	background: url("../res/woodhover.png") no-repeat;
 	color:white;
-}
-
-#mon_canvas{
-	border: 5px #990033 groove;
 }
 

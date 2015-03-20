@@ -24,19 +24,17 @@ public class EndPoint {
 	public void handleMessage(Session user, String message){
 		if(message.equals("join")){
 			ServerInstance instance = manager.getFreeInstance();
-			if(instance !=null){
-				System.out.println("Ajout utilisateur");
-				instance.ajouterJoueur(user);
+			if(instance != null){
+				instance.ajouterJoueur(user,message);			
 			}else{
 				try {
-					System.out.println("Partie pleine");
 					user.getRemote().sendString("Toutes les parties sont pleines. Créez une partie ou réessayez plus tard.");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}else if(message.equals("create")){
-			manager.ajouterInstance(user);
+			manager.ajouterInstance().ajouterJoueur(user, message);
 		}else{
 			manager.getPlayerInstance(user).recevoirMessage(user, message);
 		}
@@ -48,7 +46,7 @@ public class EndPoint {
 	}
 	
 	@OnWebSocketError
-	public void handleError(Session user, Throwable t){
+	public void handleError(Throwable t){
 		System.out.println("Utilisateur erreur");
 	}
 

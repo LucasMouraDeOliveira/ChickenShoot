@@ -22,11 +22,10 @@ public class ServerManager {
 		this.instances = instances;
 	}
 	
-	public void ajouterInstance(Session session){
+	public ServerInstance ajouterInstance(){
 		ServerInstance instance = new ServerInstance(2);
-		this.instances.add(instance);
-		instance.ajouterJoueur(session);	
-		System.out.println(this.instances);
+		this.instances.add(instance);	
+		return instance;
 	}
 
 	public ServerInstance getFreeInstance() {

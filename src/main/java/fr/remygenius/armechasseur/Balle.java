@@ -3,10 +3,9 @@ package fr.remygenius.armechasseur;
 import java.awt.Point;
 import java.awt.Polygon;
 
-import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.api.Session;
 
-import fr.lordkadoc.entities.Player;
+import fr.lordkadoc.entities.Joueur;
 import fr.lordkadoc.entities.Poulet;
 import fr.lordkadoc.launcher.ServerInstance;
 import fr.lordkadoc.map.Carte;
@@ -45,7 +44,7 @@ public class Balle {
 	public boolean verifierToucherPoulet(){
 		Carte carte = instance.getCarte();
 		Polygon poly;
-		for(Player p : carte.getPlayers()){
+		for(Joueur p : carte.getPlayers()){
 			if(p instanceof Poulet){
 				poly = p.hitbox();
 				if(poly.contains(new Point((int)x,(int)y))){

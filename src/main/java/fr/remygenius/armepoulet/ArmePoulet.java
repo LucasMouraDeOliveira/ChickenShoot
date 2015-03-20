@@ -1,7 +1,5 @@
 package fr.remygenius.armepoulet;
 
-import org.eclipse.jetty.server.Server;
-
 import fr.lordkadoc.launcher.ServerInstance;
 import fr.remygenius.arme.Arme;
 import fr.remygenius.thread.ThreadRecharge;

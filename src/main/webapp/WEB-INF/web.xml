@@ -13,6 +13,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/ChickenShoot/*</url-pattern>
+        <url-pattern>/chickenShoot/*</url-pattern>
     </servlet-mapping>
 </web-app>

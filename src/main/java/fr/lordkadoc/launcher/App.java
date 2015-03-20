@@ -19,7 +19,7 @@ public class App extends Application
     @Override
     public Set<Class<?>> getClasses() {
     	Set<Class<?>> s = new HashSet<Class<?>>();
-    	s.add(WebSocketTest.class);
+    	s.add(Launcher.class);
     	s.add(EndPoint.class);
     	return s;
 	}
