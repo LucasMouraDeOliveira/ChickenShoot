@@ -2,7 +2,7 @@ var websocket;
 
 var connect = function(type){
 		
-	websocket = new WebSocket("ws://"+window.location.hostname+":8080/chickenShoot/websocket");
+	websocket = new WebSocket("ws://"+window.location.hostname+":8080/websocket");
 	websocket.onopen = function(message){ 
 		websocket.send(type);
 		processOpen(message);

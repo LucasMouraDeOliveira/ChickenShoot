@@ -12,6 +12,7 @@ header{
 
 #loginBar{
 	background-image: url("../res/planche.jpg");
+	color: white;
 	padding: 5px;
 	text-align: center;
 }
@@ -48,8 +49,10 @@ button{
 }
 
 footer{
-	text-align: center;
 	background-image: url("../res/planche.jpg");
+	color: white;
+	font-weight: bold;
+	text-align: center;
 	padding: 10px;
 }
 
