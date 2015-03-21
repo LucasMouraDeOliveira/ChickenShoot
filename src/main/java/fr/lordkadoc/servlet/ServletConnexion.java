@@ -1,7 +1,6 @@
 package fr.lordkadoc.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,18 +22,18 @@ public class ServletConnexion extends WebSocketServlet{
 
 	@Override
 	public void doGet(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		rs.sendRedirect("index.html");
+		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}
 	
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		PrintWriter out = rs.getWriter();
 		String login = rq.getParameter("login");
 		String password = rq.getParameter("password");
 		if(ConnexionBDD.connect(login, password)){
-			rs.sendRedirect("index.html");
+			rq.getSession(true).setAttribute("connecte", "true");
+			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 		}else{
-			out.println("Mauvais couple login/mot de passe");
+			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 		}
 	}
 

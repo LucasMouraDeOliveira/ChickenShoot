@@ -10,11 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
-import fr.lordkadoc.bdd.InscriptionBDD;
-
-
-@WebServlet(name="ServetInscription", urlPatterns = { "/inscription" })
-public class ServletInscription extends WebSocketServlet{
+@WebServlet(name="ServetDeconnexion", urlPatterns = { "/deconnexion" })
+public class ServletDeconnexion extends WebSocketServlet{
 
 	/**
 	 * 
@@ -28,17 +25,8 @@ public class ServletInscription extends WebSocketServlet{
 	
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		String login = rq.getParameter("login");
-		String password = rq.getParameter("password");
-		String cpassword = rq.getParameter("cpassword");
-		String mail = rq.getParameter("mail");
-		
-		if(InscriptionBDD.inscription(login, password, cpassword, mail)){
-			rq.getSession().setAttribute("connecte", "true");
+			rq.getSession().invalidate();
 			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
-		}else{
-			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
-		}
 	}
 
 	@Override

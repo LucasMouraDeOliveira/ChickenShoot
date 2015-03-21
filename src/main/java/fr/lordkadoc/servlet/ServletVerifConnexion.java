@@ -10,17 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
-import fr.lordkadoc.bdd.InscriptionBDD;
 
-
-@WebServlet(name="ServetInscription", urlPatterns = { "/inscription" })
-public class ServletInscription extends WebSocketServlet{
-
+@WebServlet(name="ServletVerifConnexion", urlPatterns = { "/game" })
+public class ServletVerifConnexion extends WebSocketServlet{
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2339299883684631581L;
-	
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void doGet(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
@@ -28,23 +26,16 @@ public class ServletInscription extends WebSocketServlet{
 	
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		String login = rq.getParameter("login");
-		String password = rq.getParameter("password");
-		String cpassword = rq.getParameter("cpassword");
-		String mail = rq.getParameter("mail");
-		
-		if(InscriptionBDD.inscription(login, password, cpassword, mail)){
-			rq.getSession().setAttribute("connecte", "true");
-			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
+		if(rq.getSession(true).getAttribute("connecte") == "true"){
+			rq.setAttribute("page",rq.getParameter("lien"));
 		}else{
-			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
+			rq.setAttribute("page","acceuil");
 		}
+		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);		
 	}
 
 	@Override
 	public void configure(WebSocketServletFactory arg0) {
 		//Nothing TODO
 	}
-	
-
 }

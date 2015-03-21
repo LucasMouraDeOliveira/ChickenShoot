@@ -29,8 +29,10 @@ nav{
 section{
 	background-color: #FFFFCC;
 	border: 1px black solid;
+	height: 640px;
 	margin-left: 200px;
 	padding: 10px;
+	text-align: center;
 }
 
 li{
@@ -56,21 +58,7 @@ footer{
 	padding: 10px;
 }
 
-<!-- CSS LUDO -->
-
-#createButton{
-	margin-bottom: 5px;
-	margin-top: 15%;	
-}
-
-#connectButton{
-	height: 200px;
-}
-
-
-.button:hover{
-	cursor: pointer;
-	background: url("../res/woodhover.png") no-repeat;
-	color:white;
+h3{
+ 	text-decoration: underline;
 }
 

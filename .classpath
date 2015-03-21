@@ -22,5 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="src/main/webapp/lib/jstl-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
