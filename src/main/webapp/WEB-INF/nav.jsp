@@ -10,6 +10,12 @@
 			<li><button>Voir profil</button></li>
 			<li><button>Options</button></li>
 			<li>
+				<form method="post" action="/formInscription">
+					<input type="submit" value="Créer un compte"/>
+					<input type="hidden" value="inscription" name="lien"/>
+ 				</form>
+			</li>
+			<li>
 				<form method="post" action="/deconnexion">
 					<input type="submit" value="Déconnexion"/>
 					<input type="hidden" value="acceuil" name="lien"/> 

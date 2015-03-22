@@ -33,10 +33,18 @@ public class ServletInscription extends WebSocketServlet{
 		String cpassword = rq.getParameter("cpassword");
 		String mail = rq.getParameter("mail");
 		
-		if(InscriptionBDD.inscription(login, password, cpassword, mail)){
+		InscriptionBDD bdd = new InscriptionBDD();
+		
+		if(bdd.inscription(login, password, cpassword, mail)){
 			rq.getSession().setAttribute("connecte", "true");
+			rq.setAttribute("page", "acceuil");
 			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 		}else{
+			rq.setAttribute("login", login);
+			rq.setAttribute("password", password);
+			rq.setAttribute("cpassword", cpassword);
+			rq.setAttribute("mail", mail);
+			rq.setAttribute("message_erreur",bdd.getErreur());
 			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 		}
 	}
