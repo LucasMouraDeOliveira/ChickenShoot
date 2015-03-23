@@ -13,8 +13,6 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 @WebSocket()
 public class EndPoint {
 	
-	public static ServerManager manager = new ServerManager();
-	
 	@OnWebSocketConnect
 	public void handleConnect(Session user){
 		System.out.println("Utilisateur connecté");	
@@ -23,7 +21,7 @@ public class EndPoint {
 	@OnWebSocketMessage
 	public void handleMessage(Session user, String message){
 		if(message.equals("join")){
-			ServerInstance instance = manager.getFreeInstance();
+			ServerInstance instance = ServerManager.getFreeInstance();
 			if(instance != null){
 				instance.ajouterJoueur(user,message);			
 			}else{
@@ -34,9 +32,9 @@ public class EndPoint {
 				}
 			}
 		}else if(message.equals("create")){
-			manager.ajouterInstance().ajouterJoueur(user, message);
+			ServerManager.ajouterInstance("").ajouterJoueur(user, message);
 		}else{
-			manager.getPlayerInstance(user).recevoirMessage(user, message);
+			ServerManager.getPlayerInstance("").recevoirMessage(user, message);
 		}
 	}
 	

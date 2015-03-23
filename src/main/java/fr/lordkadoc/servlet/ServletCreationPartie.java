@@ -19,6 +19,9 @@ public class ServletCreationPartie extends ServletBasique{
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		String nomPartie = rq.getParameter("nomPartie");
+		
+		
+		
 		rq.setAttribute("page", "game");
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}

@@ -4,10 +4,6 @@
 <script src="../js/player_update.js"></script>	
 <script src="../js/blocks.js"></script>
 <script src="../js/images.js"></script>
-	
-
-<button onclick="connect('create');">Créer une partie</button>
-<button onclick="connect('join');">Rejoindre une partie</button>
 
 <canvas id="mon_canvas" width = 640 height = 640>
 		Your browser does not support canvas. How sad ...
