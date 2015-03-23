@@ -18,14 +18,11 @@
 	
 </div>
 
-<canvas id="mon_canvas" width = 640 height = 640>
-		Your browser does not support canvas. How sad ...
-</canvas>
-
 
 <script>
 
-	connect("join");
+	
+	connect("create","${ nomPartie }");
 	
 	var ajouterJoueur = function(joueur){
 	
@@ -36,7 +33,9 @@
 	
 	var demarrerPartie = function(){
 		var div = $('#div_list');
+		var canvas = $('<canvas id=mon_canvas width=640 height=640></canvas>');
 		div.empty();
+		div.append(canvas);
 		gameID = "${ nomPartie }";
 		chargerCanvas();
 		var msg = {};

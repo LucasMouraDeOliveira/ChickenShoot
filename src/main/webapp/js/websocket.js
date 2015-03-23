@@ -1,12 +1,15 @@
 var websocket;
 var gameID;
 
-var connect = function(type){
+var connect = function(type,gameID){
 		
 	websocket = new WebSocket("ws://"+window.location.hostname+":8080/websocket");
 	websocket.onopen = function(message){ 
 		var msg = {};
 		msg.type = type;
+		if(type == "create"){
+			msg.gameID = gameID;
+		}
 		websocket.send(JSON.stringify(msg));
 		processOpen(message);
 	};

@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class ServerManager {
 	
-	private static Map<String, ServerInstance> parties = new HashMap<String,ServerInstance>();
+	public static Map<String, ServerInstance> parties = new HashMap<String,ServerInstance>();
 	
 	public static Map<String,ServerInstance> getParties() {
 		return parties;

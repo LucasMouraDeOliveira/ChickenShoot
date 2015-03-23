@@ -1,5 +1,5 @@
 var websocket;
-var gameid;
+var gameID;
 
 var connect = function(type){
 		
@@ -41,6 +41,7 @@ var processMessage = function(message){
 function envoiPersoUpdate(){
 	var msg = {};
 	msg.type = "playerUpdate";
+	msg.gameID = gameID;
 	msg.movement = movement;
 	msg.tir = tir;
 	msg.souris = souris;

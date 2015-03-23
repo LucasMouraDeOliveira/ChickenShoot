@@ -34,6 +34,9 @@
 				<c:when test="${ page == 'lobby'}">
 					<c:import url="lobby.jsp"></c:import>
 				</c:when>
+				<c:when test="${ page == 'listeParties'}">
+					<c:import url="listeParties.jsp"></c:import>
+				</c:when>
 				<c:otherwise>
 					<c:import url="acceuil.jsp"></c:import>
 				</c:otherwise>
