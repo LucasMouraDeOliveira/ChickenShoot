@@ -57,6 +57,11 @@ public class ServerInstance {
 			this.carte.getPlayers().add(p);
 			this.users.put(user, p);
 			
+			
+			JsonObjectBuilder player = Json.createObjectBuilder();
+			player.add("type", "Poulet");
+			this.diffuserMessage("newPlayer", player);
+			
 		}
 	}
 	

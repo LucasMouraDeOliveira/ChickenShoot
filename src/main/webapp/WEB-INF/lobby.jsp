@@ -1,4 +1,5 @@
 <script src="../js/websocket.js"></script>
+<script src="../js/jquery-2.1.3.js"></script>
 
 <h2>Creation de la partie  : ${ nomPartie } </h2>
 
@@ -8,15 +9,27 @@
 
 </ul>
 
-<button value="Lancer la partie" onclick="demarrerPartie();"/>
+<button onclick="demarrerPartie();">Lancer la partie</button>
 
 <script>
-	connect("join");
+
 	
 	var demarrerPartie = function(){
-	
-		websocket.send("demarrerPartie");
-	
+		alert("démarrage de la partie");
+		var msg = {};
+		msg.type = "demarrerPartie";
+		msg.gameID = "${ nomPartie }";
+		websocket.send(JSON.stringify(msg));	
 	}
+	
+	var ajouterJoueur = function(joueur){
+	
+		alert(joueur);
+		var ul = $('#list_joueurs');
+		ul.append($('<li> Joueur de type : ' + joueur.data.type + ' </li>'));
+		
+	}
+	
+	connect("join");
 	
 </script>

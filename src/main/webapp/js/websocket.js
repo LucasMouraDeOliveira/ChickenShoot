@@ -4,7 +4,9 @@ var connect = function(type){
 		
 	websocket = new WebSocket("ws://"+window.location.hostname+":8080/websocket");
 	websocket.onopen = function(message){ 
-		websocket.send(type);
+		var msg = {};
+		msg.type = type;
+		websocket.send(JSON.stringify(msg));
 		processOpen(message);
 	};
 	websocket.onclose = function(message){ processClose(message);};
@@ -13,7 +15,7 @@ var connect = function(type){
 }
 
 var processOpen = function(message){
-	setInterval("envoiPersoUpdate()", 50);
+	console.log("connexion réussie");
 }
 
 var processClose = function(message){
@@ -28,8 +30,10 @@ var processMessage = function(message){
 	var json = JSON.parse(message.data);
 	if(json.type == "Carte"){
 		afficherCarte(json);
-	}else{
-		alert(json);
+	}else if(json.type == "newPlayer"){
+		ajouterJoueur(json);
+	}else if(json.type == "start"){
+		setInterval("envoiPersoUpdate()", 50);
 	}
 }
 

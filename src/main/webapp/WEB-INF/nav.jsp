@@ -7,7 +7,7 @@
  				</form>
 			</li>
 			<li>
-				<form method="post" action="/chickenShoot">
+				<form method="post" action="/rejoindrePartie">
 					<input type="submit" value="Rejoindre une partie"/>
  				</form>
 			</li>
