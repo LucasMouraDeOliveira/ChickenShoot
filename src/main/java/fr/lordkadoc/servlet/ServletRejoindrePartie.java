@@ -1,8 +1,6 @@
 package fr.lordkadoc.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,11 +19,7 @@ public class ServletRejoindrePartie extends ServletBasique{
 	
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		List<String> nomParties = new ArrayList<String>();
-		for(String s : ServerManager.getParties().keySet()){
-			nomParties.add(s);
-		}
-		rq.setAttribute("parties", nomParties);
+		rq.setAttribute("parties", ServerManager.parties);
 		rq.setAttribute("page", "listeParties");
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}
