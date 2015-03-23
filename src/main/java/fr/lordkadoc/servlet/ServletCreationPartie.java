@@ -23,6 +23,7 @@ public class ServletCreationPartie extends ServletBasique{
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		String nomPartie = rq.getParameter("nomPartie");
 		ServerManager.ajouterInstance(nomPartie);
+		rq.setAttribute("nomPartie", nomPartie);
 		rq.setAttribute("page", "lobby");
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}
