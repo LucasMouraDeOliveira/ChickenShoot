@@ -1,7 +1,7 @@
 <nav>
 		<ul>
 			<li>
-				<form method="post" action="/creationPartie">
+				<form method="post" action="/createGame">
 					<input type="submit" value="Creer une partie"/>
 					<input type="hidden" value="creation" name="lien"/>
  				</form>
