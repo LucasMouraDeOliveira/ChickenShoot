@@ -22,5 +22,4 @@ public class ServletCreationPartie extends ServletBasique{
 		rq.setAttribute("page", "game");
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}
-
 }

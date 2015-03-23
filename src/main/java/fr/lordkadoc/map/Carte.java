@@ -41,19 +41,54 @@ public class Carte {
 		this.explosions = new ArrayList<Explosion>();
 		for(int i=0;i<size;i++){
 			for(int j=0;j<size;j++){
+				//On crée les contours : on met des 2
 				if(i==0 || i==size-1 || j==0 || j==size-1){
 					positions[i][j] = 2;
-				}else{	
-					if(Math.random()*100 > 95){
-						positions[i][j] = 3;
-					}else{
-						positions[i][j] = 1;						
+				}
+				else{
+					//On initialise la premiere case à " "
+					if(i==1 && j ==1){
+						positions[i][j] = 9;
+					}
+					if(positions[i][j] == 9){
+						int r = (int)(Math.random()*2);
+						if(i == size -2){
+							for(int k = 0; k<size-j; k++)
+								positions[i][j+k] = 9;
+						}
+						else if(j == size -2){
+							for(int k = 0; k<size-i; k++)
+								positions[i+k][j] = 9;
+						}
+						else if(i!=size-1 && j!=size-1){
+							if(r == 0) {
+								positions[i+1][j] = 9;
+							}
+							else {
+								positions[i][j+1] = 9;
+							}
+						}
+					}
+					else if(positions[i][j] != 9) {
+								positions[i][j] = 0;
 					}
 				}
 			}
 		}
+		//On place les obstacles aux endroit où il y a des 0
+		//et on remplace les 0 par des " "
+		for(int i =0; i<size; i++) {
+			for(int j = 0; j<size; j++){
+				if(Math.random()*100 > 70 && positions[i][j]==0){
+					positions[i][j] = 3;
+				}
+				else if(positions[i][j]!=2) {
+					positions[i][j] = 1;
+				}
+			}
+		}
 	}
-
+	
 	public int[][] getPositions() {
 		return positions;
 	}

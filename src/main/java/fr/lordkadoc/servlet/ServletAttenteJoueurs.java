@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name="ServletVerifConnexion", urlPatterns = { "/game" })
-public class ServletVerifConnexion extends ServletBasique{
+public class ServletAttenteJoueurs extends ServletBasique{
 	
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class ServletVerifConnexion extends ServletBasique{
 		}else{
 			rq.setAttribute("page","acceuil");
 		}
-		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
+		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);		
 	}
 	
 }
