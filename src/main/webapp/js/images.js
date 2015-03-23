@@ -5,6 +5,7 @@ var imgChasseur = new Image();
 var imgTree = new Image();
 var imgFleche = new Image();
 var imgBombe = new Image();
+var imgStone = new Image();
 
 imgWall.src = "res/wall.png";
 imgGrass.src = "res/grass.png";
@@ -13,6 +14,7 @@ imgChasseur.src = "res/joueurArbalete.png";
 imgTree.src = "res/tree.png";
 imgFleche.src = "res/fleche.png";
 imgBombe.src = "res/bombe.png";
+imgStone.src = "res/stone.png";
 
 imgWall.onload = function(){
 	console.log("Image de mur chargée");
@@ -40,4 +42,8 @@ imgFleche.onload = function(){
 
 imgBombe.onload = function(){
 	console.log("Image de la bombe chargée");
+}
+
+imgStone.onload = function(){
+	console.log("Image de la pierre chargée");
 }
