@@ -1,6 +1,10 @@
 package fr.lordkadoc.launcher;
 
-import java.io.IOException;
+import java.io.StringReader;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -20,21 +24,19 @@ public class EndPoint {
 	
 	@OnWebSocketMessage
 	public void handleMessage(Session user, String message){
-		if(message.equals("join")){
-			ServerInstance instance = ServerManager.getFreeInstance();
-			if(instance != null){
-				instance.ajouterJoueur(user,message);			
-			}else{
-				try {
-					user.getRemote().sendString("Toutes les parties sont pleines. Créez une partie ou réessayez plus tard.");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+		
+		JsonReader jsonReader = Json.createReader(new StringReader(message));
+		JsonObject object = jsonReader.readObject();
+		
+		String type = object.getString("type");
+		String gameID = object.getString("gameID");
+	
+		if(type.equals("demarrerPartie")){
+			ServerManager.getPlayerInstance(gameID).demarrerPartie();
 		}else if(message.equals("create")){
-			ServerManager.ajouterInstance("").ajouterJoueur(user, message);
-		}else{
-			ServerManager.getPlayerInstance("").recevoirMessage(user, message);
+			ServerManager.ajouterInstance(gameID).ajouterJoueur(user);
+		}else if(message.equals("demarrerPartie")){
+			ServerManager.getPlayerInstance(gameID).recevoirMessage(user, message);
 		}
 	}
 	

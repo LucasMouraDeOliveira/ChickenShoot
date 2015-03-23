@@ -1,3 +1,5 @@
+<script src="../js/websocket.js"></script>
+
 <h2>Creation de la partie  : ${ nomPartie } </h2>
 
 <p>Liste des joueurs :</p>
@@ -6,7 +8,15 @@
 
 </ul>
 
-<form method="post" action="/game">
-	<input type="submit" value="Lancer la partie"/>
-	<input type="hidden" value="game" name="lien"/>
-</form>
+<button value="Lancer la partie" onclick="demarrerPartie();"/>
+
+<script>
+	connect("join");
+	
+	var demarrerPartie = function(){
+	
+		websocket.send("demarrerPartie");
+	
+	}
+	
+</script>

@@ -43,7 +43,7 @@ public class ServerInstance {
 	 * 
 	 * @param user la session de l'utilisateur à ajouter
 	 */
-	public void ajouterJoueur(Session user, String type){
+	public void ajouterJoueur(Session user){
 		if(this.users.size() < this.maxUsers){
 			Joueur p;
 			if(this.carte.getNbChasseurs()<this.carte.getNbPoulets()){
@@ -57,9 +57,6 @@ public class ServerInstance {
 			this.carte.getPlayers().add(p);
 			this.users.put(user, p);
 			
-			if(clientsTousConnectes()){
-				this.demarrerPartie();
-			}
 		}
 	}
 	
