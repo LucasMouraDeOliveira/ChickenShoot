@@ -90,12 +90,15 @@ public class ServerInstance {
 	}
 
 	public void demarrerPartie(){
+		
 		this.diffuserMessage("Carte",this.carte.getJSon());
+		this.diffuserMessage("start");
 		new ThreadGame(this,20).start();
 		new ThreadBalle(this.getCarte().getBalles()).start();
 		new ThreadBombe(this,this.getCarte().getBombes()).start();
 		new ThreadExplosion(this.getCarte().getExplosions()).start();
 	}
+
 
 	public void recevoirMessage(Session user, String message){
 
@@ -136,6 +139,19 @@ public class ServerInstance {
 		JsonObject json = factory.createObjectBuilder()
 				.add("type", type)
 				.add("data", message).build();
+		for(Session s : users.keySet()){
+			try {
+				s.getRemote().sendString(json.toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void diffuserMessage(String type) {
+		JsonBuilderFactory factory = Json.createBuilderFactory(null);
+		JsonObject json = factory.createObjectBuilder()
+				.add("type", type).build();
 		for(Session s : users.keySet()){
 			try {
 				s.getRemote().sendString(json.toString());

@@ -1,4 +1,5 @@
 var websocket;
+var gameID;
 
 var connect = function(type){
 		
@@ -40,9 +41,11 @@ var processMessage = function(message){
 function envoiPersoUpdate(){
 	var msg = {};
 	msg.type = "playerUpdate";
+	msg.gameID = gameID;
 	msg.movement = movement;
 	msg.tir = tir;
 	msg.souris = souris;
 	var json = JSON.stringify(msg);
 	websocket.send(json);
 }
+

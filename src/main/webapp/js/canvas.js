@@ -2,6 +2,8 @@ var canvas;
 var ctx;
 var tc = 32;
 
+
+
 var chargerCanvas = function(){
 	canvas = document.getElementById("mon_canvas");
 	ctx = canvas.getContext("2d");
@@ -10,9 +12,10 @@ var chargerCanvas = function(){
 	window.addEventListener("mousedown", clique, false);
 	window.addEventListener("mouseup", releaseClique, false);
 	window.addEventListener("mousemove", motion, false);
+	console.log('chargement du canvas terminé');
 }
 
-var afficherCarte = function(carte){		
+var afficherCarte = function(carte){	
 	var map = carte.data.carte;
 	var players = carte.data.players;	
 	var balles = carte.data.balles;
@@ -32,6 +35,7 @@ var afficherCarte = function(carte){
 				break;
 			case BLOCK_ROCK:
 				ctx.drawImage(imgGrass,i*tc,j*tc);
+				ctx.drawImage(imgStone,i*tc,j*tc);
 				break;
 			}
 		}
@@ -59,6 +63,7 @@ var afficherCarte = function(carte){
 		balle = balles[i];
 		drawRotatedImage(balle.x,balle.y,balle.angle,imgFleche);
 	}
+	console.log('affichage de la carte terminé');	
 	
 }
 

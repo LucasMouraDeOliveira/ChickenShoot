@@ -5,12 +5,8 @@
 <script src="../js/blocks.js"></script>
 <script src="../js/images.js"></script>
 
+<button onclick="chargerCanvas();demarrerPartie();">Lancer la partie</button>
+
 <canvas id="mon_canvas" width = 640 height = 640>
 		Your browser does not support canvas. How sad ...
 </canvas>
-
-<script type="text/javascript">
-		window.onload = function(){
-	    	chargerCanvas();
-		};
-</script>
