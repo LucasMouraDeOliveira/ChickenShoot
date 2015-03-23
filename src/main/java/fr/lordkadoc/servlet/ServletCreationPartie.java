@@ -7,7 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name="ServletCreationPartie", urlPatterns = { "/creationPartie" })
+import fr.lordkadoc.launcher.ServerManager;
+
+@WebServlet(name="ServletCreationPartie", urlPatterns = { "/create" })
 public class ServletCreationPartie extends ServletBasique{
 
 	/**
@@ -18,11 +20,6 @@ public class ServletCreationPartie extends ServletBasique{
 
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		String nomPartie = rq.getParameter("nomPartie");
-		
-		
-		
-		rq.setAttribute("page", "game");
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}
 }

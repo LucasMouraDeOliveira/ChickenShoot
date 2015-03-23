@@ -28,6 +28,9 @@
 				<c:when test="${ page == 'inscription'}">
 					<c:import url="inscription.jsp"></c:import>
 				</c:when>
+				<c:when test="${ page == 'creation'}">
+					<c:import url="creationPartie.jsp"></c:import>
+				</c:when>
 				<c:otherwise>
 					<c:import url="acceuil.jsp"></c:import>
 				</c:otherwise>

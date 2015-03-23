@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name="ServletVerifConnexion", urlPatterns = { "/game" })
+@WebServlet(name="ServletVerifConnexion", urlPatterns = { "/game", "/creationPartie" })
 public class ServletVerifConnexion extends ServletBasique{
 	
 	/**

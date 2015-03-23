@@ -1,11 +1,12 @@
 package fr.lordkadoc.launcher;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class ServerManager {
 	
-	private static Map<String, ServerInstance> parties;
+	private static Map<String, ServerInstance> parties = new HashMap<String,ServerInstance>();
 	
 	public static Map<String,ServerInstance> getParties() {
 		return parties;
@@ -14,6 +15,7 @@ public class ServerManager {
 	public static ServerInstance ajouterInstance(String key){
 		ServerInstance instance = new ServerInstance(1);
 		parties.put(key, instance);	
+		System.out.println("Ajout d'une partie : " + parties.size());
 		return instance;
 	}
 

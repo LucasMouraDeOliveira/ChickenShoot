@@ -3,6 +3,7 @@
 			<li>
 				<form method="post" action="/creationPartie">
 					<input type="submit" value="Créer une partie"/>
+					<input type="hidden" value="creation" name="lien"/>
  				</form>
 			</li>
 			<li>
