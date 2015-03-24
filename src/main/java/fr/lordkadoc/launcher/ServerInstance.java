@@ -42,25 +42,31 @@ public class ServerInstance {
 	 * Ajoute un joueur à la partie, et démarre celle-ci si suffisament de joueurs sont connectés
 	 * 
 	 * @param user la session de l'utilisateur à ajouter
+	 * @param login 
 	 */
-	public void ajouterJoueur(Session user){
+	public void ajouterJoueur(Session user, String login){
+		String type;
 		if(this.users.size() < this.maxUsers){
 			Joueur p;
 			if(this.carte.getNbChasseurs()<this.carte.getNbPoulets()){
-				p = new Chasseur(0,0);
+				p = new Chasseur(login, 0,0);
 				p.setArme(new Arbalete(this));
+				type = "Chasseur";
 			}
 			else {
-				p = new Poulet(0,0);
+				p = new Poulet(login,0,0);
 				p.setArme(new BombeBasique(this));
+				type = "Poulet";
 			}
 			this.carte.placer(p);
 			this.carte.getPlayers().add(p);
 			this.users.put(user, p);
 			
 			
-			JsonObjectBuilder player = Json.createObjectBuilder();
-			player.add("type", "Poulet");
+			JsonObjectBuilder player = Json.createObjectBuilder()
+					.add("type", type)
+					.add("login", login);
+			
 			this.diffuserMessage("newPlayer", player);
 		}
 	}

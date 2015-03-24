@@ -2,8 +2,8 @@ package fr.lordkadoc.entities;
 
 public class Chasseur extends Joueur {
 
-	public Chasseur(int x, int y) {
-		super(x, y, 30, 7, "Chasseur");
+	public Chasseur(String nom, int x, int y) {
+		super(nom, x, y, 30, 7, "Chasseur");
 	}
 	
 	@Override

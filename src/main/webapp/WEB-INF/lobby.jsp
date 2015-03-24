@@ -1,5 +1,4 @@
 
-
 <script src="../js/canvas.js"></script>
 <script src="../js/websocket.js"></script>
 <script src="../js/jquery-2.1.3.js"></script>
@@ -24,12 +23,12 @@
 <script>
 
 	
-	connect("create","${ nomPartie }");
+	connect("create","${ nomPartie }", "${ sessionScope.login }");
 	
 	var ajouterJoueur = function(joueur){
-	
+		console.log(joueur.data);
 		var ul = $('#list_joueurs');
-		ul.append($('<li> Joueur de type : ' + joueur.data.type + ' </li>'));
+		ul.append($('<li> Joueur ' + joueur.data.login + ' de type : ' + joueur.data.type + ' </li>'));
 		
 	}
 	

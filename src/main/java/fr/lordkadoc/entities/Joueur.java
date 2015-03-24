@@ -8,6 +8,8 @@ import fr.remygenius.arme.Arme;
 
 public abstract class Joueur {
 	
+	private final String nom;
+	
 	private final int vieInitiale;
 	private int vie;	
 	private int size;
@@ -25,7 +27,8 @@ public abstract class Joueur {
 	private boolean barreVieVisible = true;
 
 
-	public Joueur(int x, int y, int size, int vitesse, String type){
+	public Joueur(String nom, int x, int y, int size, int vitesse, String type){
+		this.nom = nom;
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -177,5 +180,9 @@ public abstract class Joueur {
 	
 	public void setBarreVieVisible(boolean barreVieVisible) {
 		this.barreVieVisible = barreVieVisible;
+	}
+	
+	public String getNom(){
+		return nom;
 	}
 }

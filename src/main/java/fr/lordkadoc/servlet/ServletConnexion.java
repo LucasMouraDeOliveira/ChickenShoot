@@ -23,6 +23,7 @@ public class ServletConnexion extends ServletBasique{
 		String password = rq.getParameter("password");
 		if(ConnexionBDD.connect(login, password)){
 			rq.getSession(true).setAttribute("connecte", "true");
+			rq.getSession(true).setAttribute("login", login);
 			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 		}else{
 			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);

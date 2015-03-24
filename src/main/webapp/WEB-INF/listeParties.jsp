@@ -37,14 +37,15 @@
 		
 	}
 	
-	var rejoindre = function(name){
+	var rejoindre = function(id){
 		var canvas = $('<canvas id=\'mon_canvas\' width=640 height=640></canvas>');
 		var div = $('#list_parties');
 		div.empty();
 		div.append(canvas);
 		chargerCanvas();
-		gameID = name;
-		connect("join",name);
+		gameID = id;
+		login = "${sessionScope.login}";
+		connect("join",id,login);
 	}
 
 </script>

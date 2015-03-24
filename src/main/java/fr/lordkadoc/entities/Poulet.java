@@ -2,8 +2,8 @@ package fr.lordkadoc.entities;
 
 public class Poulet extends Joueur {
 
-	public Poulet(int x, int y) {
-		super(x, y, 25, 12 ,"Poulet");
+	public Poulet(String nom, int x, int y) {
+		super(nom, x, y, 25, 12 ,"Poulet");
 	}
 
 	@Override
