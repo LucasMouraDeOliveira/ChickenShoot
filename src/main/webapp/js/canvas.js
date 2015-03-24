@@ -106,5 +106,5 @@ var drawBarreDeVie = function(player){
 	ctx.fillRect(player.x-25,player.y-50,pourcentageVita,10);
 	ctx.strokeRect(player.x-25,player.y-50,50,10);
 	ctx.fillStyle = "black";
-	ctx.fillText(player.type,player.x-25, player.y-55);
+	ctx.fillText(player.login,player.x-25, player.y-55);
 }

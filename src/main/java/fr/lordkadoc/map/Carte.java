@@ -148,6 +148,7 @@ public class Carte {
 		}
 		for(Joueur p : players){ // Crée les joueurs
 			playerBuilder.add(Json.createObjectBuilder()
+					.add("login", p.getNom())
 					.add("type",p.getType())
 					.add("x", p.getX())
 					.add("y", p.getY())
