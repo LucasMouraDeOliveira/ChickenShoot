@@ -13,7 +13,7 @@ public class ServerManager {
 	}
 	
 	public static ServerInstance ajouterInstance(String key){
-		ServerInstance instance = new ServerInstance(2);
+		ServerInstance instance = new ServerInstance(6);
 		parties.put(key, instance);	
 		System.out.println("Ajout d'une partie : " + parties.size());
 		return instance;
