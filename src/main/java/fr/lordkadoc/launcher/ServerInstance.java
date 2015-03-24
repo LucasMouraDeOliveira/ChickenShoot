@@ -111,12 +111,14 @@ public class ServerInstance {
 		JsonReader jsonReader = Json.createReader(new StringReader(message));
 		JsonObject object = jsonReader.readObject();
 		
-		String type = object.getString("type");
-
-		if(type.equals("playerUpdate")){			
-			this.gererActionJoueur(user,object);		
-		}else if(type.equals("armeUpdate")){
-			this.determinerArmeJoueur(this.getUsers().get(user), object.getString("labelArme"));
+		if(this.getUsers().get(user).estEnVie()){		
+			String type = object.getString("type");
+	
+			if(type.equals("playerUpdate")){			
+				this.gererActionJoueur(user,object);		
+			}else if(type.equals("armeUpdate")){
+				this.determinerArmeJoueur(this.getUsers().get(user), object.getString("labelArme"));
+			}
 		}
 		
 	}

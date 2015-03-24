@@ -51,12 +51,6 @@ public class Balle {
 					p.recevoirDegat(this.degat);
 					if(!p.estEnVie()){
 						carte.getPlayers().remove(p);
-						for(Session s : instance.getUsers().keySet()){
-							if(instance.getUsers().get(s).equals(p)){
-								instance.getUsers().remove(s);
-								break;
-							}
-						}
 					}
 					return true;
 				}
