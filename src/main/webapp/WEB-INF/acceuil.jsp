@@ -6,7 +6,7 @@
 
 <p>Vous disposez d'armes à feu en tout genre (fusil de chasse, mitrailleuse, ...), et devez tirer sur tout ce qui bouge !</p>
 
-<img src="screen1.png" alt="Image du chasseur" style="border: 2px black dotted;width: 400px; height: 400px;"/>
+<img src="../res/joueur.gif" alt="Image du chasseur" style="border: 2px black dotted;width: 400px; height: 400px;"/>
 
 <h3>Jouez en tant que poulet</h3>
 

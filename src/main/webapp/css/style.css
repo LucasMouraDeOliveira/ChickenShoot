@@ -22,21 +22,49 @@ nav{
 	border-top: 1px white solid;
 	border-bottom: 1px white solid;
 	float: left;
-	width: 200px;
+	height: 662px;
 }
 
 section{
 	background-color: #FFFFCC;
 	border: 1px black solid;
+	height: 640px;
 	text-align: center;
 }
 
 li{
 	list-style-type: none;
+	margin-left: -15%;
 }
 
-button{
-	background-color: white;
+.button{
+	background: url("../res/wood.png") no-repeat;
+	font-weight: bold;
+	font-size: 15px;
+	border: none;
+	margin-left: 5%;
+	width: 200px;
+	display:block;
+	line-height:50px;
+	text-align:center;
+	vertical-align:middle;
+	color:white;
+}
+
+.button:hover{
+	cursor: pointer;
+	background: url("../res/woodhover.png") no-repeat;
+	color:white;
+}
+
+#btConnexion{
+	background-color: #c9a884;
+	border: none;
+	border-radius: 10px;
+}
+
+#btConnexion:hover{
+	background-color: #9f764b;
 }
 
 #mon_canvas{
