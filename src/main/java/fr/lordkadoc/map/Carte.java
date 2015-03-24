@@ -154,7 +154,8 @@ public class Carte {
 					.add("vieInitiale", p.getVieInitiale())
 					.add("vie", p.getVie())
 					.add("angle", p.getAngle())
-					.add("arme", p.getArme().getNom()));
+					.add("arme", p.getArme().getNom())
+					.add("barreDeVieVisible",p.isBarreVieVisible()));
 		}
 		List<Balle> tmp = new ArrayList<Balle>();
 		tmp.addAll(balles);
@@ -255,6 +256,12 @@ public class Carte {
 				}
 			}
 		}
+		if(estArbre(cellule(p1))){
+			player.setBarreVieVisible(false);
+		}
+		else {
+			player.setBarreVieVisible(true);
+		}
 	}
 	
 	public int getNbPoulets(){
@@ -283,6 +290,10 @@ public class Carte {
 	
 	public boolean estVide(int cellule){
 		return cellule == 1 || cellule == 3;
+	}
+	
+	public boolean estArbre(int cellule){
+		return cellule == 3;
 	}
 
 	public List<Balle> getBalles() {

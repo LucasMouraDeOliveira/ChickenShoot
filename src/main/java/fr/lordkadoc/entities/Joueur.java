@@ -22,7 +22,9 @@ public abstract class Joueur {
 	
 	private Arme arme;
 	
-	
+	private boolean barreVieVisible = true;
+
+
 	public Joueur(int x, int y, int size, int vitesse, String type){
 		this.x = x;
 		this.y = y;
@@ -168,5 +170,12 @@ public abstract class Joueur {
 	public int getVieInitiale() {
 		return vieInitiale;
 	}
+
+	public boolean isBarreVieVisible() {
+		return barreVieVisible;
+	}
 	
+	public void setBarreVieVisible(boolean barreVieVisible) {
+		this.barreVieVisible = barreVieVisible;
+	}
 }

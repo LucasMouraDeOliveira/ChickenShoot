@@ -45,7 +45,8 @@ var afficherCarte = function(carte){
 		player = players[i];
 		if(player.type == "Poulet"){
 			drawRotatedImage(player.x,player.y,player.angle,imgPoulet);
-			drawBarreDeVie(player);
+			if(player.barreDeVieVisible == true)
+				drawBarreDeVie(player);
 		}
 	}
 	
