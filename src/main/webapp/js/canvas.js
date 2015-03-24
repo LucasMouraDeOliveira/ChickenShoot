@@ -45,6 +45,7 @@ var afficherCarte = function(carte){
 		player = players[i];
 		if(player.type == "Poulet"){
 			drawRotatedImage(player.x,player.y,player.angle,imgPoulet);
+			drawBarreDeVie(player);
 		}
 	}
 	
@@ -63,12 +64,8 @@ var afficherCarte = function(carte){
 		player = players[i];
 		if(player.type == "Chasseur"){
 			drawRotatedImage(player.x,player.y,player.angle,imgChasseur);
+			drawBarreDeVie(player);
 		}
-	}
-	
-	//On dessine les barres de vies
-	for(var i=0;i<players.length;i++){
-		drawBarreDeVie(player);
 	}
 	
 	var bombe;
@@ -82,8 +79,6 @@ var afficherCarte = function(carte){
 		balle = balles[i];
 		drawRotatedImage(balle.x,balle.y,balle.angle,imgFleche);
 	}
-	console.log('affichage de la carte terminé');	
-	
 }
 
 var drawRotatedImage = function(x,y,angle,img){

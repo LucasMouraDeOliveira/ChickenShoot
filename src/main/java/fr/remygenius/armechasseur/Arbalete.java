@@ -19,6 +19,6 @@ public class Arbalete extends ArmeChasseur {
 		 * param4 : munitions
 		 * param5 : vitesseballe
 		 */
-		super(instance,"Arbalete", 10, 0.3, 1000, 10);
+		super(instance,"Arbalete", 8, 0.5, 100, 15);
 	}
 }

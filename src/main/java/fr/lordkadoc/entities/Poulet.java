@@ -3,7 +3,7 @@ package fr.lordkadoc.entities;
 public class Poulet extends Joueur {
 
 	public Poulet(int x, int y) {
-		super(x, y, 24, "Poulet");
+		super(x, y, 25, 12 ,"Poulet");
 	}
 
 	@Override

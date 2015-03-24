@@ -29,16 +29,22 @@ public class EndPoint {
 		JsonObject object = jsonReader.readObject();
 		
 		String type = object.getString("type");
-		String gameID = object.getString("gameID");
-	
-		if(type.equals("demarrerPartie")){
-			ServerManager.getPlayerInstance(gameID).demarrerPartie();
-		}else if(type.equals("create")){
-			ServerManager.ajouterInstance(gameID).ajouterJoueur(user);
-		}else if(type.equals("join")){
-			ServerManager.getPlayerInstance(gameID).ajouterJoueur(user);
-		}else{ //envoi du message à la partie
-			ServerManager.getPlayerInstance(gameID).recevoirMessage(user, message);
+		
+		if(type.equals("joinRandom")){
+			ServerManager.getFreeInstance().ajouterJoueur(user);
+		}else{
+		
+			String gameID = object.getString("gameID");
+			
+			if(type.equals("demarrerPartie")){
+				ServerManager.getPlayerInstance(gameID).demarrerPartie();
+			}else if(type.equals("create")){
+				ServerManager.ajouterInstance(gameID).ajouterJoueur(user);
+			}else if(type.equals("join")){
+				ServerManager.getPlayerInstance(gameID).ajouterJoueur(user);
+			}else{ //envoi du message à la partie
+				ServerManager.getPlayerInstance(gameID).recevoirMessage(user, message);
+			}
 		}
 	}
 	

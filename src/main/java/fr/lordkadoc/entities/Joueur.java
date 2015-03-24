@@ -14,6 +14,8 @@ public abstract class Joueur {
 	private int x;
 	private int y;
 	
+	private int vitesse;
+	
 	private double angle;	
 	
 	private String type;	
@@ -21,10 +23,11 @@ public abstract class Joueur {
 	private Arme arme;
 	
 	
-	public Joueur(int x, int y, int size, String type){
+	public Joueur(int x, int y, int size, int vitesse, String type){
 		this.x = x;
 		this.y = y;
 		this.size = size;
+		this.vitesse = vitesse;
 		this.type = type;
 		this.vieInitiale = 50;
 		this.vie = 50;
@@ -132,6 +135,14 @@ public abstract class Joueur {
 
 	public String getType() {
 		return type;
+	}
+
+	public int getVitesse() {
+		return vitesse;
+	}
+
+	public void setVitesse(int vitesse) {
+		this.vitesse = vitesse;
 	}
 
 	public void setType(String type) {

@@ -47,13 +47,14 @@ public class ServerInstance {
 		if(this.users.size() < this.maxUsers){
 			Joueur p;
 			if(this.carte.getNbChasseurs()<this.carte.getNbPoulets()){
-				p = new Chasseur(100,100);		
+				p = new Chasseur(0,0);
 				p.setArme(new Arbalete(this));
 			}
 			else {
-				p = new Poulet(50,50);
+				p = new Poulet(0,0);
 				p.setArme(new BombeBasique(this));
 			}
+			this.carte.placer(p);
 			this.carte.getPlayers().add(p);
 			this.users.put(user, p);
 			

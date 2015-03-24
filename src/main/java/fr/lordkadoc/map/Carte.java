@@ -196,24 +196,24 @@ public class Carte {
 				
 		if(c[0]){ // north
 			x = 0;
-			y = -8;
+			y = -player.getVitesse();
 			points = player.hitboxPoints("NORTH");
 			calculerDeplacement("NORTH",x,y,points,player);
 		}
 		if(c[1]){ //south
 			x = 0;
-			y = 8;
+			y = player.getVitesse();
 			points = player.hitboxPoints("SOUTH");
 			calculerDeplacement("SOUTH",x,y,points,player);
 		}
 		if(c[2]){ // west
-			x = -8;
+			x = -player.getVitesse();
 			y = 0;
 			points = player.hitboxPoints("WEST");
 			calculerDeplacement("WEST",x,y,points,player);
 		}
 		if(c[3]){ // east
-			x = 8;
+			x = player.getVitesse();
 			y = 0;
 			points = player.hitboxPoints("EAST");
 			calculerDeplacement("EAST",x,y,points,player);
@@ -303,5 +303,19 @@ public class Carte {
 
 	public void setBombes(List<Bombe> bombes) {
 		this.bombes = bombes;
+	}
+
+	public void placer(Joueur p) {
+		boolean b = false;
+		int x = 0, y = 0;
+		while(!b){
+			x = (int)(Math.random()*(this.positions.length-2)*32)+32;
+			y = (int)(Math.random()*(this.positions.length-2)*32)+32;
+			if(this.estVide(cellule(new Point(x,y)))){
+				b = true;
+			}
+		}
+		p.setX(x);
+		p.setY(y);
 	}
 }
