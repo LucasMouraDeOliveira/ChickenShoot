@@ -1,0 +1,64 @@
+body{
+	background-color:white;
+}
+
+header{
+	background-image: url("../res/header.png");
+	height: 120px;
+	border: 1px black solid; 	
+	font-size: 24px;
+	text-align: center;
+}
+
+#loginBar{
+	background-image: url("../res/planche.jpg");
+	color: white;
+	padding: 5px;
+	text-align: center;
+}
+
+nav{
+	background-image: url("../res/planche.jpg");
+	border-top: 1px white solid;
+	border-bottom: 1px white solid;
+	float: left;
+	height: 662px;
+	width: 200px;
+}
+
+section{
+	background-color: #FFFFCC;
+	border: 1px black solid;
+	height: 640px;
+	margin-left: 200px;
+	padding: 10px;
+	text-align: center;
+}
+
+li{
+	list-style-type: none;
+}
+
+button{
+	background-color: white;
+}
+
+#mon_canvas{
+	background-color: white;
+	border: 1px black solid;
+	display: block;
+    margin: 0 auto;
+}
+
+footer{
+	background-image: url("../res/planche.jpg");
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	padding: 10px;
+}
+
+h3{
+ 	text-decoration: underline;
+}
+
