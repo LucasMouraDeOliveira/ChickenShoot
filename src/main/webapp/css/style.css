@@ -22,15 +22,12 @@ nav{
 	border-top: 1px white solid;
 	border-bottom: 1px white solid;
 	float: left;
-	height: 662px;
 	width: 200px;
 }
 
 section{
 	background-color: #FFFFCC;
 	border: 1px black solid;
-	margin-left: 200px;
-	padding: 10px;
 	text-align: center;
 }
 

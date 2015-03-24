@@ -16,9 +16,11 @@
 		<c:import url="login.jsp"></c:import>
 	</c:if>	
 	
-	<c:import  url="nav.jsp"/>
 	
 	<section>
+	
+		<c:import  url="nav.jsp"/>
+	
 		<article id="main_article">
 			
 			<c:choose>
