@@ -15,4 +15,9 @@
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/chickenShoot/*</url-pattern>
     </servlet-mapping>
+    <jsp-config>
+    <jsp-property-group>
+        <url-pattern>*.jsp</url-pattern>
+    </jsp-property-group>
+</jsp-config>
 </web-app>

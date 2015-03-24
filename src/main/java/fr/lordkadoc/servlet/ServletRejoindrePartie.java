@@ -19,15 +19,7 @@ public class ServletRejoindrePartie extends ServletBasique{
 	
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		String parties = "<ul>";
-		for(String s : ServerManager.getParties().keySet()){
-			parties+="<li> ";
-			parties+=s;
-			parties+=" <button onclick='rejoindre();'>Rejoindre</button></li>";
-		}
-		parties+="</ul>";
-		
-		rq.setAttribute("parties", parties);
+		rq.setAttribute("parties", ServerManager.getParties().keySet());
 		rq.setAttribute("page", "listeParties");
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}

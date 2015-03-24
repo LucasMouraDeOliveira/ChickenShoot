@@ -23,7 +23,7 @@ public class ChickenShootServlet extends WebSocketServlet {
 	
 	@Override
 	public void configure(WebSocketServletFactory factory) {
-		factory.getPolicy().setIdleTimeout(15000);
+		//factory.getPolicy().setIdleTimeout(15000);
 		factory.register(EndPoint.class);
 	}
 }

@@ -61,7 +61,6 @@ public class ServerInstance {
 			JsonObjectBuilder player = Json.createObjectBuilder();
 			player.add("type", "Poulet");
 			this.diffuserMessage("newPlayer", player);
-			
 		}
 	}
 	

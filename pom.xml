@@ -35,7 +35,7 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.version}</version>
 					<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<scanIntervalSeconds>100</scanIntervalSeconds>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -150,6 +150,11 @@
 			<groupId>org.jdbi</groupId>
 			<artifactId>jdbi</artifactId>
 			<version>2.59</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
 		</dependency>
 	</dependencies>
   

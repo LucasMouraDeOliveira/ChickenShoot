@@ -2,14 +2,12 @@ var websocket;
 var gameID;
 
 var connect = function(type,gameID){
-		
+	
 	websocket = new WebSocket("ws://"+window.location.hostname+":8080/websocket");
 	websocket.onopen = function(message){ 
 		var msg = {};
 		msg.type = type;
-		if(type == "create"){
-			msg.gameID = gameID;
-		}
+		msg.gameID = gameID;
 		websocket.send(JSON.stringify(msg));
 		processOpen(message);
 	};
@@ -35,9 +33,12 @@ var processMessage = function(message){
 	if(json.type == "Carte"){
 		afficherCarte(json);
 	}else if(json.type == "newPlayer"){
+		console.log("Ajout d'un utilisateur");
 		ajouterJoueur(json);
 	}else if(json.type == "start"){
 		setInterval("envoiPersoUpdate()", 50);
+	}else{
+		console.log("Message : " + json);
 	}
 }
 
