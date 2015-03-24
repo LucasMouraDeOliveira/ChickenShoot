@@ -31,7 +31,6 @@ var afficherCarte = function(carte){
 				break;
 			case BLOCK_TREE:
 				ctx.drawImage(imgGrass,i*tc,j*tc);
-				ctx.drawImage(imgTree,i*tc,j*tc);
 				break;
 			case BLOCK_ROCK:
 				ctx.drawImage(imgGrass,i*tc,j*tc);
@@ -39,18 +38,38 @@ var afficherCarte = function(carte){
 				break;
 			}
 		}
-	}	
+	}
 	
 	var player;
 	for(var i=0;i<players.length;i++){
 		player = players[i];
 		if(player.type == "Poulet"){
 			drawRotatedImage(player.x,player.y,player.angle,imgPoulet);
-		}else{
+		}
+	}
+	
+	//Pour que les persos puissent se cacher sous les arbres on les dessinent après
+	for(var i=0;i<map.length;i++){
+		for(var j=0;j<map[i].length;j++){
+			switch(map[i][j]){
+			case BLOCK_TREE:
+				ctx.drawImage(imgTree,i*tc,j*tc);
+				break;
+			}
+		}
+	}
+	
+	for(var i=0;i<players.length;i++){
+		player = players[i];
+		if(player.type == "Chasseur"){
 			drawRotatedImage(player.x,player.y,player.angle,imgChasseur);
 		}
+	}
+	
+	//On dessine les barres de vies
+	for(var i=0;i<players.length;i++){
 		drawBarreDeVie(player);
-	}	
+	}
 	
 	var bombe;
 	for(var i=0;i<bombes.length;i++){

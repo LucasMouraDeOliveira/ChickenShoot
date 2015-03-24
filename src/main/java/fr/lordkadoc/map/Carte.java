@@ -79,13 +79,25 @@ public class Carte {
 		//et on remplace les 0 par des " "
 		for(int i =0; i<size; i++) {
 			for(int j = 0; j<size; j++){
-				if(Math.random()*100 > 95 && positions[i][j]==0){
+				if(Math.random()*100 > 98 && positions[i][j]==0){
 					positions[i][j] = 3;
+						for(int l =0; l<3;l++){
+							if(i-l>1 && i+l<size-1 && j-l>1 && j+l<size-1){
+								positions[i+l][j]=3;
+								positions[i+l][j+l]=3;
+								positions[i-l][j-l]=3;
+								positions[i-l][j+l]=3;
+								positions[i+l][j-l]=3;
+								positions[i-l][j]=3;
+								positions[i][j+l]=3;
+								positions[i][j-l]=3;
+							}
+						}
 				}
-				else if(Math.random()*100 > 95 && positions[i][j]==0){
+				else if(Math.random()*100 > 85 && positions[i][j]==0){
 					positions[i][j] = 4;
 				}
-				else if(positions[i][j]!=2) {
+				else if(positions[i][j]!=2 && positions[i][j]!=3) {
 					positions[i][j] = 1;
 				}
 			}
@@ -270,7 +282,7 @@ public class Carte {
 	}
 	
 	public boolean estVide(int cellule){
-		return cellule == 1;
+		return cellule == 1 || cellule == 3;
 	}
 
 	public List<Balle> getBalles() {
