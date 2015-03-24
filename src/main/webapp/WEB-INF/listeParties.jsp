@@ -10,12 +10,12 @@
 <script src="../js/blocks.js"></script>
 <script src="../js/images.js"></script>
 
-<h2>Liste des parties en attente de joueurs : </h2>
-
-<button onclick="actualiser();">Actualiser</button>
-
-<div id="list_parties">
+<div id ="actualiser">
+	<h2>Liste des parties en attente de joueurs : </h2>
+	<button onclick="actualiser();">Actualiser</button>
 </div>
+	<div id="list_parties">
+	</div>
 
 <script>
 
@@ -29,7 +29,7 @@
 		var name;
 		<c:forEach var="i" items="${parties}">
 			name = '${i}';
-			line = $('<tr><td>'+name+'</td><td><button onclick="rejoindre(\'${i}\');">Rejoindre</button></td></tr>');
+			line = $('<tr><td>'+name+'</td><td><button onclick="rejoindre(\'${i}\');nettoyer();">Rejoindre</button></td></tr>');
 			line.appendTo(table);
 		</c:forEach>
 		
@@ -46,6 +46,12 @@
 		gameID = id;
 		login = "${sessionScope.login}";
 		connect("join",id,login);
+	}
+	
+	var nettoyer = function(){
+		console.log("It works !");
+		var div = $('#actualiser');
+		div.empty();
 	}
 
 </script>
