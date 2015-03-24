@@ -17,7 +17,7 @@ header{
 	text-align: center;
 }
 
-nav{
+#nav{
 	background-image: url("../res/planche.jpg");
 	border-top: 1px white solid;
 	border-bottom: 1px white solid;
@@ -28,7 +28,6 @@ nav{
 section{
 	background-color: #FFFFCC;
 	border: 1px black solid;
-	height: 640px;
 	text-align: center;
 }
 
@@ -86,3 +85,12 @@ h3{
  	text-decoration: underline;
 }
 
+.fixNavigation{
+ z-index: 9999;
+ position: fixed;
+ top: 0;
+ }
+ 
+ #main_article{
+ 	margin-meft: 20%;
+ }
