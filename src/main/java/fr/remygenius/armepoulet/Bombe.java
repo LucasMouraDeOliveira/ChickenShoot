@@ -2,6 +2,8 @@ package fr.remygenius.armepoulet;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.lordkadoc.entities.Chasseur;
 import fr.lordkadoc.entities.Joueur;
@@ -66,27 +68,50 @@ public class Bombe {
 		return false;
 	}
 	
-	public boolean verifierToucherChasseur(){
+	public void verifierToucherChasseur(){
 		Carte carte = instance.getCarte();
 		Polygon poly;
+		List<Joueur> tmp = new ArrayList<Joueur>();
 		for(Joueur p : carte.getPlayers()){
 			if(p instanceof Chasseur){
-				poly = p.hitbox();
-				for(int i =0; i<this.rayonExplosion; i++){
-					for(int j =0; j<this.rayonExplosion; j++) {
-						if(poly.contains(new Point((int)x+i,(int)y+j))){
-							p.recevoirDegat(this.degat);
-							if(!p.estEnVie()){
-								carte.getPlayers().remove(p);
-							}
-							return true;
-						}
+				poly = this.hitbox();
+				if(poly.contains(new Point(p.getX(),p.getY()))){
+					p.recevoirDegat(this.getDegat());
+					if(!p.estEnVie()){
+						tmp.add(p);
 					}
 				}
 			}
 		}
-		return false;
+		
+		for(Joueur j : tmp){
+			carte.getPlayers().remove(j);
+		}
+		
 	}
+	
+	public Polygon hitbox(){
+		List<Point> points = this.hitboxPoints();
+		int[] x = new int[4];
+		int[] y = new int[4];
+		for(int i=0;i<points.size();i++){
+			x[i] = points.get(i).x;
+			y[i] = points.get(i).y;
+		}
+		return new Polygon(x, y, 4);
+	}
+	
+	public List<Point> hitboxPoints(){
+		List<Point> points = new ArrayList<Point>();
+		int x1 = x -(rayonExplosion);
+		int y1 = y -(rayonExplosion);
+		points.add(new Point(x1,y1));
+		points.add(new Point(x1+2*rayonExplosion,y1));
+		points.add(new Point(x1+2*rayonExplosion,y1+2*rayonExplosion));
+		points.add(new Point(x1,y1+2*rayonExplosion));
+		return points;
+	}
+	
 	public int getX() {
 		return x;
 	}

@@ -29,6 +29,7 @@ public class ServletInscription extends ServletBasique{
 		
 		if(bdd.inscription(login, password, cpassword, mail)){
 			rq.getSession().setAttribute("connecte", "true");
+			rq.getSession().setAttribute("login", login);
 			rq.setAttribute("page", "acceuil");
 			rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 		}else{

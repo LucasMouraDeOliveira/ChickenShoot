@@ -1,5 +1,10 @@
 package fr.remygenius.armepoulet;
 
+import java.awt.Point;
+import java.awt.Polygon;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Explosion {
 	private int x;
@@ -52,4 +57,5 @@ public class Explosion {
 		double b = this.tailleMax;
 		return (int)(a/b*100);
 	}
+	
 }

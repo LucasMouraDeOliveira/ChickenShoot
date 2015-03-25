@@ -16,7 +16,7 @@ public class ArmePoulet extends Arme{
 	
 	private ServerInstance instance;
 
-	public ArmePoulet(ServerInstance instance,String nom, int degat, int tempsDeRecharge, int munitions, int tempsSurCarte, int rayonExplosion) {
+	public ArmePoulet(ServerInstance instance,String nom, int degat, double tempsDeRecharge, int munitions, int tempsSurCarte, int rayonExplosion) {
 		super(nom, degat, tempsDeRecharge, munitions);
 		this.tempsSurCarte = tempsSurCarte;
 		this.rayonExplosion = rayonExplosion;
