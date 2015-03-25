@@ -50,7 +50,7 @@
 	}
 	
 	var rejoindre = function(id){
-		var canvas = $('<canvas id=\'mon_canvas\' width=640 height=640></canvas>');
+		var canvas = $('<canvas id=\'mon_canvas\' width=872 height=640></canvas>');
 		var div = $('#list_parties');
 		div.empty();
 		div.append(canvas);

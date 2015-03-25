@@ -152,6 +152,7 @@ public class Carte {
 					.add("type",p.getType())
 					.add("x", p.getX())
 					.add("y", p.getY())
+					.add("munitions",p.getArme().getMunitions())
 					.add("vieInitiale", p.getVieInitiale())
 					.add("vie", p.getVie())
 					.add("angle", p.getAngle())

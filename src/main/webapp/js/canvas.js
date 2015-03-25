@@ -15,6 +15,21 @@ var chargerCanvas = function(){
 	console.log('chargement du canvas terminé');
 }
 
+var drawInfosJoueur = function(player){ 
+	ctx.fillStyle = "grey"; 
+	ctx.fillRect(640,0,872-640,640);
+	ctx.drawImage(imgFondInfos,640,0); 
+	if(player.login == pseudo){ 
+		ctx.font = '15pt Calibri'; 
+		ctx.fillStyle = "blue"; 
+		ctx.fillText(pseudo,640, 120); 
+		ctx.fillStyle = "black"; 
+		ctx.fillText("Munitions : " + player.munitions,640, 140); 
+		ctx.fillText("Arme : " + player.arme,640, 160); 
+		ctx.fillText("type : " + player.type,640, 180); 
+	} 
+}
+
 var afficherCarte = function(carte){	
 	var map = carte.data.carte;
 	var players = carte.data.players;	
@@ -90,6 +105,12 @@ var afficherCarte = function(carte){
 			dessinerParticuleAleatoire(explosion,ctx);
 		}
 	}
+	
+	for(var i=0;i<players.length;i++){
+		player = players[i];
+		drawInfosJoueur(player);
+	}
+	
 }
 
 var dessinerParticuleAleatoire = function(explosion, ctx){

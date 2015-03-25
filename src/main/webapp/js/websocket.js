@@ -1,5 +1,6 @@
 var websocket;
 var gameID;
+var pseudo;
 
 var connect = function(type,gameID,login,nbJoueurs){
 	
@@ -10,6 +11,7 @@ var connect = function(type,gameID,login,nbJoueurs){
 		msg.type = type;
 		msg.gameID = gameID;
 		msg.login = login;
+		pseudo = login;
 		if(type == "create"){
 			msg.nbJoueurs = nbJoueurs;
 		}
