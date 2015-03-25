@@ -3,7 +3,6 @@ var ctx;
 var tc = 32;
 
 
-
 var chargerCanvas = function(){
 	canvas = document.getElementById("mon_canvas");
 	ctx = canvas.getContext("2d");
@@ -15,19 +14,19 @@ var chargerCanvas = function(){
 	console.log('chargement du canvas terminé');
 }
 
-var drawInfosJoueur = function(player){ 
-	
-	if(player.login === pseudo){ 
+var drawInfosJoueur = function(player,time){ 
+	if(player.login === pseudo){
 		ctx.fillStyle = "grey"; 
 		//ctx.fillRect(640,0,872-640,640);
 		ctx.drawImage(imgFondInfos,640,0); 
 		ctx.font = '15pt Calibri'; 
 		ctx.fillStyle = "blue"; 
-		ctx.fillText(player.login,640, 120); 
+		ctx.fillText(player.login,650, 120); 
 		ctx.fillStyle = "black"; 
-		ctx.fillText("Munitions : " + player.munitions,640, 140); 
-		ctx.fillText("Arme : " + player.arme,640, 160); 
-		ctx.fillText("type : " + player.type,640, 180); 
+		ctx.fillText("Temps restant : " + time,650, 40);
+		ctx.fillText("Munitions : " + player.munitions,650, 140); 
+		ctx.fillText("Arme : " + player.arme,650, 160); 
+		ctx.fillText("type : " + player.type,650, 180); 
 	} 
 }
 
@@ -102,13 +101,12 @@ var afficherCarte = function(carte){
 	var explosion;
 	for(var i=0;i<explosions.length;i++){
 		explosion = explosions[i];
-
 		if(explosion.pourcentage < 30){
 			var blue = 255-(8*explosion.pourcentage);
-			ctx.fillStyle = 'rgb(255,255,'+blue+');';
+			ctx.fillStyle = 'rgb(255,255,'+blue+')';
 		}else if(explosion.pourcentage < 71){
 			var green = 255-(3*explosion.pourcentage);
-			ctx.fillStyle = 'rgb(255,'+green+',0);';
+			ctx.fillStyle = 'rgb(255,'+green+',0)';
 		}else{
 			ctx.fillStyle = "black";
 		}
@@ -120,7 +118,7 @@ var afficherCarte = function(carte){
 	
 	for(var i=0;i<players.length;i++){
 		player = players[i];
-		drawInfosJoueur(player);
+		drawInfosJoueur(player,carte.data.time);
 	}
 	
 }

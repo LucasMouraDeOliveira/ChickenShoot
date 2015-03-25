@@ -9,6 +9,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
 import fr.lordkadoc.entities.Joueur;
+import fr.lordkadoc.launcher.ServerInstance;
 import fr.remygenius.armechasseur.Balle;
 import fr.remygenius.armepoulet.Bombe;
 import fr.remygenius.armepoulet.Explosion;
@@ -29,7 +30,10 @@ public class Carte {
 	private List<Bombe> bombes;
 	private List<Explosion> explosions;
 	
-	public Carte(){
+	private ServerInstance instance;
+	
+	public Carte(ServerInstance instance){
+		this.instance = instance;
 		this.init(20);
 	}
 	
@@ -145,7 +149,8 @@ public class Carte {
 				line.add(positions[i][j]);
 			}
 			mapBuilder.add(line);
-		}
+		}		
+		
 		for(Joueur p : players){ // Crée les joueurs
 			playerBuilder.add(Json.createObjectBuilder()
 					.add("login", p.getNom())
@@ -188,6 +193,7 @@ public class Carte {
 		carte.add("balles", balleBuilder);
 		carte.add("bombes", bombeBuilder);
 		carte.add("explosions", explosionBuilder);
+		carte.add("time",instance.getTimer().getTime());
 		return carte;
 	}
 	

@@ -24,6 +24,7 @@ import fr.remygenius.thread.ThreadBalle;
 import fr.remygenius.thread.ThreadBombe;
 import fr.remygenius.thread.ThreadExplosion;
 import fr.remygenius.thread.ThreadGame;
+import fr.remygenius.thread.ThreadTimer;
 
 public class ServerInstance {
 	
@@ -37,10 +38,12 @@ public class ServerInstance {
 	public final static int FULL = 1;
 	public final static int RUNNING = 2;
 	public final static int ENDED = 3;
+	
+	private ThreadTimer timer;
 
 	public ServerInstance(int maxUsers){
 		this.users = new HashMap<Session,Joueur>();
-		this.carte = new Carte();
+		this.carte = new Carte(this);
 		this.maxUsers = maxUsers;
 		this.state = WAITING_PLAYERS;
 	}
@@ -111,6 +114,8 @@ public class ServerInstance {
 
 	public void demarrerPartie(){
 		this.state = RUNNING;
+		this.timer = new ThreadTimer(this,180);
+		this.timer.start();
 		this.diffuserMessage("Carte",this.carte.getJSon());
 		this.diffuserMessage("start");
 		new ThreadGame(this,20).start();
@@ -199,12 +204,20 @@ public class ServerInstance {
 		return this.state;
 	}
 	
+	public void setState(int state){
+		this.state = state;
+	}
+	
 	public int getMaxUsers(){
 		return this.maxUsers;
 	}
 	
 	public int getCurrentUsers(){
 		return this.users.size();
+	}
+
+	public ThreadTimer getTimer() {
+		return timer;
 	}
 
 }
