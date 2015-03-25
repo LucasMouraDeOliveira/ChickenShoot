@@ -1,10 +1,12 @@
 package fr.remygenius.armepoulet;
 
+
 public class Explosion {
 	private int x;
 	private int y;
 	private int tailleMax;
 	private int tailleActu;
+	
 	
 	public Explosion(int x, int y, int tailleMax){
 		this.x = x;
@@ -12,7 +14,7 @@ public class Explosion {
 		this.tailleMax = tailleMax;
 		this.tailleActu = 0;
 	}
-
+	
 	public int getX() {
 		return x;
 	}

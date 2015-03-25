@@ -49,7 +49,7 @@ public class ArmePoulet extends Arme{
 	public void poser(int x, int y) {
 		// TODO Auto-generated method stub
 		this.setMunitions(this.getMunitions()-1);
-		instance.getCarte().ajouterBombe(new Bombe(x, y, this.getDegat(), this.getTempsSurCarte(), this.rayonExplosion));
+		instance.getCarte().ajouterBombe(new Bombe(instance,x, y, this.getDegat(), this.getTempsSurCarte(), this.rayonExplosion));
 		new ThreadRecharge(this.getTempsDeRecharge(), this).start();
 	}
 

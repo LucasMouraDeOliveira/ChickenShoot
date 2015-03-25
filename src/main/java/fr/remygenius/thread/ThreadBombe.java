@@ -36,6 +36,7 @@ public class ThreadBombe extends Thread {
 			tmp2.addAll(bombes);
 			for(Bombe b : tmp){
 				if(b.verifierTempsSurCarte()){
+					b.verifierToucherChasseur();
 					tmp2.remove(b);
 					instance.getCarte().ajouterExplosions(new Explosion(b.getX(), b.getY(), b.getRayonExplosion()));
 				}

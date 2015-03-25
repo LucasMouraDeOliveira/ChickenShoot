@@ -1,5 +1,13 @@
 package fr.remygenius.armepoulet;
 
+import java.awt.Point;
+import java.awt.Polygon;
+
+import fr.lordkadoc.entities.Chasseur;
+import fr.lordkadoc.entities.Joueur;
+import fr.lordkadoc.launcher.ServerInstance;
+import fr.lordkadoc.map.Carte;
+
 /**
  * Classe qui defini une bombe de base
  * @author remy
@@ -7,6 +15,8 @@ package fr.remygenius.armepoulet;
  */
 
 public class Bombe {
+	private ServerInstance instance;
+	
 	private int x;
 	private int y;
 	private int degat;
@@ -14,7 +24,8 @@ public class Bombe {
 	private int cptTemps = 0;
 	private int rayonExplosion;
 
-	public Bombe(int x, int y, int degat, int tempsSurCarte, int rayonExplosion){
+	public Bombe(ServerInstance instance, int x, int y, int degat, int tempsSurCarte, int rayonExplosion){
+		this.instance = instance;
 		this.x = x;
 		this.y = y;
 		this.degat= degat;
@@ -55,6 +66,27 @@ public class Bombe {
 		return false;
 	}
 	
+	public boolean verifierToucherChasseur(){
+		Carte carte = instance.getCarte();
+		Polygon poly;
+		for(Joueur p : carte.getPlayers()){
+			if(p instanceof Chasseur){
+				poly = p.hitbox();
+				for(int i =0; i<this.rayonExplosion; i++){
+					for(int j =0; j<this.rayonExplosion; j++) {
+						if(poly.contains(new Point((int)x+i,(int)y+j))){
+							p.recevoirDegat(this.degat);
+							if(!p.estEnVie()){
+								carte.getPlayers().remove(p);
+							}
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 	public int getX() {
 		return x;
 	}
