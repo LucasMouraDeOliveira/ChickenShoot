@@ -20,12 +20,22 @@ public class ServletRejoindrePartie extends ServletBasique{
 	
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
+		
 		if(rq.getSession(true).getAttribute("connecte") == "true"){
-			rq.setAttribute("parties", ServerManager.getSpecificInstances(ServerInstance.WAITING_PLAYERS).keySet());
+			
+			rq.setAttribute("parties", 
+					ServerManager.getInstanceInfos(
+					ServerManager.getSpecificInstances(
+					ServerInstance.WAITING_PLAYERS)));
+			
 			rq.setAttribute("page", "listeParties");
+			
 		}else{
+			
 			rq.setAttribute("page","acceuil");
+			
 		}
+		
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}
 

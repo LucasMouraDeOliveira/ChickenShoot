@@ -177,10 +177,12 @@ public class ServerInstance {
 		JsonObject json = factory.createObjectBuilder()
 				.add("type", type).build();
 		for(Session s : users.keySet()){
-			try {
-				s.getRemote().sendString(json.toString());
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(s.isOpen()){
+				try {
+					s.getRemote().sendString(json.toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -195,6 +197,14 @@ public class ServerInstance {
 	
 	public int getState(){
 		return this.state;
+	}
+	
+	public int getMaxUsers(){
+		return this.maxUsers;
+	}
+	
+	public int getCurrentUsers(){
+		return this.users.size();
 	}
 
 }

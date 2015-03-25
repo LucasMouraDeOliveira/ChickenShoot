@@ -35,9 +35,8 @@
 		var name;
 		
 		<c:forEach var="i" items="${parties}">
-			name = '${i}';
-			console.log(name);
-			line = $('<tr><td>'+name+'</td><td><button onclick="rejoindre(\'${i}\');nettoyer();">Rejoindre</button></td></tr>');
+			console.log('${i.nbc}');
+			line = $('<tr><td>${i.nom}</td><td>Joueurs connectés : '+${i.nbc}+'/'+${i.nbm}+'</td><td><button onclick="rejoindre(\'${i.nom}\');nettoyer();">Rejoindre</button></td></tr>');
 			line.appendTo(table);
 			vide = false;
 		</c:forEach>

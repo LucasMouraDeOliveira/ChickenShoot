@@ -20,6 +20,8 @@ var afficherCarte = function(carte){
 	var players = carte.data.players;	
 	var balles = carte.data.balles;
 	var bombes = carte.data.bombes;
+	var explosions = carte.data.explosions;
+	
 	for(var i=0;i<map.length;i++){
 		for(var j=0;j<map[i].length;j++){
 			switch(map[i][j]){
@@ -45,6 +47,8 @@ var afficherCarte = function(carte){
 		player = players[i];
 		if(player.type == "Poulet"){
 			drawRotatedImage(player.x,player.y,player.angle,imgPoulet);
+			if(player.barreDeVieVisible == true)
+				drawBarreDeVie(player);
 		}
 	}
 	
@@ -67,11 +71,6 @@ var afficherCarte = function(carte){
 		}
 	}
 	
-	//On dessine les barres de vies
-	for(var i=0;i<players.length;i++){
-		drawBarreDeVie(player);
-	}
-	
 	var bombe;
 	for(var i=0;i<bombes.length;i++){
 		bombe = bombes[i];
@@ -83,6 +82,31 @@ var afficherCarte = function(carte){
 		balle = balles[i];
 		drawRotatedImage(balle.x,balle.y,balle.angle,imgFleche);
 	}
+	
+	var explosion;
+	for(var i=0;i<explosions.length;i++){
+		explosion = explosions[i];
+		for(var j=0;j<500;j++){
+			dessinerParticuleAleatoire(explosion,ctx);
+		}
+	}
+}
+
+var dessinerParticuleAleatoire = function(explosion, ctx){
+	var x = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.x;
+	var y = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.y;
+	if(dist(x,y,explosion.x,explosion.y) < explosion.taille){
+		ctx.fillStyle = "white";
+		ctx.beginPath();
+		ctx.arc(x,y,4,0,2*Math.PI);
+		ctx.fill();
+	}
+}
+
+var dist = function(x1,y1,x2,y2){
+	var x = Math.abs(x1-x2);
+	var y = Math.abs(y1-y2);
+	return Math.sqrt(x*x+y*y);
 }
 
 var drawRotatedImage = function(x,y,angle,img){
@@ -90,7 +114,7 @@ var drawRotatedImage = function(x,y,angle,img){
 	ctx.translate(x, y);
 	ctx.rotate(angle);
 	ctx.drawImage(img, -(img.width/2), -(img.height/2));
-	ctx.restore(); 
+	ctx.restore();
 }
 
 var drawBarreDeVie = function(player){
@@ -109,5 +133,5 @@ var drawBarreDeVie = function(player){
 	ctx.fillRect(player.x-25,player.y-50,pourcentageVita,10);
 	ctx.strokeRect(player.x-25,player.y-50,50,10);
 	ctx.fillStyle = "black";
-	ctx.fillText(player.type,player.x-25, player.y-55);
+	ctx.fillText(player.login,player.x-25, player.y-55);
 }

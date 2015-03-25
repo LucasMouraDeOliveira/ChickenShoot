@@ -1,9 +1,9 @@
 package fr.lordkadoc.launcher;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 public class ServerManager {
@@ -42,12 +42,16 @@ public class ServerManager {
 		return map;
 	}
 	
-	public static List<String> getListOfID(Map<String,ServerInstance> map){
-		List<String> list = new ArrayList<String>();
+	public static Set<InstanceInfo> getInstanceInfos(Map<String,ServerInstance> map){
+		Set<InstanceInfo> set = new HashSet<InstanceInfo>();
+		InstanceInfo info;
+		ServerInstance instance;
 		for(String s : map.keySet()){
-			list.add(s);
+			instance = parties.get(s);
+			info = new InstanceInfo(s, instance.getCurrentUsers(), instance.getMaxUsers());
+			set.add(info);
 		}
-		return list;
+		return set;
 		
 	}
 

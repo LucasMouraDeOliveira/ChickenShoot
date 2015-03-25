@@ -17,30 +17,55 @@ header{
 	text-align: center;
 }
 
-nav{
+#nav{
 	background-image: url("../res/planche.jpg");
-	border-top: 1px white solid;
-	border-bottom: 1px white solid;
+	border-top: 1px black solid;
+	border-bottom: 1px black solid;
 	float: left;
-	height: 662px;
-	width: 200px;
+	height: 705px;
 }
 
 section{
 	background-color: #FFFFCC;
 	border: 1px black solid;
-	height: 640px;
-	margin-left: 200px;
-	padding: 10px;
 	text-align: center;
+	padding-bottom: 20px;
+	min-height: 800px;
 }
 
 li{
 	list-style-type: none;
+	margin-left: -15%;
 }
 
-button{
-	background-color: white;
+.button{
+	background: url("../res/wood.png") no-repeat;
+	font-weight: bold;
+	font-size: 15px;
+	border: none;
+	margin-left: 5%;
+	width: 200px;
+	display:block;
+	line-height:50px;
+	text-align:center;
+	vertical-align:middle;
+	color:white;
+}
+
+.button:hover{
+	cursor: pointer;
+	background: url("../res/woodhover.png") no-repeat;
+	color:white;
+}
+
+#btConnexion{
+	background-color: #c9a884;
+	border: none;
+	border-radius: 10px;
+}
+
+#btConnexion:hover{
+	background-color: #9f764b;
 }
 
 #mon_canvas{
@@ -58,7 +83,33 @@ footer{
 	padding: 10px;
 }
 
-h3{
+h2,h3{
  	text-decoration: underline;
 }
 
+table{
+	border: 2px solid black;
+	 margin-left:auto;
+   	margin-right:auto;	
+}
+
+td{
+	border: 1px solid gray;
+	background-color: white;
+	min-width: 100px;
+}
+
+td>button{
+	min-width: 100px;
+}
+
+.fixNavigation{
+ z-index: 9999;
+ position: fixed;
+ top: 0;
+ }
+ 
+ #main_article{
+	padding-top: 20px;
+ 	margin-left: 20%;
+ }

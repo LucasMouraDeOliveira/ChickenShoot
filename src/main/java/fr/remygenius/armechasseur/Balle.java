@@ -3,7 +3,6 @@ package fr.remygenius.armechasseur;
 import java.awt.Point;
 import java.awt.Polygon;
 
-import org.eclipse.jetty.websocket.api.Session;
 
 import fr.lordkadoc.entities.Joueur;
 import fr.lordkadoc.entities.Poulet;
