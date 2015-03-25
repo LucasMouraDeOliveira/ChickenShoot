@@ -80,16 +80,18 @@ footer{
 	color: white;
 	font-weight: bold;
 	text-align: center;
-	padding: 10px;
+	bottom: 0;
+	position: fixed;
+	width: 100%;
 }
 
-h2,h3{
+h2, h3{
  	text-decoration: underline;
 }
 
 table{
 	border: 2px solid black;
-	 margin-left:auto;
+	margin-left:auto;
    	margin-right:auto;	
 }
 
@@ -104,12 +106,13 @@ td>button{
 }
 
 .fixNavigation{
- z-index: 9999;
- position: fixed;
- top: 0;
+	 z-index: 9999;
+	 position: fixed;
+	 top: 0;
  }
  
  #main_article{
-	padding-top: 20px;
+ 	padding-top: 20px;
+ 	padding-bottom: 50px;
  	margin-left: 20%;
  }

@@ -1,8 +1,9 @@
 var websocket;
 var gameID;
 
-var connect = function(type,gameID,login){
+var connect = function(type,gameID,login,nbJoueurs){
 	
+	console.log(gameID);
 	websocket = new WebSocket("ws://"+window.location.hostname+":8080/websocket");
 	websocket.onopen = function(message){ 
 		var msg = {};

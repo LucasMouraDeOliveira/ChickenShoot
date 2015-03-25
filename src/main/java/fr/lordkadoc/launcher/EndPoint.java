@@ -41,10 +41,11 @@ public class EndPoint {
 				ServerManager.getPlayerInstance(gameID).demarrerPartie();
 			}else if(type.equals("create")){
 				String login = object.getString("login");
-				ServerManager.ajouterInstance(gameID).ajouterJoueur(user, login);
+				int nbJoueurs = object.getInt("nbJoueurs");
+				ServerManager.ajouterInstance(gameID, nbJoueurs).ajouterJoueur(user, login);
 			}else if(type.equals("join")){
 				String login = object.getString("login");
-				ServerManager.getPlayerInstance(gameID).ajouterJoueur(user,login);
+				ServerManager.getPlayerInstance(gameID).ajouterJoueur(user,login);  
 			}else{ //envoi du message à la partie
 				ServerManager.getPlayerInstance(gameID).recevoirMessage(user, message);
 			}

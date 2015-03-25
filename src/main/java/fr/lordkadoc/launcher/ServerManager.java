@@ -14,10 +14,9 @@ public class ServerManager {
 		return parties;
 	}
 	
-	public static ServerInstance ajouterInstance(String key){
-		ServerInstance instance = new ServerInstance(6);
+	public static ServerInstance ajouterInstance(String key, int nbJoueurs){
+		ServerInstance instance = new ServerInstance(nbJoueurs);
 		parties.put(key, instance);	
-		System.out.println("Ajout d'une partie : " + parties.size());
 		return instance;
 	}
 

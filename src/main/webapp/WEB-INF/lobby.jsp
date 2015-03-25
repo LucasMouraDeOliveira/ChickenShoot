@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="true" %>
+
 
 <script src="../js/canvas.js"></script>
 <script src="../js/websocket.js"></script>
@@ -9,12 +13,12 @@
 
 <div id="div_list">
 
-	<h2>Creation de la partie  : ${ nomPartie } </h2>
+	<h2>Création de la partie  : ${ nomPartie } </h2>
 	
-	<p>Liste des joueurs :</p>
+	<p>Liste des joueurs connectés :</p>
 	
-	<ul id="list_joueurs"></ul>
-	
+	<table id="list_joueurs"></table>
+	</br></br>	
 	<input type="submit" onclick="demarrerPartie()"/>
 	
 </div>
@@ -23,12 +27,12 @@
 <script>
 
 	
-	connect("create","${ nomPartie }", "${ sessionScope.login }");
+	connect("create","${ nomPartie }", "${ sessionScope.login }", ${ nbJoueurs });
 	
 	var ajouterJoueur = function(joueur){
 		console.log(joueur.data);
-		var ul = $('#list_joueurs');
-		ul.append($('<li> Joueur ' + joueur.data.login + ' de type : ' + joueur.data.type + ' </li>'));
+		var table = $('#list_joueurs');
+		table.append($('<tr><td> Joueur : ' + joueur.data.login + ' </td><td> Type : ' + joueur.data.type + ' </td></tr>'));
 		
 	}
 	

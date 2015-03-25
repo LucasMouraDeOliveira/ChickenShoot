@@ -32,6 +32,7 @@ public class ServletCreationPartie extends ServletBasique{
 			erreur = "Le nom de partie est trop long (max 20 caractères)";
 			valide = false;
 		}else{
+			rq.setAttribute("nomPartie", nomPartie);			
 			try{
 				nbj = Integer.parseInt(nbJoueurs);
 				if(nbj < 1){
@@ -40,6 +41,8 @@ public class ServletCreationPartie extends ServletBasique{
 				}else if(nbj > 20){
 					erreur = "Pas plus de 20 joueurs";
 					valide = false;
+				}else{				
+					rq.setAttribute("nbJoueurs", nbj);
 				}
 			}catch(Exception e){
 				erreur = "Ce n'est pas un nombre !";
@@ -48,8 +51,6 @@ public class ServletCreationPartie extends ServletBasique{
 		}
 		
 		if(valide){
-			rq.setAttribute("nomPartie", nomPartie);
-			rq.setAttribute("nbJoueurs", nbj);
 			rq.setAttribute("page", "lobby");		
 		}else{
 			rq.setAttribute("erreur", erreur);

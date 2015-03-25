@@ -1,7 +1,7 @@
 var websocket;
 var gameID;
 
-var connect = function(type,gameID,login){
+var connect = function(type,gameID,login,nbJoueurs){
 	
 	console.log(gameID);
 	websocket = new WebSocket("ws://"+window.location.hostname+":8080/websocket");
@@ -10,6 +10,9 @@ var connect = function(type,gameID,login){
 		msg.type = type;
 		msg.gameID = gameID;
 		msg.login = login;
+		if(type == "create"){
+			msg.nbJoueurs = nbJoueurs;
+		}
 		websocket.send(JSON.stringify(msg));
 		processOpen(message);
 	};
