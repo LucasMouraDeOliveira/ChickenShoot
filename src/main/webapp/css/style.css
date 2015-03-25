@@ -22,7 +22,7 @@ header{
 	border-top: 1px black solid;
 	border-bottom: 1px black solid;
 	float: left;
-	height: 705px;
+	height: 591px;
 }
 
 section{
@@ -80,7 +80,9 @@ footer{
 	color: white;
 	font-weight: bold;
 	text-align: center;
-	padding: 10px;
+	bottom: 0;
+	position: fixed;
+	width: 100%;
 }
 
 h2, h3{
@@ -111,5 +113,6 @@ td>button{
  
  #main_article{
  	padding-top: 20px;
+ 	padding-bottom: 50px;
  	margin-left: 20%;
  }
