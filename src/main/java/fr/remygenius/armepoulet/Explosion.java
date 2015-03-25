@@ -46,4 +46,10 @@ public class Explosion {
 	public void setTailleActu(int tailleActu) {
 		this.tailleActu = tailleActu;
 	}
+	
+	public int calculerPourcentage(){
+		double a = this.tailleActu;
+		double b = this.tailleMax;
+		return (int)(a/b*100);
+	}
 }

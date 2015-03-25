@@ -12,9 +12,14 @@
 
 	<c:import url="header.jsp"/>	
 		
-	<c:if test="${sessionScope.connecte != 'true'}">
-		<c:import url="login.jsp"></c:import>
-	</c:if>	
+	<c:choose>
+		<c:when test="${sessionScope.connecte != 'true'}">
+			<c:import url="login.jsp"></c:import>		
+		</c:when>
+		<c:otherwise>
+			<c:import url="welcome.jsp"></c:import>
+		</c:otherwise>
+	</c:choose>
 	
 	
 	<section>

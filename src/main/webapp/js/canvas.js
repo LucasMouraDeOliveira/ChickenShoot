@@ -16,13 +16,14 @@ var chargerCanvas = function(){
 }
 
 var drawInfosJoueur = function(player){ 
-	ctx.fillStyle = "grey"; 
-	ctx.fillRect(640,0,872-640,640);
-	ctx.drawImage(imgFondInfos,640,0); 
-	if(player.login == pseudo){ 
+	
+	if(player.login === pseudo){ 
+		ctx.fillStyle = "grey"; 
+		//ctx.fillRect(640,0,872-640,640);
+		ctx.drawImage(imgFondInfos,640,0); 
 		ctx.font = '15pt Calibri'; 
 		ctx.fillStyle = "blue"; 
-		ctx.fillText(pseudo,640, 120); 
+		ctx.fillText(player.login,640, 120); 
 		ctx.fillStyle = "black"; 
 		ctx.fillText("Munitions : " + player.munitions,640, 140); 
 		ctx.fillText("Arme : " + player.arme,640, 160); 
@@ -101,8 +102,19 @@ var afficherCarte = function(carte){
 	var explosion;
 	for(var i=0;i<explosions.length;i++){
 		explosion = explosions[i];
+
+		if(explosion.pourcentage < 30){
+			var blue = 255-(8*explosion.pourcentage);
+			ctx.fillStyle = 'rgb(255,255,'+blue+');';
+		}else if(explosion.pourcentage < 71){
+			var green = 255-(3*explosion.pourcentage);
+			ctx.fillStyle = 'rgb(255,'+green+',0);';
+		}else{
+			ctx.fillStyle = "black";
+		}
+
 		for(var j=0;j<500;j++){
-			dessinerParticuleAleatoire(explosion,ctx);
+			dessinerParticuleAleatoire(explosion);
 		}
 	}
 	
@@ -113,11 +125,10 @@ var afficherCarte = function(carte){
 	
 }
 
-var dessinerParticuleAleatoire = function(explosion, ctx){
+var dessinerParticuleAleatoire = function(explosion){
 	var x = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.x;
 	var y = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.y;
 	if(dist(x,y,explosion.x,explosion.y) < explosion.taille){
-		ctx.fillStyle = "white";
 		ctx.beginPath();
 		ctx.arc(x,y,4,0,2*Math.PI);
 		ctx.fill();

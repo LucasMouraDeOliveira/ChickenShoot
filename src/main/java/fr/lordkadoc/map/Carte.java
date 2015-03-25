@@ -180,7 +180,8 @@ public class Carte {
 			explosionBuilder.add(Json.createObjectBuilder()
 					.add("x", e.getX())
 					.add("y", e.getY())
-					.add("taille", e.getTailleActu()));
+					.add("taille", e.getTailleActu())
+					.add("pourcentage",e.calculerPourcentage()));
 		}
 		carte.add("carte", mapBuilder);
 		carte.add("players", playerBuilder);
