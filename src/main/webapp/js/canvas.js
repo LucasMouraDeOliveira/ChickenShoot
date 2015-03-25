@@ -74,7 +74,7 @@ var afficherCarte = function(carte){
 	var bombe;
 	for(var i=0;i<bombes.length;i++){
 		bombe = bombes[i];
-		ctx.drawImage(imgBombe,bombe.x,bombe.y);
+		ctx.drawImage(imgBombe,bombe.x-imgBombe.width/2,bombe.y-imgBombe.height/2);
 	}
 	
 	var balle;
@@ -98,7 +98,6 @@ var dessinerParticuleAleatoire = function(explosion, ctx){
 	if(dist(x,y,explosion.x,explosion.y) < explosion.taille){
 		ctx.fillStyle = "white";
 		ctx.beginPath();
-		//ctx.arc(0, 0, 70, 0, 2 * Math.PI, false);
 		ctx.arc(x,y,4,0,2*Math.PI);
 		ctx.fill();
 	}

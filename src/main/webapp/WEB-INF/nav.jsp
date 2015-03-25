@@ -1,10 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <script src="../js/jquery-2.1.3.min.js"></script>
 
 <nav id="nav" class>
 	<ul>
 		<li>
 			<form method="post" action="/createGame">
-				<input class="button" type="submit" value="Creer une partie" /> <input
+				<input class="button" type="submit" value="Créer une partie" /> <input
 					type="hidden" value="creation" name="lien" />
 			</form>
 		</li>
@@ -17,13 +19,13 @@
 		<li><button class="button">Options</button></li>
 		<li>
 			<form method="post" action="/formInscription">
-				<input class="button" type="submit" value="Creer un compte" /> <input
+				<input class="button" type="submit" value="Créer un compte" /> <input
 					type="hidden" value="inscription" name="lien" />
 			</form>
 		</li>
 		<li>
 			<form method="post" action="/deconnexion">
-				<input class="button" type="submit" value="Deconnexion" /> <input
+				<input class="button" type="submit" value="Déconnexion" /> <input
 					type="hidden" value="acceuil" name="lien" />
 			</form>
 		</li>

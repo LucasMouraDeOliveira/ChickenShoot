@@ -16,16 +16,18 @@
 	<form method="post" action="/rejoindrePartie">
 		<input type="submit" value="Actualiser"/>
 	</form>
+	</br>
 </div>
 
-<div id="list_parties">
-</div>
+<div id="list_parties"></div>
+</br>
 
 <script>
 
 	var actualiser = function(){
 		
 		var div = $('#list_parties');
+		var vide = true;
 		div.empty();
 		
 		var table = $('<table>');
@@ -37,7 +39,12 @@
 			console.log(name);
 			line = $('<tr><td>'+name+'</td><td><button onclick="rejoindre(\'${i}\');nettoyer();">Rejoindre</button></td></tr>');
 			line.appendTo(table);
+			vide = false;
 		</c:forEach>
+		
+		if(vide){
+			table.append($('<tr><td>Aucune partie</td></tr>'));
+		}
 		
 		table.appendTo(div);
 		
