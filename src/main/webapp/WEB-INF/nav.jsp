@@ -2,7 +2,7 @@
 
 <script src="../js/jquery-2.1.3.min.js"></script>
 
-<nav id="nav" class>
+<nav id="nav">
 	<ul>
 		<li>
 			<form method="post" action="/createGame">
@@ -11,12 +11,19 @@
 			</form>
 		</li>
 		<li>
-			<form method="post" action="/rejoindrePartie">
+			<form method="post" action="/afficherParties">
 				<input class="button" type="submit" value="Rejoindre une partie" />
 			</form>
 		</li>
-		<li><button class="button">Voir profil</button></li>
-		<li><button class="button">Options</button></li>
+		<li>
+			<button class="button">Voir profil</button>
+		</li>
+		<li>
+			<form method="post" action="/options">
+				<input class="button" type="submit" value="Options" /> <input
+					type="hidden" value="options" name="lien" />
+			</form>
+		</li>
 		<li>
 			<form method="post" action="/formInscription">
 				<input class="button" type="submit" value="Créer un compte" /> <input

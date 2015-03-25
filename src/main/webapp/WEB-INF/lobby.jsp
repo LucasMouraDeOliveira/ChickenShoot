@@ -18,35 +18,54 @@
 	<p>Liste des joueurs connectés :</p>
 	
 	<table id="list_joueurs"></table>
-	</br></br>	
-	<input type="submit" onclick="demarrerPartie()"/>
-	
+	<br/><br/>
+	<c:if test="${creator == 'true' }">	
+		<input type="submit" onclick="demarrerPartie()"/>
+	</c:if>
 </div>
 
 
 <script>
 
+	var table = $('#list_joueurs');
+	var div = $('#div_list');
 	
-	connect("create","${ nomPartie }", "${ sessionScope.login }", ${ nbJoueurs });
+
+	var connectToServer = function(){
+		console.log(${creator});
+		if(${ creator }){
+			connect("create","${ nomPartie }", "${ sessionScope.login }", ${nbJoueurs});
+		}else{
+			connect("join","${ nomPartie }", "${ sessionScope.login }", ${nbJoueurs});
+			console.log("join");
+			<c:forEach var="p" items="${players}">
+				table.append($('<tr><td>Joueur : ' +"${p.name}" + ' </td><td> Type : ' + "${p.type}" + '</td></tr>'));
+			</c:forEach>		
+		}	
+	}
 	
 	var ajouterJoueur = function(joueur){
 		console.log(joueur.data);
-		var table = $('#list_joueurs');
-		table.append($('<tr><td> Joueur : ' + joueur.data.login + ' </td><td> Type : ' + joueur.data.type + ' </td></tr>'));
 		
+		table.append($('<tr><td> Joueur : ' + joueur.data.login + ' </td><td> Type : ' + joueur.data.type + ' </td></tr>'));	
 	}
 	
 	var demarrerPartie = function(){
-		var div = $('#div_list');
-		var canvas = $('<canvas id=mon_canvas width=872 height=640></canvas>');
-		div.empty();
-		div.append(canvas);
-		gameID = "${ nomPartie }";
-		chargerCanvas();
 		var msg = {};
 		msg.type = "demarrerPartie";
 		msg.gameID = "${ nomPartie }";
 		websocket.send(JSON.stringify(msg));			
+	}
+	
+	var afficherCanvas = function(){
+		var cnv = $('<canvas id=mon_canvas width=872 height=640></canvas>');
+		div.empty();
+		div.append(cnv);
+		chargerCanvas();
+	}
+	
+	window.onload = function(){
+		connectToServer();
 	}
 	
 	

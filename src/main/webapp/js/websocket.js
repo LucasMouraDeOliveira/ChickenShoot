@@ -2,19 +2,18 @@ var websocket;
 var gameID;
 var pseudo;
 
-var connect = function(type,gameID,login,nbJoueurs){
+var connect = function(type,id,login,nbJoueurs){
 	
-	console.log(gameID);
+	gameID = id;
+	pseudo = login;
+	
 	websocket = new WebSocket("ws://"+window.location.hostname+":8080/websocket");
 	websocket.onopen = function(message){ 
 		var msg = {};
 		msg.type = type;
 		msg.gameID = gameID;
-		msg.login = login;
-		pseudo = login;
-		if(type == "create"){
-			msg.nbJoueurs = nbJoueurs;
-		}
+		msg.login = pseudo;
+		msg.nbJoueurs = nbJoueurs;
 		websocket.send(JSON.stringify(msg));
 		processOpen(message);
 	};
@@ -43,6 +42,7 @@ var processMessage = function(message){
 		console.log("Ajout d'un utilisateur");
 		ajouterJoueur(json);
 	}else if(json.type == "start"){
+		afficherCanvas();
 		setInterval("envoiPersoUpdate()", 50);
 	}else{
 		console.log("Message : " + json);

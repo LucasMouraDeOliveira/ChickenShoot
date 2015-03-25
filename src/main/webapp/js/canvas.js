@@ -111,7 +111,7 @@ var afficherCarte = function(carte){
 			ctx.fillStyle = "black";
 		}
 
-		for(var j=0;j<500;j++){
+		for(var j=0;j<200;j++){
 			dessinerParticuleAleatoire(explosion);
 		}
 	}
@@ -128,7 +128,7 @@ var dessinerParticuleAleatoire = function(explosion){
 	var y = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.y;
 	if(dist(x,y,explosion.x,explosion.y) < explosion.taille){
 		ctx.beginPath();
-		ctx.arc(x,y,4,0,2*Math.PI);
+		ctx.arc(x,y,6,0,2*Math.PI);
 		ctx.fill();
 	}
 }

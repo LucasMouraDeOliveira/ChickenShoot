@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jetty.websocket.api.Session;
+
+import fr.lordkadoc.entities.Joueur;
+
 
 public class ServerManager {
 	
@@ -46,8 +50,20 @@ public class ServerManager {
 		InstanceInfo info;
 		ServerInstance instance;
 		for(String s : map.keySet()){
-			instance = parties.get(s);
+			instance = map.get(s);
 			info = new InstanceInfo(s, instance.getCurrentUsers(), instance.getMaxUsers());
+			set.add(info);
+		}
+		return set;	
+	}
+	
+	public static Set<PlayerInfo> getPlayerInfos(Map<Session,Joueur> map){
+		Set<PlayerInfo> set = new HashSet<PlayerInfo>();
+		PlayerInfo info;
+		Joueur joueur;
+		for(Session s : map.keySet()){
+			joueur = map.get(s);
+			info = new PlayerInfo(joueur.getNom(),joueur.getType());
 			set.add(info);
 		}
 		return set;

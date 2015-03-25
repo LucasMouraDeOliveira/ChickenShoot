@@ -51,6 +51,7 @@ public class ServletCreationPartie extends ServletBasique{
 		}
 		
 		if(valide){
+			rq.setAttribute("creator", "true");
 			rq.setAttribute("page", "lobby");		
 		}else{
 			rq.setAttribute("erreur", erreur);

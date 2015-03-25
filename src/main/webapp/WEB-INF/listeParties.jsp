@@ -13,30 +13,31 @@
 <div id ="actualiser">
 	<h2>Liste des parties en attente de joueurs : </h2>
 	
-	<form method="post" action="/rejoindrePartie">
+	<form method="post" action="/afficherParties">
 		<input type="submit" value="Actualiser"/>
 	</form>
-	</br>
+	<br/>
 </div>
 
 <div id="list_parties"></div>
-</br>
+<br/>
 
 <script>
 
+	var div = $('#list_parties');
+
 	var actualiser = function(){
 		
-		var div = $('#list_parties');
-		var vide = true;
-		div.empty();
-		
+		var vide = true;	
 		var table = $('<table>');
 		var line;
 		var name;
+		var button;
 		
 		<c:forEach var="i" items="${parties}">
-			console.log('${i.nbc}');
-			line = $('<tr><td>${i.nom}</td><td>Joueurs connectés : '+${i.nbc}+'/'+${i.nbm}+'</td><td><button onclick="rejoindre(\'${i.nom}\');nettoyer();">Rejoindre</button></td></tr>');
+			line = $('<tr><td>${i.nom}</td><td>Joueurs connectés : '
+					+${i.nbc}+'/'+${i.nbm}+
+					'</td><td><form method="post" action="/rejoindreLobby"><input type="submit" value="Rejoindre"><input type="hidden" value="${i.nom}" name="gameid"/></form></td></tr>');
 			line.appendTo(table);
 			vide = false;
 		</c:forEach>
@@ -45,24 +46,9 @@
 			table.append($('<tr><td>Aucune partie</td></tr>'));
 		}
 		
+		div.empty();
 		table.appendTo(div);
 		
-	}
-	
-	var rejoindre = function(id){
-		var canvas = $('<canvas id=\'mon_canvas\' width=872 height=640></canvas>');
-		var div = $('#list_parties');
-		div.empty();
-		div.append(canvas);
-		chargerCanvas();
-		gameID = id;
-		login = "${sessionScope.login}";
-		connect("join",id,login);
-	}
-	
-	var nettoyer = function(){
-		var div = $('#actualiser');
-		div.empty();
 	}
 	
 	actualiser();

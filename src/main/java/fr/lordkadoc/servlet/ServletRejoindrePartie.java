@@ -7,36 +7,26 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.lordkadoc.launcher.ServerInstance;
 import fr.lordkadoc.launcher.ServerManager;
 
-@WebServlet(name="ServletRejoindrePartie", urlPatterns = { "/rejoindrePartie" })
+
+@WebServlet(name="ServletRejoindrePartie", urlPatterns = { "/rejoindreLobby" })
 public class ServletRejoindrePartie extends ServletBasique{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7397375722751273842L;
+	private static final long serialVersionUID = -2091148739199114751L;
 	
+
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		
-		if(rq.getSession(true).getAttribute("connecte") == "true"){
-			
-			rq.setAttribute("parties", 
-					ServerManager.getInstanceInfos(
-					ServerManager.getSpecificInstances(
-					ServerInstance.WAITING_PLAYERS)));
-			
-			rq.setAttribute("page", "listeParties");
-			
-		}else{
-			
-			rq.setAttribute("page","acceuil");
-			
-		}
-		
+		String nomPartie = rq.getParameter("gameid");
+		rq.setAttribute("nomPartie", nomPartie);
+		rq.setAttribute("players", ServerManager.getPlayerInfos(ServerManager.getPlayerInstance(nomPartie).getUsers()));
+		rq.setAttribute("nbJoueurs", ServerManager.getPlayerInstance(nomPartie).getMaxUsers());
+		rq.setAttribute("creator", "false");
+		rq.setAttribute("page", "lobby");		
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}
-
 }
