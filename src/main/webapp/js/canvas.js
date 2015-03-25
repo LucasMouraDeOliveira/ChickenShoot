@@ -20,6 +20,8 @@ var afficherCarte = function(carte){
 	var players = carte.data.players;	
 	var balles = carte.data.balles;
 	var bombes = carte.data.bombes;
+	var explosions = carte.data.explosions;
+	
 	for(var i=0;i<map.length;i++){
 		for(var j=0;j<map[i].length;j++){
 			switch(map[i][j]){
@@ -80,6 +82,32 @@ var afficherCarte = function(carte){
 		balle = balles[i];
 		drawRotatedImage(balle.x,balle.y,balle.angle,imgFleche);
 	}
+	
+	var explosion;
+	for(var i=0;i<explosions.length;i++){
+		explosion = explosions[i];
+		for(var j=0;j<500;j++){
+			dessinerParticuleAleatoire(explosion,ctx);
+		}
+	}
+}
+
+var dessinerParticuleAleatoire = function(explosion, ctx){
+	var x = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.x;
+	var y = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.y;
+	if(dist(x,y,explosion.x,explosion.y) < explosion.taille){
+		ctx.fillStyle = "white";
+		ctx.beginPath();
+		//ctx.arc(0, 0, 70, 0, 2 * Math.PI, false);
+		ctx.arc(x,y,4,0,2*Math.PI);
+		ctx.fill();
+	}
+}
+
+var dist = function(x1,y1,x2,y2){
+	var x = Math.abs(x1-x2);
+	var y = Math.abs(y1-y2);
+	return Math.sqrt(x*x+y*y);
 }
 
 var drawRotatedImage = function(x,y,angle,img){
@@ -87,7 +115,7 @@ var drawRotatedImage = function(x,y,angle,img){
 	ctx.translate(x, y);
 	ctx.rotate(angle);
 	ctx.drawImage(img, -(img.width/2), -(img.height/2));
-	ctx.restore(); 
+	ctx.restore();
 }
 
 var drawBarreDeVie = function(player){

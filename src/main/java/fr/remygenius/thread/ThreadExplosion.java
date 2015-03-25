@@ -29,7 +29,7 @@ public class ThreadExplosion extends Thread {
 			tmp.addAll(explosions);
 			tmp2.addAll(tmp);
 			for(Explosion e : tmp){
-				e.setTailleActu(e.getTailleActu() + 1);
+				e.setTailleActu(e.getTailleActu() +1);
 				if(e.getTailleActu() == e.getTailleMax()){
 					tmp2.remove(e);
 				}
