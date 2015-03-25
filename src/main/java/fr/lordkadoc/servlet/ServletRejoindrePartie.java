@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.lordkadoc.launcher.ServerInstance;
 import fr.lordkadoc.launcher.ServerManager;
 
 @WebServlet(name="ServletRejoindrePartie", urlPatterns = { "/rejoindrePartie" })
@@ -19,7 +20,8 @@ public class ServletRejoindrePartie extends ServletBasique{
 	
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		rq.setAttribute("parties", ServerManager.getParties().keySet());
+		rq.setAttribute("parties", 
+				ServerManager.getSpecificInstances(ServerInstance.WAITING_PLAYERS).keySet());
 		rq.setAttribute("page", "listeParties");
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);
 	}

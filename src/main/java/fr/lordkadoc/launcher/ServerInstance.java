@@ -27,15 +27,22 @@ import fr.remygenius.thread.ThreadGame;
 
 public class ServerInstance {
 	
-	private Map<Session, Joueur> users;
+	private Map<Session, Joueur> users;	
 	private Carte carte;
 
-	private int maxUsers;
+	private int maxUsers;	
+	private int state;
+	
+	public final static int WAITING_PLAYERS = 0;
+	public final static int FULL = 1;
+	public final static int RUNNING = 2;
+	public final static int ENDED = 3;
 
 	public ServerInstance(int maxUsers){
 		this.users = new HashMap<Session,Joueur>();
 		this.carte = new Carte();
 		this.maxUsers = maxUsers;
+		this.state = WAITING_PLAYERS;
 	}
 
 	/**
@@ -58,9 +65,14 @@ public class ServerInstance {
 				p.setArme(new BombeBasique(this));
 				type = "Poulet";
 			}
+			
 			this.carte.placer(p);
 			this.carte.getPlayers().add(p);
 			this.users.put(user, p);
+			
+			if(this.users.size() == this.maxUsers){
+				this.state = FULL;
+			}
 			
 			
 			JsonObjectBuilder player = Json.createObjectBuilder()
@@ -69,6 +81,8 @@ public class ServerInstance {
 			
 			this.diffuserMessage("newPlayer", player);
 		}
+		
+		
 	}
 	
 	public void determinerArmeJoueur(Joueur joueur, String labelArme){
@@ -89,14 +103,14 @@ public class ServerInstance {
 	
 	/**
 	 * 
-	 * @return vrai si le nombre de clients connectés est égal à celui nécessaire pour commencer la partie
+	 * @return vrai si le nombre maximum de clients est atteint
 	 */
 	public boolean clientsTousConnectes(){
 		return this.users.size() == this.maxUsers;
 	}
 
 	public void demarrerPartie(){
-		
+		this.state = RUNNING;
 		this.diffuserMessage("Carte",this.carte.getJSon());
 		this.diffuserMessage("start");
 		new ThreadGame(this,20).start();
@@ -148,10 +162,12 @@ public class ServerInstance {
 				.add("type", type)
 				.add("data", message).build();
 		for(Session s : users.keySet()){
-			try {
-				s.getRemote().sendString(json.toString());
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(s.isOpen()){
+				try {
+					s.getRemote().sendString(json.toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -175,6 +191,10 @@ public class ServerInstance {
 
 	public Carte getCarte(){
 		return this.carte;
+	}
+	
+	public int getState(){
+		return this.state;
 	}
 
 }

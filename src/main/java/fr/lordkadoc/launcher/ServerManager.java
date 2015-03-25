@@ -1,6 +1,8 @@
 package fr.lordkadoc.launcher;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -23,11 +25,30 @@ public class ServerManager {
 		ServerInstance instance;
 		for(String s : parties.keySet()){
 			instance  = parties.get(s);
-			if(!instance.clientsTousConnectes()){
+			if(instance.getState() == ServerInstance.WAITING_PLAYERS){
 				return instance;
 			}
 		}
 		return null;
+	}
+	
+	public static Map<String,ServerInstance> getSpecificInstances(int type){
+		Map<String,ServerInstance> map = new HashMap<String, ServerInstance>();
+		for(String s : parties.keySet()){
+			if(parties.get(s).getState() == type){
+				map.put(s,parties.get(s));
+			}
+		}
+		return map;
+	}
+	
+	public static List<String> getListOfID(Map<String,ServerInstance> map){
+		List<String> list = new ArrayList<String>();
+		for(String s : map.keySet()){
+			list.add(s);
+		}
+		return list;
+		
 	}
 
 	public static ServerInstance getPlayerInstance(String key) {

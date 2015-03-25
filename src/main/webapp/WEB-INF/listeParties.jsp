@@ -12,10 +12,14 @@
 
 <div id ="actualiser">
 	<h2>Liste des parties en attente de joueurs : </h2>
-	<button onclick="actualiser();">Actualiser</button>
+	
+	<form method="post" action="/rejoindrePartie">
+		<input type="submit" value="Actualiser"/>
+	</form>
 </div>
-	<div id="list_parties">
-	</div>
+
+<div id="list_parties">
+</div>
 
 <script>
 
@@ -27,8 +31,10 @@
 		var table = $('<table>');
 		var line;
 		var name;
+		
 		<c:forEach var="i" items="${parties}">
 			name = '${i}';
+			console.log(name);
 			line = $('<tr><td>'+name+'</td><td><button onclick="rejoindre(\'${i}\');nettoyer();">Rejoindre</button></td></tr>');
 			line.appendTo(table);
 		</c:forEach>
@@ -49,9 +55,10 @@
 	}
 	
 	var nettoyer = function(){
-		console.log("It works !");
 		var div = $('#actualiser');
 		div.empty();
 	}
+	
+	actualiser();
 
 </script>
