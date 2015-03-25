@@ -15,4 +15,4 @@
 <p>Le jeu du poulet est plus "stratégique", vous devez éviter le chasseur et rester en vie grâce à vos pièges variés ...</p>
 <p> Ce qui ne vous empêche pas de le malmener avec vos oeufs explosifs !!</p>
 
-<img src="screen1.png" alt="Image du poulet" style="border: 2px black solid;width: 400px; height: 400px;"/>
+<img src="../res/poulet.gif" alt="Image du poulet" style="border: 2px black solid;width: 400px; height: 400px;"/>
