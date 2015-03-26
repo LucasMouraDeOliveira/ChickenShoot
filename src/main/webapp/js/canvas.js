@@ -15,7 +15,7 @@ var chargerCanvas = function(){
 }
 
 var drawInfosJoueur = function(player,time, players){ 
-	if(player.login === pseudo){
+	if(player.login === pseudo && player.vie>0){
 		ctx.fillStyle = "grey"; 
 		//ctx.fillRect(640,0,872-640,640);
 		ctx.drawImage(imgFondInfos,640,0); 
