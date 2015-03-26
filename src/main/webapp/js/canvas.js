@@ -14,7 +14,7 @@ var chargerCanvas = function(){
 	console.log('chargement du canvas terminé');
 }
 
-var drawInfosJoueur = function(joueurTrouve,time, players){
+var drawInfosJoueur = function(joueurTrouve,player, time, players){
 	if(joueurTrouve){
 		if(player.vie>0){
 			ctx.fillStyle = "grey"; 
@@ -133,11 +133,13 @@ var afficherCarte = function(carte){
 	ctx.drawImage(imgFondInfos,640,0);
 	var joueurTrouve = false;
 	for(var i=0;i<players.length;i++){
-		player = players[i];
-		if(player.login === pseudo)
+		var playertmp = players[i];
+		if(playertmp.login === pseudo){
 			joueurTrouve = true;
+			player = players[i]
+		}
 	}
-	drawInfosJoueur(joueurTrouve,carte.data.time,players);
+	drawInfosJoueur(joueurTrouve,player,carte.data.time,players);
 	
 }
 
