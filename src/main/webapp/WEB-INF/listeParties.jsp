@@ -34,9 +34,11 @@
 		var name;
 		var button;
 		
+		line = $('<tr><td>Nom de la partie :</td><td>Nombre de joueur :</td></tr>');
+		line.appendTo(table);
+		
 		<c:forEach var="i" items="${parties}">
-			line = $('<tr><td>${i.nom}</td><td>Joueurs connectés : '
-					+${i.nbc}+'/'+${i.nbm}+
+			line = $('<tr><td>${i.nom}</td><td>'+${i.nbc}+'/'+${i.nbm}+
 					'</td><td><form method="post" action="/rejoindreLobby"><input type="submit" value="Rejoindre"><input type="hidden" value="${i.nom}" name="gameid"/></form></td></tr>');
 			line.appendTo(table);
 			vide = false;

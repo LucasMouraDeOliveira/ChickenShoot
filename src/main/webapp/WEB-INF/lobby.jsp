@@ -33,13 +33,14 @@
 
 	var connectToServer = function(){
 		console.log(${creator});
+		table.append($('<tr><td>Joueur :</td><td>Type :</td></tr>'));
 		if(${ creator }){
 			connect("create","${ nomPartie }", "${ sessionScope.login }", ${nbJoueurs});
 		}else{
 			connect("join","${ nomPartie }", "${ sessionScope.login }", ${nbJoueurs});
 			console.log("join");
 			<c:forEach var="p" items="${players}">
-				table.append($('<tr><td>Joueur : ' +"${p.name}" + ' </td><td> Type : ' + "${p.type}" + '</td></tr>'));
+				table.append($('<tr><td>' +"${p.name}" + ' </td><td>' + "${p.type}" + '</td></tr>'));
 			</c:forEach>		
 		}	
 	}
@@ -47,7 +48,7 @@
 	var ajouterJoueur = function(joueur){
 		console.log(joueur.data);
 		
-		table.append($('<tr><td> Joueur : ' + joueur.data.login + ' </td><td> Type : ' + joueur.data.type + ' </td></tr>'));	
+		table.append($('<tr><td>' + joueur.data.login + ' </td><td>' + joueur.data.type + ' </td></tr>'));	
 	}
 	
 	var demarrerPartie = function(){
