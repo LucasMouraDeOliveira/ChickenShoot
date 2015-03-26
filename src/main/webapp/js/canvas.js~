@@ -3,7 +3,6 @@ var ctx;
 var tc = 32;
 
 
-
 var chargerCanvas = function(){
 	canvas = document.getElementById("mon_canvas");
 	ctx = canvas.getContext("2d");
@@ -13,6 +12,36 @@ var chargerCanvas = function(){
 	window.addEventListener("mouseup", releaseClique, false);
 	window.addEventListener("mousemove", motion, false);
 	console.log('chargement du canvas terminé');
+}
+
+var drawInfosJoueur = function(joueurTrouve,player, time, players){
+	if(joueurTrouve){
+		if(player.vie>0){
+			ctx.fillStyle = "grey"; 
+			ctx.font = '15pt Calibri'; 
+			ctx.fillStyle = "blue"; 
+			ctx.fillText(player.login,650, 120); 
+			ctx.fillStyle = "black"; 
+			ctx.fillText("Temps restant : " + time,650, 40);
+			ctx.fillText("Munitions : " + player.munitions,650, 140); 
+			ctx.fillText("Arme : " + player.arme,650, 160); 
+			ctx.fillText("type : " + player.type,650, 180);
+		}
+	}
+	else {
+			ctx.drawImage(imgFondInfos,640,0); 
+			ctx.fillStyle = "blue"; 
+			ctx.fillText(pseudo + " : mort",650, 120);
+			ctx.fillStyle = "black"; 
+			ctx.fillText("Temps restant : " + time,650, 40);
+		}
+	ctx.fillStyle = "green";
+	ctx.fillText("Joueurs en vie :",650, 220);
+	for(var i=0;i<players.length;i++){
+		player = players[i];
+		ctx.fillStyle = "black";
+		ctx.fillText(player.login + " ( " + player.vie + " )",650, 240+20*i);
+	}
 }
 
 var afficherCarte = function(carte){	
@@ -74,7 +103,7 @@ var afficherCarte = function(carte){
 	var bombe;
 	for(var i=0;i<bombes.length;i++){
 		bombe = bombes[i];
-		ctx.drawImage(imgBombe,bombe.x,bombe.y);
+		ctx.drawImage(imgBombe,bombe.x-imgBombe.width/2,bombe.y-imgBombe.height/2);
 	}
 	
 	var balle;
@@ -86,19 +115,40 @@ var afficherCarte = function(carte){
 	var explosion;
 	for(var i=0;i<explosions.length;i++){
 		explosion = explosions[i];
-		for(var j=0;j<500;j++){
-			dessinerParticuleAleatoire(explosion,ctx);
+		if(explosion.pourcentage < 30){
+			var blue = 255-(8*explosion.pourcentage);
+			ctx.fillStyle = 'rgb(255,255,'+blue+')';
+		}else if(explosion.pourcentage < 71){
+			var green = 255-(3*explosion.pourcentage);
+			ctx.fillStyle = 'rgb(255,'+green+',0)';
+		}else{
+			ctx.fillStyle = "black";
+		}
+
+		for(var j=0;j<200;j++){
+			dessinerParticuleAleatoire(explosion);
 		}
 	}
+	
+	ctx.drawImage(imgFondInfos,640,0);
+	var joueurTrouve = false;
+	for(var i=0;i<players.length;i++){
+		var playertmp = players[i];
+		if(playertmp.login === pseudo){
+			joueurTrouve = true;
+			player = players[i]
+		}
+	}
+	drawInfosJoueur(joueurTrouve,carte.data.time,players);
+	
 }
 
-var dessinerParticuleAleatoire = function(explosion, ctx){
+var dessinerParticuleAleatoire = function(explosion){
 	var x = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.x;
 	var y = Math.floor(Math.random()*2*explosion.taille)-explosion.taille+explosion.y;
 	if(dist(x,y,explosion.x,explosion.y) < explosion.taille){
-		ctx.fillStyle = "white";
 		ctx.beginPath();
-		ctx.arc(x,y,4,0,2*Math.PI);
+		ctx.arc(x,y,6,0,2*Math.PI);
 		ctx.fill();
 	}
 }
@@ -121,7 +171,7 @@ var drawBarreDeVie = function(player){
 	ctx.fillStyle = "black";
 	ctx.strokeStyle = "black";
 	ctx.fillRect(player.x-25,player.y-50,50,10);
-	var pourcentageVita = (player.vie*50)/player.vieInitiale;
+	var pourcentageVita = (player.vie*100)/player.vieInitiale;
 	
 	if(pourcentageVita>player.vieInitiale*0.6)
 		ctx.fillStyle = "#45E600";
@@ -130,7 +180,7 @@ var drawBarreDeVie = function(player){
 	else
 		ctx.fillStyle = "#FF0000";
 	
-	ctx.fillRect(player.x-25,player.y-50,pourcentageVita,10);
+	ctx.fillRect(player.x-25,player.y-50,pourcentageVita/2,10);
 	ctx.strokeRect(player.x-25,player.y-50,50,10);
 	ctx.fillStyle = "black";
 	ctx.fillText(player.login,player.x-25, player.y-55);

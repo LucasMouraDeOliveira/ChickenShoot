@@ -72,7 +72,7 @@ li{
 	background-color: white;
 	border: 1px black solid;
 	display: block;
-    margin: 0 auto;
+    	margin: 0 auto;
 }
 
 footer{
@@ -114,5 +114,5 @@ td>button{
  #main_article{
  	padding-top: 20px;
  	padding-bottom: 50px;
- 	margin-left: 20%;
+ 	margin-left: 10%;
  }
