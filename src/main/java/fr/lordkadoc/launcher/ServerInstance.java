@@ -60,7 +60,7 @@ public class ServerInstance {
 			Joueur p;
 			if(this.carte.getNbChasseurs()<this.carte.getNbPoulets()){
 				p = new Chasseur(login, 0,0);
-				p.setArme(new Arbalete(this));
+				p.setArme(new Arbalete(this, p.getNom()));
 				type = "Chasseur";
 			}
 			else {
@@ -92,11 +92,11 @@ public class ServerInstance {
 		
 		if(joueur instanceof Chasseur){
 			if(labelArme == "arbalete"){
-				joueur.setArme(new Arbalete(this));
+				joueur.setArme(new Arbalete(this, joueur.getNom()));
 			}else if(labelArme == "fusil"){
-				joueur.setArme(new Fusil(this));
+				joueur.setArme(new Fusil(this, joueur.getNom()));
 			}else{
-				joueur.setArme(new Mitraillette(this));
+				joueur.setArme(new Mitraillette(this, joueur.getNom()));
 			}
 		}else if(joueur instanceof Poulet){
 			joueur.setArme(new BombeBasique(this));

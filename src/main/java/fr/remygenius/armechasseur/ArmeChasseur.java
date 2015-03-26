@@ -12,12 +12,14 @@ import fr.remygenius.thread.ThreadRecharge;
 
 public class ArmeChasseur extends Arme {
 	private int vitesseBalle;
+	private String nomTireur;
 	
 	private ServerInstance instance;
 
-	public ArmeChasseur(ServerInstance instance, String nom, int degat, double tempsDeRecharge, int munitions, int vitesseBalle) {
+	public ArmeChasseur(ServerInstance instance, String nomTireur, String nom, int degat, double tempsDeRecharge, int munitions, int vitesseBalle) {
 		super(nom, degat, tempsDeRecharge, munitions);
 		this.vitesseBalle = vitesseBalle;
+		this.nomTireur = nomTireur;
 		this.instance = instance;
 	}
 	
@@ -31,7 +33,7 @@ public class ArmeChasseur extends Arme {
 		vy = vy*vitesseBalle;
 		this.setMunitions(this.getMunitions()-1);
 		
-		instance.getCarte().ajouterBalle(new Balle(instance,x1, y1, vx, vy, this.getDegat()));
+		instance.getCarte().ajouterBalle(new Balle(instance,nomTireur,x1, y1, vx, vy, this.getDegat()));
 		new ThreadRecharge(this.getTempsDeRecharge(), this).start();
 	}
 	

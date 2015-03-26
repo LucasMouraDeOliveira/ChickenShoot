@@ -15,18 +15,20 @@ public class Balle {
 	private final double vx;
 	private final double vy;
 	private final int degat;
+	private String nomTireur;
 	
 	private final double angle;
 	
 	private ServerInstance instance;
 	
-	public Balle(ServerInstance instance,double x, double y, double vx, double vy, int degat) {
+	public Balle(ServerInstance instance, String nomTireur, double x, double y, double vx, double vy, int degat) {
 		this.instance = instance;
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
 		this.degat = degat;
+		this.nomTireur = nomTireur;
 		this.angle = Math.atan2(-vx,vy)+Math.PI;
 	}
 
@@ -42,9 +44,9 @@ public class Balle {
 	
 	public boolean verifierToucherPoulet(){
 		Carte carte = instance.getCarte();
-		Polygon poly;
+		Polygon poly = null;
 		for(Joueur p : carte.getPlayers()){
-			if(p instanceof Poulet){
+			if(p.getNom() != this.nomTireur){
 				poly = p.hitbox();
 				if(poly.contains(new Point((int)x,(int)y))){
 					p.recevoirDegat(this.degat);

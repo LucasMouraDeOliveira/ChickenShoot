@@ -11,7 +11,7 @@ import fr.lordkadoc.launcher.ServerInstance;
 public class Arbalete extends ArmeChasseur {
 	
 	
-	public Arbalete(ServerInstance instance) {
+	public Arbalete(ServerInstance instance, String nomTireur) {
 		/**
 		 * param1 : nom
 		 * param2 : degat
@@ -19,6 +19,6 @@ public class Arbalete extends ArmeChasseur {
 		 * param4 : munitions
 		 * param5 : vitesseballe
 		 */
-		super(instance,"Arbalete", 10, 0.33, 100, 15);
+		super(instance,nomTireur,"Arbalete", 10, 0.33, 100, 15);
 	}
 }

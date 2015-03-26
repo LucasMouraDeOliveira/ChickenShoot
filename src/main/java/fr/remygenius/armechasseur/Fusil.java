@@ -10,7 +10,7 @@ import fr.lordkadoc.launcher.ServerInstance;
 
 public class Fusil extends ArmeChasseur {
 
-	public Fusil(ServerInstance instance) {
+	public Fusil(ServerInstance instance, String nomTireur) {
 		
 		/**
 		 * param1 : nom
@@ -19,7 +19,7 @@ public class Fusil extends ArmeChasseur {
 		 * param4 : munitions
 		 * param5 : vitesseballe
 		 */
-		super(instance,"Fusil", 10, 1, 10, 20);
+		super(instance,nomTireur,"Fusil", 10, 1, 10, 20);
 		// TODO Auto-generated constructor stub
 	}
 }
