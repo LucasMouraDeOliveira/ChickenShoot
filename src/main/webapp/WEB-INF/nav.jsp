@@ -5,6 +5,11 @@
 <nav id="nav">
 	<ul>
 		<li>
+			<form method="get" action="/chickenShoot">
+				<input class="button" type="submit" value="Accueil" />
+			</form>
+		</li>
+		<li>
 			<form method="post" action="/createGame">
 				<input class="button" type="submit" value="Créer une partie" /> <input
 					type="hidden" value="creation" name="lien" />
