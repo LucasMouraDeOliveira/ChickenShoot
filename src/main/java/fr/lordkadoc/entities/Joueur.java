@@ -34,8 +34,8 @@ public abstract class Joueur {
 		this.size = size;
 		this.vitesse = vitesse;
 		this.type = type;
-		this.vieInitiale = 50;
-		this.vie = 50;
+		this.vieInitiale = 100;
+		this.vie = 100;
 	}
 	
 	public abstract void attaquer(int posX, int posY);

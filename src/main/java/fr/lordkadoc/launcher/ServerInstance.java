@@ -114,7 +114,7 @@ public class ServerInstance {
 
 	public void demarrerPartie(){
 		this.state = RUNNING;
-		this.timer = new ThreadTimer(this,180);
+		this.timer = new ThreadTimer(this,60);
 		this.timer.start();
 		this.diffuserMessage("Carte",this.carte.getJSon());
 		this.diffuserMessage("start");

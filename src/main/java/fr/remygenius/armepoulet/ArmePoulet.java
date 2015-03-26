@@ -11,12 +11,12 @@ import fr.remygenius.thread.ThreadRecharge;
  */
 
 public class ArmePoulet extends Arme{
-	private int tempsSurCarte;
+	private double tempsSurCarte;
 	private int rayonExplosion;
 	
 	private ServerInstance instance;
 
-	public ArmePoulet(ServerInstance instance,String nom, int degat, double tempsDeRecharge, int munitions, int tempsSurCarte, int rayonExplosion) {
+	public ArmePoulet(ServerInstance instance,String nom, int degat, double tempsDeRecharge, int munitions, double tempsSurCarte, int rayonExplosion) {
 		super(nom, degat, tempsDeRecharge, munitions);
 		this.tempsSurCarte = tempsSurCarte;
 		this.rayonExplosion = rayonExplosion;
@@ -31,11 +31,11 @@ public class ArmePoulet extends Arme{
 		this.rayonExplosion = rayonExplosion;
 	}
 
-	public int getTempsSurCarte() {
+	public double getTempsSurCarte() {
 		return tempsSurCarte;
 	}
 
-	public void setTempsSurCarte(int tempsSurCarte) {
+	public void setTempsSurCarte(double tempsSurCarte) {
 		this.tempsSurCarte = tempsSurCarte;
 	}
 

@@ -1,11 +1,5 @@
 package fr.remygenius.armepoulet;
 
-import java.awt.Point;
-import java.awt.Polygon;
-import java.util.ArrayList;
-import java.util.List;
-
-
 public class Explosion {
 	private int x;
 	private int y;

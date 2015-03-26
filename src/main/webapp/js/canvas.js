@@ -151,7 +151,7 @@ var drawBarreDeVie = function(player){
 	ctx.fillStyle = "black";
 	ctx.strokeStyle = "black";
 	ctx.fillRect(player.x-25,player.y-50,50,10);
-	var pourcentageVita = (player.vie*50)/player.vieInitiale;
+	var pourcentageVita = (player.vie*100)/player.vieInitiale;
 	
 	if(pourcentageVita>player.vieInitiale*0.6)
 		ctx.fillStyle = "#45E600";
@@ -160,7 +160,7 @@ var drawBarreDeVie = function(player){
 	else
 		ctx.fillStyle = "#FF0000";
 	
-	ctx.fillRect(player.x-25,player.y-50,pourcentageVita,10);
+	ctx.fillRect(player.x-25,player.y-50,pourcentageVita/2,10);
 	ctx.strokeRect(player.x-25,player.y-50,50,10);
 	ctx.fillStyle = "black";
 	ctx.fillText(player.login,player.x-25, player.y-55);

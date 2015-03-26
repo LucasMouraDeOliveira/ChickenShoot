@@ -22,11 +22,11 @@ public class Bombe {
 	private int x;
 	private int y;
 	private int degat;
-	private int tempsSurCarte;
+	private double tempsSurCarte;
 	private int cptTemps = 0;
 	private int rayonExplosion;
 
-	public Bombe(ServerInstance instance, int x, int y, int degat, int tempsSurCarte, int rayonExplosion){
+	public Bombe(ServerInstance instance, int x, int y, int degat, double tempsSurCarte, int rayonExplosion){
 		this.instance = instance;
 		this.x = x;
 		this.y = y;
@@ -35,7 +35,7 @@ public class Bombe {
 		this.rayonExplosion = rayonExplosion;
 	}
 	
-	public int getTempsSurCarte() {
+	public double getTempsSurCarte() {
 		return tempsSurCarte;
 	}
 
@@ -73,15 +73,17 @@ public class Bombe {
 		Polygon poly;
 		List<Joueur> tmp = new ArrayList<Joueur>();
 		for(Joueur p : carte.getPlayers()){
-			if(p instanceof Chasseur){
 				poly = this.hitbox();
 				if(poly.contains(new Point(p.getX(),p.getY()))){
-					p.recevoirDegat(this.getDegat());
+					int degat = this.degat;
+					if(p.getType().equals("Poulet")){
+						degat/=2;
+					}
+					p.recevoirDegat(degat);
 					if(!p.estEnVie()){
 						tmp.add(p);
 					}
 				}
-			}
 		}
 		
 		for(Joueur j : tmp){
