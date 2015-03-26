@@ -14,7 +14,7 @@ var chargerCanvas = function(){
 	console.log('chargement du canvas terminé');
 }
 
-var drawInfosJoueur = function(player,time){ 
+var drawInfosJoueur = function(player,time, players){ 
 	if(player.login === pseudo){
 		ctx.fillStyle = "grey"; 
 		//ctx.fillRect(640,0,872-640,640);
@@ -26,8 +26,23 @@ var drawInfosJoueur = function(player,time){
 		ctx.fillText("Temps restant : " + time,650, 40);
 		ctx.fillText("Munitions : " + player.munitions,650, 140); 
 		ctx.fillText("Arme : " + player.arme,650, 160); 
-		ctx.fillText("type : " + player.type,650, 180); 
-	} 
+		ctx.fillText("type : " + player.type,650, 180);
+	}
+	else {
+		ctx.drawImage(imgFondInfos,640,0); 
+		ctx.fillStyle = "blue"; 
+		ctx.fillText(pseudo + " : mort",650, 120);
+		ctx.fillStyle = "black"; 
+		ctx.fillText("Temps restant : " + time,650, 40);
+	}
+	ctx.fillStyle = "green";
+	ctx.fillText("Joueurs en vie :",650, 220);
+	
+	for(var i=0;i<players.length;i++){
+		player = players[i];
+		ctx.fillStyle = "black";
+		ctx.fillText(player.login + " (" + player.vie + " )",650, 240+20*i);
+	}
 }
 
 var afficherCarte = function(carte){	
@@ -118,7 +133,7 @@ var afficherCarte = function(carte){
 	
 	for(var i=0;i<players.length;i++){
 		player = players[i];
-		drawInfosJoueur(player,carte.data.time);
+		drawInfosJoueur(player,carte.data.time,players);
 	}
 	
 }
