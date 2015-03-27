@@ -24,6 +24,7 @@ import fr.remygenius.thread.ThreadBalle;
 import fr.remygenius.thread.ThreadBombe;
 import fr.remygenius.thread.ThreadExplosion;
 import fr.remygenius.thread.ThreadGame;
+import fr.remygenius.thread.ThreadRegen;
 import fr.remygenius.thread.ThreadTimer;
 
 public class ServerInstance {
@@ -122,6 +123,7 @@ public class ServerInstance {
 		new ThreadBalle(this.getCarte().getBalles()).start();
 		new ThreadBombe(this,this.getCarte().getBombes()).start();
 		new ThreadExplosion(this.getCarte().getExplosions()).start();
+		new ThreadRegen(this,2000).start();
 	}
 
 

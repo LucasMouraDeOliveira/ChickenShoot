@@ -3,3 +3,4 @@ var BLOCK_GRASS = 1;
 var BLOCK_WALL = 2;
 var BLOCK_TREE = 3;
 var BLOCK_ROCK = 4;
+var BLOCK_REGEN = 5;

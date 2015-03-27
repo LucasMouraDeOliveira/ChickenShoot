@@ -7,6 +7,7 @@ var imgFleche = new Image();
 var imgBombe = new Image();
 var imgStone = new Image();
 var imgFondInfos = new Image();
+var imgRegen = new Image();
 
 imgWall.src = "res/wall.png";
 imgGrass.src = "res/grass.png";
@@ -17,6 +18,7 @@ imgFleche.src = "res/fleche.png";
 imgBombe.src = "res/bombe.png";
 imgStone.src = "res/stone.png";
 imgFondInfos.src = "res/fondInfos.jpg";
+imgRegen.src = "res/regen.jpg";
 
 imgWall.onload = function(){
 	console.log("Image de mur chargée");
@@ -48,4 +50,8 @@ imgBombe.onload = function(){
 
 imgStone.onload = function(){
 	console.log("Image de la pierre chargée");
+}
+
+imgRegen.onload = function(){
+	console.log("Image de la regen chargée");
 }

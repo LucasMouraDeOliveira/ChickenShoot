@@ -67,6 +67,9 @@ var afficherCarte = function(carte){
 				ctx.drawImage(imgGrass,i*tc,j*tc);
 				ctx.drawImage(imgStone,i*tc,j*tc);
 				break;
+			case BLOCK_REGEN:
+				ctx.drawImage(imgRegen,i*tc,j*tc);
+				break;
 			}
 		}
 	}

@@ -50,7 +50,7 @@ public class Carte {
 					positions[i][j] = 2;
 				}
 				else{
-					//On initialise la premiere case à " "
+					//On initialise la premiere case à 9
 					if(i==1 && j ==1){
 						positions[i][j] = 9;
 					}
@@ -81,8 +81,20 @@ public class Carte {
 		}
 		//On place les obstacles aux endroit où il y a des 0
 		//et on remplace les 0 par des " "
+		boolean regen = false;
 		for(int i =0; i<size; i++) {
 			for(int j = 0; j<size; j++){
+				if(i+1<size && j+1<size){
+					if(positions[i][j] == 0 && Math.random()*100>90 && regen == false && i>=size/2 && j>=size/2){
+						if(positions[i+1][j] == 0 && positions[i][j+1] == 0 && positions[i+1][j+1] == 0){
+							regen = true;
+							positions[i][j]=5;
+							positions[i+1][j]=5;
+							positions[i][j+1]=5;
+							positions[i+1][j+1]=5;
+						}
+					}
+				}
 				if(Math.random()*100 > 98 && positions[i][j]==0){
 					positions[i][j] = 3;
 						for(int l =0; l<3;l++){
@@ -101,7 +113,7 @@ public class Carte {
 				else if(Math.random()*100 > 85 && positions[i][j]==0){
 					positions[i][j] = 4;
 				}
-				else if(positions[i][j]!=2 && positions[i][j]!=3) {
+				else if(positions[i][j]!=2 && positions[i][j]!=3 && positions[i][j]!=5) {
 					positions[i][j] = 1;
 				}
 			}
@@ -298,11 +310,15 @@ public class Carte {
 	}
 	
 	public boolean estVide(int cellule){
-		return cellule == 1 || cellule == 3;
+		return cellule == 1 || cellule == 3 || cellule == 5;
 	}
 	
 	public boolean estArbre(int cellule){
 		return cellule == 3;
+	}
+	
+	public boolean estRegen(int cellule){
+		return cellule == 5;
 	}
 
 	public List<Balle> getBalles() {
