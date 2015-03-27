@@ -15,13 +15,12 @@ public class ThreadRegen extends Thread{
 	
 	public ThreadRegen(ServerInstance instance, int tempsRegen){
 		this.tempsRegen = tempsRegen;
+		this.instance = instance;
 		this.p = instance.getCarte().getPlayers();
 	}
 	
 	public void verifierJoueurRegen(){
 		for(Joueur p : p){
-			/*condition à compléter*/
-			System.out.println("x :" + p.getX() +" y :" + p.getY());
 			if(this.instance.getCarte().estRegen(this.instance.getCarte().cellule(new Point(p.getX(),p.getY())))){
 				p.getArme().setMunitions(p.getArme().getMunitions()+1);
 			}
