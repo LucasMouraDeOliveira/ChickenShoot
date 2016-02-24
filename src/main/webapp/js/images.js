@@ -18,7 +18,7 @@ imgFleche.src = "res/fleche.png";
 imgBombe.src = "res/bombe.png";
 imgStone.src = "res/stone.png";
 imgFondInfos.src = "res/fondInfos.jpg";
-imgRegen.src = "res/regen.jpeg";
+imgRegen.src = "res/regen.jpg";
 
 imgWall.onload = function(){
 	console.log("Image de mur chargée");
