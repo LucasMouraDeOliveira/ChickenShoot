@@ -17,22 +17,22 @@ var chargerCanvas = function(){
 var drawInfosJoueur = function(joueurTrouve,player, time, players){
 	if(joueurTrouve){
 		if(player.vie>0){
-			ctx.fillStyle = "grey"; 
-			ctx.font = '15pt Calibri'; 
-			ctx.fillStyle = "blue"; 
-			ctx.fillText(player.login,650, 120); 
-			ctx.fillStyle = "black"; 
+			ctx.fillStyle = "grey";
+			ctx.font = '15pt Calibri';
+			ctx.fillStyle = "blue";
+			ctx.fillText(player.login,650, 120);
+			ctx.fillStyle = "black";
 			ctx.fillText("Temps restant : " + time,650, 40);
-			ctx.fillText("Munitions : " + player.munitions,650, 140); 
-			ctx.fillText("Arme : " + player.arme,650, 160); 
+			ctx.fillText("Munitions : " + player.munitions,650, 140);
+			ctx.fillText("Arme : " + player.arme,650, 160);
 			ctx.fillText("type : " + player.type,650, 180);
 		}
 	}
 	else {
-			ctx.drawImage(imgFondInfos,640,0); 
-			ctx.fillStyle = "blue"; 
+			ctx.drawImage(imgFondInfos,640,0);
+			ctx.fillStyle = "blue";
 			ctx.fillText(pseudo + " : mort",650, 120);
-			ctx.fillStyle = "black"; 
+			ctx.fillStyle = "black";
 			ctx.fillText("Temps restant : " + time,650, 40);
 		}
 	ctx.fillStyle = "green";
@@ -44,13 +44,13 @@ var drawInfosJoueur = function(joueurTrouve,player, time, players){
 	}
 }
 
-var afficherCarte = function(carte){	
+var afficherCarte = function(carte){
 	var map = carte.data.carte;
-	var players = carte.data.players;	
+	var players = carte.data.players;
 	var balles = carte.data.balles;
 	var bombes = carte.data.bombes;
 	var explosions = carte.data.explosions;
-	
+
 	for(var i=0;i<map.length;i++){
 		for(var j=0;j<map[i].length;j++){
 			switch(map[i][j]){
@@ -73,7 +73,7 @@ var afficherCarte = function(carte){
 			}
 		}
 	}
-	
+
 	var player;
 	for(var i=0;i<players.length;i++){
 		player = players[i];
@@ -83,7 +83,13 @@ var afficherCarte = function(carte){
 				drawBarreDeVie(player);
 		}
 	}
-	
+
+	var bombe;
+	for(var i=0;i<bombes.length;i++){
+		bombe = bombes[i];
+		ctx.drawImage(imgBombe,bombe.x-imgBombe.width/2,bombe.y-imgBombe.height/2);
+	}
+
 	//Pour que les persos puissent se cacher sous les arbres on les dessinent après
 	for(var i=0;i<map.length;i++){
 		for(var j=0;j<map[i].length;j++){
@@ -94,7 +100,7 @@ var afficherCarte = function(carte){
 			}
 		}
 	}
-	
+
 	for(var i=0;i<players.length;i++){
 		player = players[i];
 		if(player.type == "Chasseur"){
@@ -102,19 +108,13 @@ var afficherCarte = function(carte){
 			drawBarreDeVie(player);
 		}
 	}
-	
-	var bombe;
-	for(var i=0;i<bombes.length;i++){
-		bombe = bombes[i];
-		ctx.drawImage(imgBombe,bombe.x-imgBombe.width/2,bombe.y-imgBombe.height/2);
-	}
-	
+
 	var balle;
 	for(var i=0;i<balles.length;i++){
 		balle = balles[i];
 		drawRotatedImage(balle.x,balle.y,balle.angle,imgFleche);
 	}
-	
+
 	var explosion;
 	for(var i=0;i<explosions.length;i++){
 		explosion = explosions[i];
@@ -132,7 +132,7 @@ var afficherCarte = function(carte){
 			dessinerParticuleAleatoire(explosion);
 		}
 	}
-	
+
 	ctx.drawImage(imgFondInfos,640,0);
 	var joueurTrouve = false;
 	for(var i=0;i<players.length;i++){
@@ -143,7 +143,7 @@ var afficherCarte = function(carte){
 		}
 	}
 	drawInfosJoueur(joueurTrouve,player,carte.data.time,players);
-	
+
 }
 
 var dessinerParticuleAleatoire = function(explosion){
@@ -163,7 +163,7 @@ var dist = function(x1,y1,x2,y2){
 }
 
 var drawRotatedImage = function(x,y,angle,img){
-	ctx.save(); 
+	ctx.save();
 	ctx.translate(x, y);
 	ctx.rotate(angle);
 	ctx.drawImage(img, -(img.width/2), -(img.height/2));
@@ -175,14 +175,14 @@ var drawBarreDeVie = function(player){
 	ctx.strokeStyle = "black";
 	ctx.fillRect(player.x-25,player.y-50,50,10);
 	var pourcentageVita = (player.vie*100)/player.vieInitiale;
-	
+
 	if(pourcentageVita>player.vieInitiale*0.6)
 		ctx.fillStyle = "#45E600";
 	else if(pourcentageVita<=player.vieInitiale*0.6 && pourcentageVita>player.vieInitiale*0.2)
 		ctx.fillStyle = "#F3AA00";
 	else
 		ctx.fillStyle = "#FF0000";
-	
+
 	ctx.fillRect(player.x-25,player.y-50,pourcentageVita/2,10);
 	ctx.strokeRect(player.x-25,player.y-50,50,10);
 	ctx.fillStyle = "black";
