@@ -8,9 +8,9 @@ import fr.remygenius.armepoulet.Bombe;
 import fr.remygenius.armepoulet.Explosion;
 
 public class ThreadBombe extends Thread {
+	
 	private List<Bombe> bombes;
 	private int delai;
-	
 	private ServerInstance instance;
 	
 	public ThreadBombe(ServerInstance instance, List<Bombe> bombes){
@@ -35,7 +35,7 @@ public class ThreadBombe extends Thread {
 			tmp.addAll(bombes);
 			tmp2.addAll(bombes);
 			for(Bombe b : tmp){
-				if(b.verifierTempsSurCarte()){
+				if(b.isActivated()){
 					b.verifierToucherChasseur();
 					tmp2.remove(b);
 					instance.getCarte().ajouterExplosions(new Explosion(b.getX(), b.getY(), b.getRayonExplosion()));

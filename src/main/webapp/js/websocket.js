@@ -55,8 +55,11 @@ function envoiPersoUpdate(){
 	msg.gameID = gameID;
 	msg.movement = movement;
 	msg.tir = tir;
+	console.log(detonate);
+	msg.detonate = detonate;
 	msg.souris = souris;
 	var json = JSON.stringify(msg);
 	websocket.send(json);
+	detonate = false;
 }
 

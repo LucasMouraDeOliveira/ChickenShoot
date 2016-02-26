@@ -66,7 +66,7 @@ public class ServerInstance {
 			}
 			else {
 				p = new Poulet(login,0,0);
-				p.setArme(new BombeBasique(this));
+				p.setArme(new BombeBasique((Poulet)p, this));
 				type = "Poulet";
 			}
 			
@@ -100,7 +100,7 @@ public class ServerInstance {
 				joueur.setArme(new Mitraillette(this, joueur.getNom()));
 			}
 		}else if(joueur instanceof Poulet){
-			joueur.setArme(new BombeBasique(this));
+			joueur.setArme(new BombeBasique((Poulet)joueur, this));
 		}
 		
 	}
@@ -147,7 +147,10 @@ public class ServerInstance {
 	private void gererActionJoueur(Session user,JsonObject object) {
 		
 		JsonObject coords = object.getJsonObject("movement");
+		
 		boolean tir = object.getBoolean("tir");
+		boolean detonate = object.getBoolean("detonate");
+		
 		JsonObject souris = object.getJsonObject("souris");
 		
 		boolean[] c = new boolean[4];
@@ -160,6 +163,11 @@ public class ServerInstance {
 		if(tir){
 			this.users.get(user).attaquer(souris.getInt("x"),souris.getInt("y"));
 		}	
+		
+		if(detonate){
+			this.users.get(user).detonate();
+		}
+		
 		this.users.get(user).pivoter(souris.getInt("x"),souris.getInt("y"));
 	}
 

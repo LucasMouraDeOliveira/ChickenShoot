@@ -1,5 +1,6 @@
 package fr.remygenius.armepoulet;
 
+import fr.lordkadoc.entities.Poulet;
 import fr.lordkadoc.launcher.ServerInstance;
 import fr.remygenius.arme.Arme;
 import fr.remygenius.thread.ThreadRecharge;
@@ -14,10 +15,13 @@ public class ArmePoulet extends Arme{
 	private double tempsSurCarte;
 	private int rayonExplosion;
 	
+	private Poulet poulet;
+	
 	private ServerInstance instance;
 
-	public ArmePoulet(ServerInstance instance,String nom, int degat, double tempsDeRecharge, int munitions, double tempsSurCarte, int rayonExplosion) {
+	public ArmePoulet(Poulet poulet, ServerInstance instance,String nom, int degat, double tempsDeRecharge, int munitions, double tempsSurCarte, int rayonExplosion) {
 		super(nom, degat, tempsDeRecharge, munitions);
+		this.poulet = poulet;
 		this.tempsSurCarte = tempsSurCarte;
 		this.rayonExplosion = rayonExplosion;
 		this.instance = instance;
@@ -49,7 +53,10 @@ public class ArmePoulet extends Arme{
 	public void poser(int x, int y) {
 		// TODO Auto-generated method stub
 		this.setMunitions(this.getMunitions()-1);
-		instance.getCarte().ajouterBombe(new Bombe(instance,x, y, this.getDegat(), this.getTempsSurCarte(), this.rayonExplosion));
+		Bombe b = new Bombe(instance,x, y, this.getDegat(), this.getTempsSurCarte(), this.rayonExplosion);
+		instance.getCarte().ajouterBombe(b);
+		poulet.addBombe(b);
+		
 		new ThreadRecharge(this.getTempsDeRecharge(), this).start();
 	}
 

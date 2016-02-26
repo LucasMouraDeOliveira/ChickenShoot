@@ -12,7 +12,7 @@ import fr.lordkadoc.map.Carte;
 
 /**
  * Classe qui defini une bombe de base
- * @author remy
+ * @author letraitre
  *
  */
 
@@ -25,6 +25,7 @@ public class Bombe {
 	private double tempsSurCarte;
 	private int cptTemps = 0;
 	private int rayonExplosion;
+	private boolean activated;
 
 	public Bombe(ServerInstance instance, int x, int y, int degat, double tempsSurCarte, int rayonExplosion){
 		this.instance = instance;
@@ -33,6 +34,7 @@ public class Bombe {
 		this.degat= degat;
 		this.tempsSurCarte = tempsSurCarte;
 		this.rayonExplosion = rayonExplosion;
+		this.activated = false;
 	}
 	
 	public double getTempsSurCarte() {
@@ -131,6 +133,12 @@ public class Bombe {
 	}
 	public void setDegat(int degat) {
 		this.degat = degat;
+	}
+	public boolean isActivated() {
+		return activated;
+	}
+	public void activate(){
+		this.activated = true;
 	}
 
 }

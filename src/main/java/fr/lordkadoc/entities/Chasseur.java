@@ -13,4 +13,7 @@ public class Chasseur extends Joueur {
 			this.getArme().setRechargeTermine(false);
 		}
 	}
+
+	@Override
+	public void detonate() {}
 }

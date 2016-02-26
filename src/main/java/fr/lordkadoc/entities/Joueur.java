@@ -40,6 +40,8 @@ public abstract class Joueur {
 	
 	public abstract void attaquer(int posX, int posY);
 	
+	public abstract void detonate();
+	
 	public Polygon hitbox(){
 		List<Point> points = this.hitboxPoints();
 		int[] x = new int[4];
