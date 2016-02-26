@@ -2,9 +2,9 @@ package fr.lordkadoc.bdd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class InscriptionBDD {
 	
@@ -13,7 +13,7 @@ public class InscriptionBDD {
 	public boolean inscription(String login, String password, String cpassword, String mail) {
 		
 		Connection conn = null;
-		Statement stmt;
+		PreparedStatement stmt;
 		ResultSet rs;
 		
 		if(login.isEmpty()){
@@ -36,14 +36,18 @@ public class InscriptionBDD {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:chickenShoot.db");
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from users where login = '" + login + "'");
+			stmt = conn.prepareStatement("select * from users where login = ?");
+			stmt.setString(1, login);
+			rs = stmt.executeQuery();
 			if(rs.next()){
 				this.erreur = "Il existe déjà un utilisateur avec le même login. Veuillez en choisir un nouveau.";
 				return false;
 			}
-			stmt = conn.createStatement();
-			stmt.executeUpdate("insert into users values ('"+login+"','"+password+"',1,'"+mail+"',0)");
+			stmt = conn.prepareStatement("insert into users values (?,?,1,?,0)");
+			stmt.setString(1, login);
+			stmt.setString(2, password);
+			stmt.setString(3, mail);
+			stmt.executeUpdate();
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			this.erreur = "Une erreur est survenue au niveau de la base de données. C'est chelou parce que normalement j'ai tout bien codé";
