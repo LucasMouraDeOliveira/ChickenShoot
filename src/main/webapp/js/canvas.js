@@ -2,6 +2,7 @@ var canvas;
 var ctx;
 var tc = 32;
 
+var map;
 
 var chargerCanvas = function(){
 	canvas = document.getElementById("mon_canvas");
@@ -16,15 +17,15 @@ var chargerCanvas = function(){
 
 var drawInfosJoueur = function(joueurTrouve,player, time, players){
 	if(joueurTrouve){
-		if(player.vie>0){
+		if(player.health>0){
 			ctx.fillStyle = "grey";
 			ctx.font = '15pt Calibri';
 			ctx.fillStyle = "blue";
-			ctx.fillText(player.login,650, 120);
+			ctx.fillText(player.name,650, 120);
 			ctx.fillStyle = "black";
 			ctx.fillText("Temps restant : " + time,650, 40);
-			ctx.fillText("Munitions : " + player.munitions,650, 140);
-			ctx.fillText("Arme : " + player.arme,650, 160);
+			ctx.fillText("Munitions : " + player.ammos,650, 140);
+			ctx.fillText("Arme : " + player.weapon,650, 160);
 			ctx.fillText("type : " + player.type,650, 180);
 		}
 	}
@@ -40,17 +41,20 @@ var drawInfosJoueur = function(joueurTrouve,player, time, players){
 	for(var i=0;i<players.length;i++){
 		player = players[i];
 		ctx.fillStyle = "black";
-		ctx.fillText(player.login + " ( " + player.vie + " )",650, 240+20*i);
+		ctx.fillText(player.name + " ( " + player.health + " )",650, 240+20*i);
 	}
 }
 
+var loadMap = function(carte){
+	map = carte.data.carte;
+}
+
 var afficherCarte = function(carte){
-	var map = carte.data.carte;
 	var players = carte.data.players;
 	var balles = carte.data.balles;
 	var bombes = carte.data.bombes;
 	var explosions = carte.data.explosions;
-
+	
 	for(var i=0;i<map.length;i++){
 		for(var j=0;j<map[i].length;j++){
 			switch(map[i][j]){
@@ -79,7 +83,7 @@ var afficherCarte = function(carte){
 		player = players[i];
 		if(player.type == "Poulet"){
 			drawRotatedImage(player.x,player.y,player.angle,imgPoulet);
-			if(player.barreDeVieVisible == true)
+			if(player.visible)
 				drawBarreDeVie(player);
 		}
 	}
@@ -114,7 +118,7 @@ var afficherCarte = function(carte){
 		balle = balles[i];
 		drawRotatedImage(balle.x,balle.y,balle.angle,imgFleche);
 	}
-
+	
 	var explosion;
 	for(var i=0;i<explosions.length;i++){
 		explosion = explosions[i];
@@ -137,7 +141,7 @@ var afficherCarte = function(carte){
 	var joueurTrouve = false;
 	for(var i=0;i<players.length;i++){
 		var playertmp = players[i];
-		if(playertmp.login === pseudo){
+		if(playertmp.name === pseudo){
 			joueurTrouve = true;
 			player = players[i]
 		}
@@ -174,11 +178,11 @@ var drawBarreDeVie = function(player){
 	ctx.fillStyle = "black";
 	ctx.strokeStyle = "black";
 	ctx.fillRect(player.x-25,player.y-50,50,10);
-	var pourcentageVita = (player.vie*100)/player.vieInitiale;
+	var pourcentageVita = (player.health*100)/player.maxHealth;
 
-	if(pourcentageVita>player.vieInitiale*0.6)
+	if(pourcentageVita>player.maxHealth*0.6)
 		ctx.fillStyle = "#45E600";
-	else if(pourcentageVita<=player.vieInitiale*0.6 && pourcentageVita>player.vieInitiale*0.2)
+	else if(pourcentageVita<=player.maxHealth*0.6 && pourcentageVita>player.maxHealth*0.2)
 		ctx.fillStyle = "#F3AA00";
 	else
 		ctx.fillStyle = "#FF0000";
@@ -186,5 +190,5 @@ var drawBarreDeVie = function(player){
 	ctx.fillRect(player.x-25,player.y-50,pourcentageVita/2,10);
 	ctx.strokeRect(player.x-25,player.y-50,50,10);
 	ctx.fillStyle = "black";
-	ctx.fillText(player.login,player.x-25, player.y-55);
+	ctx.fillText(player.name,player.x-25, player.y-55);
 }

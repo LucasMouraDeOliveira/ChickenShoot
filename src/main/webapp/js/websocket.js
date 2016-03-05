@@ -26,9 +26,7 @@ var processOpen = function(message){
 	console.log("connexion réussie");
 }
 
-var processClose = function(message){
-	alert("Votre connexion au serveur s'est coupée. Essayez de recharger la page.");
-}
+var processClose = function(message){}
 
 var processError = function(message){
 	console.log(message);
@@ -36,11 +34,14 @@ var processError = function(message){
 
 var processMessage = function(message){
 	var json = JSON.parse(message.data);
-	if(json.type == "Carte"){
+	if(json.type == "load"){
+		loadMap(json);
+	}else if(json.type == "update"){
 		afficherCarte(json);
-	}else if(json.type == "newPlayer"){
-		console.log("Ajout d'un utilisateur");
+	}else if(json.type == "connect"){
 		ajouterJoueur(json);
+	}else if(json.type == "disconnect"){
+		retirerJoueur(json);
 	}else if(json.type == "start"){
 		afficherCanvas();
 		setInterval("envoiPersoUpdate()", 50);
@@ -55,11 +56,9 @@ function envoiPersoUpdate(){
 	msg.gameID = gameID;
 	msg.movement = movement;
 	msg.tir = tir;
-	console.log(detonate);
-	msg.detonate = detonate;
+	msg.explode = explode;
 	msg.souris = souris;
 	var json = JSON.stringify(msg);
 	websocket.send(json);
-	detonate = false;
 }
 

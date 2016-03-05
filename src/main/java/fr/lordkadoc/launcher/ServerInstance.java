@@ -12,24 +12,19 @@ import javax.json.JsonReader;
 
 import org.eclipse.jetty.websocket.api.Session;
 
-import fr.lordkadoc.entities.Chasseur;
-import fr.lordkadoc.entities.Joueur;
-import fr.lordkadoc.entities.Poulet;
+import fr.chickenshoot.game.entities.Action;
+import fr.chickenshoot.game.entities.Chicken;
+import fr.chickenshoot.game.entities.Hunter;
+import fr.chickenshoot.game.entities.Player;
+import fr.chickenshoot.game.gameloop.GameLoop;
+import fr.chickenshoot.game.weapons.ChickenBomb;
+import fr.chickenshoot.game.weapons.Gun;
 import fr.lordkadoc.map.Carte;
-import fr.remygenius.armechasseur.Arbalete;
-import fr.remygenius.armechasseur.Fusil;
-import fr.remygenius.armechasseur.Mitraillette;
-import fr.remygenius.armepoulet.BombeBasique;
-import fr.remygenius.thread.ThreadBalle;
-import fr.remygenius.thread.ThreadBombe;
-import fr.remygenius.thread.ThreadExplosion;
-import fr.remygenius.thread.ThreadGame;
-import fr.remygenius.thread.ThreadRegen;
 import fr.remygenius.thread.ThreadTimer;
 
 public class ServerInstance {
 	
-	private Map<Session, Joueur> users;	
+	private Map<Session, Player> users;	
 	private Carte carte;
 
 	private int maxUsers;	
@@ -41,9 +36,11 @@ public class ServerInstance {
 	public final static int ENDED = 3;
 	
 	private ThreadTimer timer;
+	
+	private GameLoop gameLoop;
 
 	public ServerInstance(int maxUsers){
-		this.users = new HashMap<Session,Joueur>();
+		this.users = new HashMap<Session,Player>();
 		this.carte = new Carte(this);
 		this.maxUsers = maxUsers;
 		this.state = WAITING_PLAYERS;
@@ -58,52 +55,52 @@ public class ServerInstance {
 	public void ajouterJoueur(Session user, String login){
 		String type;
 		if(this.users.size() < this.maxUsers){
-			Joueur p;
-			if(this.carte.getNbChasseurs()<this.carte.getNbPoulets()){
-				p = new Chasseur(login, 0,0);
-				p.setArme(new Arbalete(this, p.getNom()));
+			Player p;
+			if(this.carte.getHunterNumber()<this.carte.getChickenNumber()){
+				p = new Hunter(login, 0,0);
+				p.setWeapon(new Gun((Hunter)p, 10, 100));
 				type = "Chasseur";
+				this.carte.getHunters().add((Hunter) p);
 			}
 			else {
-				p = new Poulet(login,0,0);
-				p.setArme(new BombeBasique((Poulet)p, this));
+				p = new Chicken(login,0,0);
+				p.setWeapon(new ChickenBomb((Chicken)p, 10, 100));
 				type = "Poulet";
+				this.carte.getChickens().add((Chicken) p);
 			}
 			
 			this.carte.placer(p);
-			this.carte.getPlayers().add(p);
 			this.users.put(user, p);
 			
 			if(this.users.size() == this.maxUsers){
 				this.state = FULL;
 			}
 			
-			
 			JsonObjectBuilder player = Json.createObjectBuilder()
 					.add("type", type)
 					.add("login", login);
 			
-			this.diffuserMessage("newPlayer", player);
+			this.diffuserMessage("connect", player);
 		}
 		
 		
 	}
 	
-	public void determinerArmeJoueur(Joueur joueur, String labelArme){
+	/*public void determinerArmeJoueur(Player joueur, String labelArme){
 		
-		if(joueur instanceof Chasseur){
+		if(joueur instanceof Hunter){
 			if(labelArme == "arbalete"){
-				joueur.setArme(new Arbalete(this, joueur.getNom()));
+				joueur.setArme(new Arbalete(this, (Chasseur)joueur));
 			}else if(labelArme == "fusil"){
-				joueur.setArme(new Fusil(this, joueur.getNom()));
+				joueur.setArme(new Fusil(this, (Chasseur)joueur));
 			}else{
-				joueur.setArme(new Mitraillette(this, joueur.getNom()));
+				joueur.setArme(new Mitraillette(this, (Chasseur)joueur));
 			}
 		}else if(joueur instanceof Poulet){
 			joueur.setArme(new BombeBasique((Poulet)joueur, this));
 		}
 		
-	}
+	}*/
 	
 	/**
 	 * 
@@ -117,13 +114,9 @@ public class ServerInstance {
 		this.state = RUNNING;
 		this.timer = new ThreadTimer(this,60);
 		this.timer.start();
-		this.diffuserMessage("Carte",this.carte.getJSon());
 		this.diffuserMessage("start");
-		new ThreadGame(this,20).start();
-		new ThreadBalle(this.getCarte().getBalles()).start();
-		new ThreadBombe(this,this.getCarte().getBombes()).start();
-		new ThreadExplosion(this.getCarte().getExplosions()).start();
-		new ThreadRegen(this,2000).start();
+		this.gameLoop = new GameLoop(this, 10);
+		this.gameLoop.start();
 	}
 
 
@@ -132,14 +125,14 @@ public class ServerInstance {
 		JsonReader jsonReader = Json.createReader(new StringReader(message));
 		JsonObject object = jsonReader.readObject();
 		
-		if(this.getUsers().get(user).estEnVie()){		
+		if(this.getUsers().get(user).isAlive()){		
 			String type = object.getString("type");
 	
 			if(type.equals("playerUpdate")){			
 				this.gererActionJoueur(user,object);		
-			}else if(type.equals("armeUpdate")){
+			}/*else if(type.equals("armeUpdate")){
 				this.determinerArmeJoueur(this.getUsers().get(user), object.getString("labelArme"));
-			}
+			}*/
 		}
 		
 	}
@@ -147,28 +140,31 @@ public class ServerInstance {
 	private void gererActionJoueur(Session user,JsonObject object) {
 		
 		JsonObject coords = object.getJsonObject("movement");
+		JsonObject souris = object.getJsonObject("souris");
 		
 		boolean tir = object.getBoolean("tir");
-		boolean detonate = object.getBoolean("detonate");
-		
-		JsonObject souris = object.getJsonObject("souris");
+			
+		boolean detonate = object.getBoolean("explode");
 		
 		boolean[] c = new boolean[4];
 		c[0] = coords.getBoolean("north");
 		c[1] = coords.getBoolean("south");
 		c[2] = coords.getBoolean("west");
 		c[3] = coords.getBoolean("east");
+		
 		this.carte.deplacer(c,this.users.get(user));
 		
+		Player player = this.users.get(user);
+		
 		if(tir){
-			this.users.get(user).attaquer(souris.getInt("x"),souris.getInt("y"));
+			player.handle(Action.SHOOT);
 		}	
 		
 		if(detonate){
-			this.users.get(user).detonate();
+			player.handle(Action.DETONATE);
 		}
 		
-		this.users.get(user).pivoter(souris.getInt("x"),souris.getInt("y"));
+		this.users.get(user).shift(souris.getInt("x"),souris.getInt("y"));
 	}
 
 	public void diffuserMessage(String type, JsonObjectBuilder message) {
@@ -202,7 +198,7 @@ public class ServerInstance {
 		}
 	}
 
-	public Map<Session,Joueur> getUsers(){
+	public Map<Session,Player> getUsers(){
 		return this.users;
 	}
 

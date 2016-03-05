@@ -10,6 +10,8 @@
 <script src="../js/blocks.js"></script>
 <script src="../js/images.js"></script>
 
+<link href="../css/lobby.css" rel="stylesheet">
+
 
 <div id="div_list">
 
@@ -17,7 +19,9 @@
 	
 	<p>Liste des joueurs connectés :</p>
 	
-	<table id="list_joueurs"></table>
+	<div id="players">
+		<p class="cell">Liste des joueurs connectés : </p>
+	</div>
 	<br/><br/>
 	<c:if test="${creator == 'true' }">	
 		<input type="submit" onclick="demarrerPartie()"/>
@@ -27,28 +31,31 @@
 
 <script>
 
-	var table = $('#list_joueurs');
+	var players = $('#players');
 	var div = $('#div_list');
-	
+	var name;
+	var type;
+	var line;
 
 	var connectToServer = function(){
 		console.log(${creator});
-		table.append($('<tr><td>Joueur :</td><td>Type :</td></tr>'));
+		//players.append($('<tr><td>Joueur :</td><td>Type :</td></tr>'));
 		if(${ creator }){
 			connect("create","${ nomPartie }", "${ sessionScope.login }", ${nbJoueurs});
 		}else{
 			connect("join","${ nomPartie }", "${ sessionScope.login }", ${nbJoueurs});
-			console.log("join");
 			<c:forEach var="p" items="${players}">
-				table.append($('<tr><td>' +"${p.name}" + ' </td><td>' + "${p.type}" + '</td></tr>'));
+				appendPlayer("${p.name}", "${p.type}");
 			</c:forEach>		
 		}	
 	}
 	
 	var ajouterJoueur = function(joueur){
-		console.log(joueur.data);
-		
-		table.append($('<tr><td>' + joueur.data.login + ' </td><td>' + joueur.data.type + ' </td></tr>'));	
+		appendPlayer(joueur.data.login, joueur.data.type);	
+	}
+	
+	var retirerJoueur = function(joueur){
+		$("#"+joueur.data.login).remove();
 	}
 	
 	var demarrerPartie = function(){
@@ -65,9 +72,13 @@
 		chargerCanvas();
 	}
 	
+	function appendPlayer(name, type){
+		var div = $("<div>").text(name + " : " + type).attr("class", "cell");
+		players.append(div);
+	}
+	
 	window.onload = function(){
 		connectToServer();
 	}
-	
-	
+		
 </script>

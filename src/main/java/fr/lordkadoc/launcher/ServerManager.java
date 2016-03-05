@@ -7,7 +7,8 @@ import java.util.Set;
 
 import org.eclipse.jetty.websocket.api.Session;
 
-import fr.lordkadoc.entities.Joueur;
+import fr.chickenshoot.game.entities.Player;
+
 
 
 public class ServerManager {
@@ -57,13 +58,13 @@ public class ServerManager {
 		return set;	
 	}
 	
-	public static Set<PlayerInfo> getPlayerInfos(Map<Session,Joueur> map){
+	public static Set<PlayerInfo> getPlayerInfos(Map<Session,Player> map){
 		Set<PlayerInfo> set = new HashSet<PlayerInfo>();
 		PlayerInfo info;
-		Joueur joueur;
+		Player joueur;
 		for(Session s : map.keySet()){
 			joueur = map.get(s);
-			info = new PlayerInfo(joueur.getNom(),joueur.getType());
+			info = new PlayerInfo(joueur.getName(),"Poulet");
 			set.add(info);
 		}
 		return set;

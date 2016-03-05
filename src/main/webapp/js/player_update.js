@@ -4,13 +4,29 @@ movement.south = false;
 movement.west = false;
 movement.east = false;
 var tir = false;
-var detonate = false;
+var explode = false;
 var souris = {};
 souris.x = 0;
 souris.y = 0;
 
+
+function clique(event){
+	if(event.which == 1){		
+		tir = true;
+	}
+}
+
+function releaseClique(event){
+	if(event.which == 1){		
+		tir = false;
+	}
+}
+
 function press(event){
 	switch(event.keyCode){
+	case 65:
+		explode = true;
+		break;
 	case 68: // droite
 		movement.east = true;
 		break;
@@ -26,21 +42,11 @@ function press(event){
 	}
 }
 
-function clique(event){
-	console.log(event.which);
-	if(event.which == 2){
-		detonate = true;
-	}else{
-		tir = true;
-	}
-}
-
-function releaseClique(event){
-	tir = false;
-}
-
 function release(event){
 	switch(event.keyCode){
+	case 65:
+		explode = false;
+		break;
 	case 68: // droite = d
 		movement.east = false;
 		break;
