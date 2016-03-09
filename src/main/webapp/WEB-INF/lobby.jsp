@@ -17,14 +17,12 @@
 
 	<h2>Création de la partie  : ${ nomPartie } </h2>
 	
-	<p>Liste des joueurs connectés :</p>
-	
 	<div id="players">
-		<p class="cell">Liste des joueurs connectés : </p>
+		<div class="cell">Liste des joueurs connectés : </div>
 	</div>
 	<br/><br/>
 	<c:if test="${creator == 'true' }">	
-		<input type="submit" onclick="demarrerPartie()"/>
+		<input type="submit" onclick="startGame()"/>
 	</c:if>
 </div>
 
@@ -38,16 +36,21 @@
 	var line;
 
 	var connectToServer = function(){
-		console.log(${creator});
-		//players.append($('<tr><td>Joueur :</td><td>Type :</td></tr>'));
 		if(${ creator }){
 			connect("create","${ nomPartie }", "${ sessionScope.login }", ${nbJoueurs});
 		}else{
-			connect("join","${ nomPartie }", "${ sessionScope.login }", ${nbJoueurs});
-			<c:forEach var="p" items="${players}">
-				appendPlayer("${p.name}", "${p.type}");
-			</c:forEach>		
+			connect("join","${ nomPartie }", "${ sessionScope.login }");
 		}	
+	}
+	
+	var listerJoueurs = function(joueurs){
+		console.log(joueurs);
+		var joueur;
+		for(var i in joueurs.data){
+			joueur = joueurs.data[i];
+			console.log(joueur);
+			appendPlayer(joueur.login,joueur.type);
+		}
 	}
 	
 	var ajouterJoueur = function(joueur){
@@ -58,9 +61,9 @@
 		$("#"+joueur.data.login).remove();
 	}
 	
-	var demarrerPartie = function(){
+	var startGame = function(){
 		var msg = {};
-		msg.type = "demarrerPartie";
+		msg.type = "start";
 		msg.gameID = "${ nomPartie }";
 		websocket.send(JSON.stringify(msg));			
 	}
@@ -73,8 +76,15 @@
 	}
 	
 	function appendPlayer(name, type){
-		var div = $("<div>").text(name + " : " + type).attr("class", "cell");
+		var div = $("<div>").text(name + " : " + type).attr("class", "cell").attr("id", name);
 		players.append(div);
+	}
+	
+	function appendButton(name){
+		var div = $("#"+name);
+		console.log(div);
+		var button = $("<button>").text("Changer de groupe");
+		div.append(button);
 	}
 	
 	window.onload = function(){

@@ -38,6 +38,8 @@ var processMessage = function(message){
 		loadMap(json);
 	}else if(json.type == "update"){
 		afficherCarte(json);
+	}else if(json.type == "list"){
+		listerJoueurs(json);
 	}else if(json.type == "connect"){
 		ajouterJoueur(json);
 	}else if(json.type == "disconnect"){
@@ -61,4 +63,3 @@ function envoiPersoUpdate(){
 	var json = JSON.stringify(msg);
 	websocket.send(json);
 }
-

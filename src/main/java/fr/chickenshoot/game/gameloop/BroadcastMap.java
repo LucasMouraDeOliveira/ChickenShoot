@@ -13,7 +13,7 @@ public class BroadcastMap extends GameLoopOperation {
 
 	@Override
 	protected void update() {
-		instance.diffuserMessage("update", instance.getCarte().getJSon());	
+		instance.broadCastMessage("update", instance.getCarte().getJSon());	
 	}
 
 }

@@ -321,6 +321,14 @@ public class Carte {
 		hunters.remove(hunter);
 	}
 	
+	public void removePlayer(Player player) {
+		if(player instanceof Chicken){
+			removeChicken((Chicken)player);
+		}else{
+			removeHunter((Hunter)player);
+		}
+	}
+	
 	public List<Bullet> getBullets() {
 		return bullets;
 	}
@@ -367,6 +375,10 @@ public class Carte {
 	
 	public boolean estRegen(int cellule){
 		return cellule == 5;
+	}
+
+	public boolean isGameFinished() {
+		return chickens.isEmpty();
 	}
 	
 }

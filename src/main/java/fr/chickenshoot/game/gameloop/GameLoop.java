@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.lordkadoc.launcher.ServerInstance;
+import fr.lordkadoc.launcher.ServerManager;
 import fr.lordkadoc.map.Carte;
 
 public class GameLoop extends Thread{
@@ -40,9 +41,9 @@ public class GameLoop extends Thread{
 		long start;
 		long end;
 		
-		instance.diffuserMessage("load", carte.getMapJSon());
+		instance.broadCastMessage("load", carte.getMapJSon());
 		
-		while(true){
+		while(!carte.isGameFinished()){
 			start = System.currentTimeMillis();
 			update(delay);
 			end = System.currentTimeMillis();
@@ -52,6 +53,9 @@ public class GameLoop extends Thread{
 				} catch (InterruptedException e) {}
 			}
 		}
+		
+		instance.broadCastMessage("ended");
+		ServerManager.getManager().removeServer(instance);
 		
 	}
 	

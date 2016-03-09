@@ -17,10 +17,14 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 @WebSocket()
 public class EndPoint {
 	
-	@OnWebSocketConnect
-	public void handleConnect(Session user){
-		System.out.println("Utilisateur connecté");	
+	protected MessageHandler handler;
+	
+	public EndPoint() {
+		this.handler = new MessageHandler();
 	}
+	
+	@OnWebSocketConnect
+	public void handleConnect(Session user) {}
 	
 	@OnWebSocketMessage
 	public void handleMessage(Session user, String message){
@@ -29,37 +33,29 @@ public class EndPoint {
 		JsonObject object = jsonReader.readObject();
 		
 		String type = object.getString("type");
+		String gameID = object.getString("gameID");
 		
-		if(type.equals("joinRandom")){
+		if(type.equals("start")){
+			ServerManager.getManager().getServer(gameID).startGame();
+		}else if(type.equals("create")){
 			String login = object.getString("login");
-			ServerManager.getFreeInstance().ajouterJoueur(user,login);
-		}else{
-		
-			String gameID = object.getString("gameID");
-			
-			if(type.equals("demarrerPartie")){
-				ServerManager.getPlayerInstance(gameID).demarrerPartie();
-			}else if(type.equals("create")){
-				String login = object.getString("login");
-				int nbJoueurs = object.getInt("nbJoueurs");
-				ServerManager.ajouterInstance(gameID, nbJoueurs).ajouterJoueur(user, login);
-			}else if(type.equals("join")){
-				String login = object.getString("login");
-				ServerManager.getPlayerInstance(gameID).ajouterJoueur(user,login);  
-			}else{ //envoi du message à la partie
-				ServerManager.getPlayerInstance(gameID).recevoirMessage(user, message);
-			}
+			int maxPlayers = object.getInt("nbJoueurs");
+			handler.handleServerCreation(user, gameID, maxPlayers, login);
+		}else if(type.equals("join")){
+			String login = object.getString("login");
+			handler.handleServerJoin(user, gameID, login);
+		}else{ //envoi du message à la partie
+			handler.handleServerMessage(user, gameID, message);
 		}
+		
 	}
 	
 	@OnWebSocketClose
 	public void handleClose(Session user, int code, String reason){
-		System.out.println("Utilisateur déconnecté");
+		ServerManager.getManager().disconnect(user);
 	}
 	
 	@OnWebSocketError
-	public void handleError(Throwable t){
-		System.out.println("Utilisateur erreur");
-	}
+	public void handleError(Throwable t){}
 
 }

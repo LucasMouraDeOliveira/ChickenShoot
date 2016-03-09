@@ -22,9 +22,9 @@ public class ServletRejoindrePartie extends ServletBasique{
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		String nomPartie = rq.getParameter("gameid");
+		ServerManager manager = ServerManager.getManager();
 		rq.setAttribute("nomPartie", nomPartie);
-		rq.setAttribute("players", ServerManager.getPlayerInfos(ServerManager.getPlayerInstance(nomPartie).getUsers()));
-		rq.setAttribute("nbJoueurs", ServerManager.getPlayerInstance(nomPartie).getMaxUsers());
+		rq.setAttribute("nbJoueurs", manager.getServer(nomPartie).getMaxUsers());
 		rq.setAttribute("creator", "false");
 		rq.setAttribute("page", "lobby");		
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);

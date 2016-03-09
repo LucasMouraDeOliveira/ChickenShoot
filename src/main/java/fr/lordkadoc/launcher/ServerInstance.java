@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -24,21 +25,31 @@ import fr.remygenius.thread.ThreadTimer;
 
 public class ServerInstance {
 	
+	public final static int WAITING_PLAYERS = 0;
+	
+	public final static int FULL = 1;
+	
+	public final static int RUNNING = 2;
+	
+	public final static int ENDED = 3;
+	
 	private Map<Session, Player> users;	
+	
 	private Carte carte;
 
 	private int maxUsers;	
-	private int state;
 	
-	public final static int WAITING_PLAYERS = 0;
-	public final static int FULL = 1;
-	public final static int RUNNING = 2;
-	public final static int ENDED = 3;
+	private int state;
 	
 	private ThreadTimer timer;
 	
 	private GameLoop gameLoop;
 
+	/**
+	 * Crée une nouvelle partie de jeu de ChickenShoot qui attends que des joueurs se connectent.
+	 * 
+	 * @param maxUsers le nombre maximum de joueurs qui peuvent se connecter à la partie.
+	 */
 	public ServerInstance(int maxUsers){
 		this.users = new HashMap<Session,Player>();
 		this.carte = new Carte(this);
@@ -47,97 +58,128 @@ public class ServerInstance {
 	}
 
 	/**
-	 * Ajoute un joueur à la partie, et démarre celle-ci si suffisament de joueurs sont connectés
+	 * Ajoute un joueur à la partie s'il reste des places.
+	 * Crée un joueur (soit poulet, soit chasseur) en fonction des classes des joueurs déjà présents.
+	 *  
 	 * 
 	 * @param user la session de l'utilisateur à ajouter
-	 * @param login 
+	 * @param login le nom du joueur dans la partie
 	 */
-	public void ajouterJoueur(Session user, String login){
+	public void addPlayer(Session user, String login){
+		
 		String type;
-		if(this.users.size() < this.maxUsers){
-			Player p;
-			if(this.carte.getHunterNumber()<this.carte.getChickenNumber()){
-				p = new Hunter(login, 0,0);
-				p.setWeapon(new Gun((Hunter)p, 10, 100));
-				type = "Chasseur";
-				this.carte.getHunters().add((Hunter) p);
-			}
-			else {
-				p = new Chicken(login,0,0);
-				p.setWeapon(new ChickenBomb((Chicken)p, 10, 100));
-				type = "Poulet";
-				this.carte.getChickens().add((Chicken) p);
-			}
-			
-			this.carte.placer(p);
-			this.users.put(user, p);
-			
-			if(this.users.size() == this.maxUsers){
-				this.state = FULL;
-			}
-			
-			JsonObjectBuilder player = Json.createObjectBuilder()
-					.add("type", type)
-					.add("login", login);
-			
-			this.diffuserMessage("connect", player);
+		Player p;
+		
+		//à déplacer vers une méthode spécialisée
+		if(this.carte.getHunterNumber()<this.carte.getChickenNumber()){
+			p = new Hunter(login, 0,0);
+			p.setWeapon(new Gun((Hunter)p, 10, 100));
+			type = "Chasseur";
+			this.carte.getHunters().add((Hunter) p);
+		}
+		else {
+			p = new Chicken(login,0,0);
+			p.setWeapon(new ChickenBomb((Chicken)p, 10, 100));
+			type = "Poulet";
+			this.carte.getChickens().add((Chicken) p);
+		}
+		
+		this.carte.placer(p);
+		
+		if(serverIsFull())
+			this.state = FULL;
+		
+		JsonObjectBuilder player = Json.createObjectBuilder()
+				.add("type", type)
+				.add("login", login);
+		
+		//Signale à tous les joueurs dans le lobby qu'un nouveau joueur s'est connecté
+		this.broadCastMessage("connect", player);
+		
+		this.users.put(user, p);
+		
+		//Envoyer au joueur la liste des joueurs connectés
+		JsonBuilderFactory factory = Json.createBuilderFactory(null);
+		JsonObject json = factory.createObjectBuilder()
+				.add("type", "list")
+				.add("data", getPlayersInfo()).build();
+		try {
+			user.getRemote().sendString(json.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		
 	}
 	
-	/*public void determinerArmeJoueur(Player joueur, String labelArme){
-		
-		if(joueur instanceof Hunter){
-			if(labelArme == "arbalete"){
-				joueur.setArme(new Arbalete(this, (Chasseur)joueur));
-			}else if(labelArme == "fusil"){
-				joueur.setArme(new Fusil(this, (Chasseur)joueur));
-			}else{
-				joueur.setArme(new Mitraillette(this, (Chasseur)joueur));
-			}
-		}else if(joueur instanceof Poulet){
-			joueur.setArme(new BombeBasique((Poulet)joueur, this));
+	public JsonArrayBuilder getPlayersInfo(){
+		JsonArrayBuilder players = Json.createArrayBuilder();
+		JsonObjectBuilder pl;
+		for(Player player : users.values()){
+			pl = Json.createObjectBuilder();
+			pl.add("type", player instanceof Chicken ? "Poulet" : "Chasseur");
+			pl.add("login", player.getName());
+			players.add(pl);
 		}
-		
-	}*/
-	
+		return players;
+	}
+
 	/**
+	 * Retourne vrai si le serveur est plein.
 	 * 
 	 * @return vrai si le nombre maximum de clients est atteint
 	 */
-	public boolean clientsTousConnectes(){
+	public boolean serverIsFull(){
 		return this.users.size() == this.maxUsers;
 	}
+	
+	/**
+	 * Retourne vrai si le serveur ne contient aucun joueurs.
+	 * 
+	 * @return vrai si le serveur est vide.
+	 */
+	public boolean serverIsEmpty() {
+		return users.isEmpty();
+	}
 
-	public void demarrerPartie(){
+	/**
+	 * Démarre la partie en lançant la boucle de jeu et le timer.
+	 * Signale à tous les joueurs que la partie à commencé.
+	 */
+	public void startGame(){
 		this.state = RUNNING;
 		this.timer = new ThreadTimer(this,60);
 		this.timer.start();
-		this.diffuserMessage("start");
+		this.broadCastMessage("start");
 		this.gameLoop = new GameLoop(this, 10);
 		this.gameLoop.start();
 	}
 
+	/**
+	 * Reçoit et interprète un message d'un joueur de la partie.
+	 * 
+	 * @param user la session de l'utilisateur
+	 * @param message le message envoyé par le joueur
+	 */
+	public void receiveMessage(Player player, String message){
 
-	public void recevoirMessage(Session user, String message){
-
+		//Si le joueur est mort, on ne prends pas en compte son message
+		if(!player.isAlive()){
+			return;
+		}
+		
 		JsonReader jsonReader = Json.createReader(new StringReader(message));
 		JsonObject object = jsonReader.readObject();
 		
-		if(this.getUsers().get(user).isAlive()){		
-			String type = object.getString("type");
-	
-			if(type.equals("playerUpdate")){			
-				this.gererActionJoueur(user,object);		
-			}/*else if(type.equals("armeUpdate")){
-				this.determinerArmeJoueur(this.getUsers().get(user), object.getString("labelArme"));
-			}*/
+		String type = object.getString("type");
+
+		if(type.equals("playerUpdate")){			
+			this.handlePlayerAction(player,object);		
 		}
 		
 	}
 
-	private void gererActionJoueur(Session user,JsonObject object) {
+	private void handlePlayerAction(Player player,JsonObject object) {
 		
 		JsonObject coords = object.getJsonObject("movement");
 		JsonObject souris = object.getJsonObject("souris");
@@ -152,10 +194,8 @@ public class ServerInstance {
 		c[2] = coords.getBoolean("west");
 		c[3] = coords.getBoolean("east");
 		
-		this.carte.deplacer(c,this.users.get(user));
-		
-		Player player = this.users.get(user);
-		
+		this.carte.deplacer(c,player);
+			
 		if(tir){
 			player.handle(Action.SHOOT);
 		}	
@@ -164,10 +204,16 @@ public class ServerInstance {
 			player.handle(Action.DETONATE);
 		}
 		
-		this.users.get(user).shift(souris.getInt("x"),souris.getInt("y"));
+		player.shift(souris.getInt("x"),souris.getInt("y"));
 	}
 
-	public void diffuserMessage(String type, JsonObjectBuilder message) {
+	/**
+	 * Diffuse un message à tous les joueurs connectés sur la partie.
+	 * 
+	 * @param type le type du message à diffuser, servant d'identifiant pour l'interpétation côté client
+	 * @param message le contenu du message
+	 */
+	public void broadCastMessage(String type, JsonObjectBuilder message) {
 		JsonBuilderFactory factory = Json.createBuilderFactory(null);
 		JsonObject json = factory.createObjectBuilder()
 				.add("type", type)
@@ -176,14 +222,19 @@ public class ServerInstance {
 			if(s.isOpen()){
 				try {
 					s.getRemote().sendString(json.toString());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				} catch (IOException e) {}
 			}
 		}
 	}
 	
-	public void diffuserMessage(String type) {
+	/**
+	 * Diffuse un signal à tous les joueurs connectés sur la partie.
+	 * Contrairement à {@link ServerInstance#broadCastMessage(type,message)}, 
+	 * 	le message envoyé n'a pas de contenu, et sert généralement à envoyer une information de changement d'état de la partie.
+	 * 
+	 * @param type le type du message à diffuser
+	 */
+	public void broadCastMessage(String type) {
 		JsonBuilderFactory factory = Json.createBuilderFactory(null);
 		JsonObject json = factory.createObjectBuilder()
 				.add("type", type).build();
@@ -198,10 +249,20 @@ public class ServerInstance {
 		}
 	}
 
-	public Map<Session,Player> getUsers(){
-		return this.users;
+	public Player getPlayer(Session user){
+		return this.users.get(user);
 	}
 
+	public boolean containsPlayer(Session user) {
+		return this.users.containsKey(user);
+	}
+	
+	public void removePlayer(Session user){
+		Player player = this.users.get(user);
+		this.users.remove(user);
+		this.carte.removePlayer(player);
+	}
+	
 	public Carte getCarte(){
 		return this.carte;
 	}
@@ -226,4 +287,9 @@ public class ServerInstance {
 		return timer;
 	}
 
+	@Deprecated
+	public Map<Session, Player> getUsers() {
+		return users;
+	}
+	
 }
