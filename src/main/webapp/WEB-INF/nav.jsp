@@ -21,7 +21,10 @@
 			</form>
 		</li>
 		<li>
-			<button class="button">Voir profil</button>
+			<form method="post" action="/classement">
+				<input class="button" type="submit" value="Classement" /> <input
+					type="hidden" value="classement" name="lien" />
+			</form>
 		</li>
 		<li>
 			<form method="post" action="/options">

@@ -3,6 +3,8 @@ package fr.chickenshoot.game.gameloop;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.chickenshoot.game.entities.Player;
+import fr.lordkadoc.bdd.UpdateBDD;
 import fr.lordkadoc.launcher.ServerInstance;
 import fr.lordkadoc.launcher.ServerManager;
 import fr.lordkadoc.map.Carte;
@@ -55,6 +57,10 @@ public class GameLoop extends Thread{
 		}
 		
 		instance.broadCastMessage("ended");
+		List<Player> players = carte.getSurvivor();
+		for(Player player : players){
+			UpdateBDD.gainXP(player.getName(), 50/players.size());
+		}
 		ServerManager.getManager().removeServer(instance);
 		
 	}

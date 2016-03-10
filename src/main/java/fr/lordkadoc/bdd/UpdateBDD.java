@@ -6,30 +6,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ConnexionBDD {
-	
-	public static boolean connect(String login, String password){
-			
+public class UpdateBDD {
+
+	public static void gainXP(String login, int amount){
+		
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		ResultSet rs;
 		
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:chickenShoot.db");
-			stmt = conn.prepareStatement("select * from users where login = ? and mdp = ?");
+			
+			stmt = conn.prepareStatement("select experience from users where login = ?");
 			stmt.setString(1, login);
-			stmt.setString(2, password);
 			rs = stmt.executeQuery();
 			
-			//S'il y a un résultat correspondant dans la BDD, on retourne vrai
-			return rs.next();
+			rs.next();
+			amount+=rs.getInt(1);
 			
+			stmt = conn.prepareStatement("update users set experience = ? where login = ?");
+			stmt.setInt(1, amount);
+			stmt.setString(2, login);
+			stmt.executeUpdate();
+		
 		} catch (ClassNotFoundException | SQLException e) {
-			return false;
+			e.printStackTrace();
 		}finally{
 			try {
-				rs.close();
 				stmt.close();
 				conn.close();
 			} catch (SQLException e) {
@@ -37,5 +41,7 @@ public class ConnexionBDD {
 			}
 		}
 	}
+	
+	
 
 }

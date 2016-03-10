@@ -47,6 +47,9 @@
 				<c:when test="${ page == 'options'}">
 					<c:import url="options.jsp"></c:import>
 				</c:when>
+				<c:when test="${ page == 'classement'}">
+					<c:import url="classement.jsp"></c:import>
+				</c:when>
 				<c:otherwise>
 					<c:import url="acceuil.jsp"></c:import>
 				</c:otherwise>

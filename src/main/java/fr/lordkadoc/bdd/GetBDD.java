@@ -5,28 +5,35 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
+import fr.lordkadoc.launcher.PlayerClassement;
 
-public class ConnexionBDD {
-	
-	public static boolean connect(String login, String password){
-			
+public class GetBDD {
+
+	public static List<PlayerClassement> getClassement() {
+		
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
+		List<PlayerClassement> classement = new ArrayList<PlayerClassement>();
+		PlayerClassement player;
+		
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:chickenShoot.db");
-			stmt = conn.prepareStatement("select * from users where login = ? and mdp = ?");
-			stmt.setString(1, login);
-			stmt.setString(2, password);
+			
+			stmt = conn.prepareStatement("select login, experience from users order by experience desc");
 			rs = stmt.executeQuery();
 			
-			//S'il y a un résultat correspondant dans la BDD, on retourne vrai
-			return rs.next();
-			
+			while(rs.next()){
+				player = new PlayerClassement(rs.getString(1), rs.getInt(2));
+				classement.add(player);
+			}
+		
 		} catch (ClassNotFoundException | SQLException e) {
-			return false;
+			e.printStackTrace();
 		}finally{
 			try {
 				rs.close();
@@ -36,6 +43,7 @@ public class ConnexionBDD {
 				e.printStackTrace();
 			}
 		}
+		return classement;
 	}
 
 }

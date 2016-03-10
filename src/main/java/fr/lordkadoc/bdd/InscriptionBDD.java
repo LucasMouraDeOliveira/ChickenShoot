@@ -13,8 +13,8 @@ public class InscriptionBDD {
 	public boolean inscription(String login, String password, String cpassword, String mail) {
 		
 		Connection conn = null;
-		PreparedStatement stmt;
-		ResultSet rs;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		
 		if(login.isEmpty()){
 			this.erreur = "Vous n'avez pas rentré votre login";
@@ -52,7 +52,15 @@ public class InscriptionBDD {
 		} catch (ClassNotFoundException | SQLException e) {
 			this.erreur = "Une erreur est survenue au niveau de la base de données. C'est chelou parce que normalement j'ai tout bien codé";
 			return false;
-		}	
+		}finally{
+			try {
+				rs.close();
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		return true;
 	}

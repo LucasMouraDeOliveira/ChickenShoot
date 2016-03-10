@@ -378,7 +378,14 @@ public class Carte {
 	}
 
 	public boolean isGameFinished() {
-		return chickens.isEmpty();
+		return chickens.isEmpty() || hunters.isEmpty();
+	}
+
+	public List<Player> getSurvivor() {
+		List<Player> players = new ArrayList<Player>();
+		players.addAll(chickens);
+		players.addAll(hunters);
+		return players;
 	}
 	
 }

@@ -24,6 +24,9 @@
 	<c:if test="${creator == 'true' }">	
 		<input type="submit" onclick="startGame()"/>
 	</c:if>
+	<form method="post" action="/afficherParties">
+		<input type="submit" value="Retour"/>
+	</form>
 </div>
 
 

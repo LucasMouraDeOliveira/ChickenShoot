@@ -19,6 +19,7 @@ public class Chicken extends Player {
 		detonate = false;
 		listener.addHandler(Action.DETONATE, new DetonationHandler(this));
 		setBombCount(0);
+		setVisible(true);
 	}
 
 	/**
