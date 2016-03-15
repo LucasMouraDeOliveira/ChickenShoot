@@ -28,7 +28,7 @@ public class ServletCreationPartie extends ServletBasique{
 		if(nomPartie == null || nomPartie.isEmpty()){
 			erreur = "Vous n'avez pas rentré d'identifiant de partie";
 			valide = false;
-		}else if(nomPartie.length() > 20){
+		}else if(nomPartie.length() > 100){
 			erreur = "Le nom de partie est trop long (max 20 caractères)";
 			valide = false;
 		}else{

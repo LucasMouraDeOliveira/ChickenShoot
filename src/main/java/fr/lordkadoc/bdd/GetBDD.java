@@ -24,11 +24,11 @@ public class GetBDD {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:chickenShoot.db");
 			
-			stmt = conn.prepareStatement("select login, experience from users order by experience desc");
+			stmt = conn.prepareStatement("select login, niveau, experience from users order by experience desc, login asc");
 			rs = stmt.executeQuery();
 			
 			while(rs.next()){
-				player = new PlayerClassement(rs.getString(1), rs.getInt(2));
+				player = new PlayerClassement(rs.getString(1), rs.getInt(2), rs.getInt(3));
 				classement.add(player);
 			}
 		

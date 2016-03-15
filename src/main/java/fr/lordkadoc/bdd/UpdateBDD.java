@@ -25,6 +25,7 @@ public class UpdateBDD {
 			rs.next();
 			amount+=rs.getInt(1);
 			
+			stmt.close();
 			stmt = conn.prepareStatement("update users set experience = ? where login = ?");
 			stmt.setInt(1, amount);
 			stmt.setString(2, login);

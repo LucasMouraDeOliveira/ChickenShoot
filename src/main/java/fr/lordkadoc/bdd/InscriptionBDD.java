@@ -43,6 +43,7 @@ public class InscriptionBDD {
 				this.erreur = "Il existe déjà un utilisateur avec le même login. Veuillez en choisir un nouveau.";
 				return false;
 			}
+			stmt.close();
 			stmt = conn.prepareStatement("insert into users values (?,?,1,?,0)");
 			stmt.setString(1, login);
 			stmt.setString(2, password);
