@@ -33,6 +33,7 @@ public class GameLoop extends Thread{
 		this.operations.add(new UpdateBullet(carte, 20));
 		this.operations.add(new UpdateBombes(carte, 20));
 		this.operations.add(new UpdateExplosions(carte, 10));
+		this.operations.add(new UpdateTimer(instance, 1000));
 		this.operations.add(new UpdateRegen(carte, 2000));
 		this.operations.add(new BroadcastMap(instance, 20));
 	}
@@ -45,7 +46,7 @@ public class GameLoop extends Thread{
 		
 		instance.broadCastMessage("load", carte.getMapJSon());
 		
-		while(!carte.isGameFinished()){
+		while(instance.getState() != ServerInstance.STOP){
 			start = System.currentTimeMillis();
 			update(delay);
 			end = System.currentTimeMillis();
@@ -56,7 +57,7 @@ public class GameLoop extends Thread{
 			}
 		}
 		
-		instance.broadCastMessage("ended");
+		//instance.broadCastMessage("ended");
 		List<Player> players = carte.getSurvivor();
 		for(Player player : players){
 			UpdateBDD.gainXP(player.getName(), 50/players.size());

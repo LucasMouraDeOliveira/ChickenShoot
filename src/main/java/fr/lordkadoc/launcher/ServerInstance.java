@@ -21,9 +21,11 @@ import fr.chickenshoot.game.gameloop.GameLoop;
 import fr.chickenshoot.game.weapons.ChickenBomb;
 import fr.chickenshoot.game.weapons.Gun;
 import fr.lordkadoc.map.Carte;
-import fr.remygenius.thread.ThreadTimer;
 
 public class ServerInstance {
+	
+	//Le temps en secondes d'une partie
+	public final static int DEFAULT_GAME_DURATION = 120;
 	
 	public final static int WAITING_PLAYERS = 0;
 	
@@ -32,6 +34,8 @@ public class ServerInstance {
 	public final static int RUNNING = 2;
 	
 	public final static int ENDED = 3;
+
+	public final static int STOP = 4;
 	
 	private Map<Session, Player> users;	
 	
@@ -41,7 +45,7 @@ public class ServerInstance {
 	
 	private int state;
 	
-	private ThreadTimer timer;
+	private int time;
 	
 	private GameLoop gameLoop;
 
@@ -55,6 +59,7 @@ public class ServerInstance {
 		this.carte = new Carte(this);
 		this.maxUsers = maxUsers;
 		this.state = WAITING_PLAYERS;
+		this.time = DEFAULT_GAME_DURATION;
 	}
 
 	/**
@@ -148,8 +153,6 @@ public class ServerInstance {
 	 */
 	public void startGame(){
 		this.state = RUNNING;
-		this.timer = new ThreadTimer(this,60);
-		this.timer.start();
 		this.broadCastMessage("start");
 		this.gameLoop = new GameLoop(this, 10);
 		this.gameLoop.start();
@@ -283,8 +286,12 @@ public class ServerInstance {
 		return this.users.size();
 	}
 
-	public ThreadTimer getTimer() {
-		return timer;
+	public int getTime() {
+		return time;
+	}
+	
+	public void setTime(int time){
+		this.time = time;
 	}
 
 	@Deprecated

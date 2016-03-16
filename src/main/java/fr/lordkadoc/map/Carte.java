@@ -187,8 +187,29 @@ public class Carte {
 		carte.add("balles", balleBuilder);
 		carte.add("bombes", bombeBuilder);
 		carte.add("explosions", explosionBuilder);
-		carte.add("time",instance.getTimer().getTime());
+		carte.add("time",instance.getTime());
+		if(instance.getState() == ServerInstance.ENDED){
+			carte.add("victory", getWinMessage());
+		}
 		return carte;
+	}
+	
+	public String getWinMessage() {
+		if(hunters.isEmpty()){
+			if(chickens.size() == 1){
+				return chickens.get(0).getName() + " gagne !";
+			}else{
+				return "Les poulets gagnent !";	
+			}
+		}else if(chickens.isEmpty()){
+			if(hunters.size() == 1){
+				return hunters.get(0).getName() + " gagne !";
+			}else{
+				return "Les chasseurs gagnent !";
+			}
+		}else{
+			return "Egalité";
+		}
 	}
 	
 	

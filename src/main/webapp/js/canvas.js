@@ -16,10 +16,10 @@ var chargerCanvas = function(){
 }
 
 var drawInfosJoueur = function(joueurTrouve,player, time, players){
+	ctx.font = '15pt Calibri';
 	if(joueurTrouve){
 		if(player.health>0){
 			ctx.fillStyle = "grey";
-			ctx.font = '15pt Calibri';
 			ctx.fillStyle = "blue";
 			ctx.fillText(player.name,650, 120);
 			ctx.fillStyle = "black";
@@ -54,6 +54,7 @@ var afficherCarte = function(carte){
 	var balles = carte.data.balles;
 	var bombes = carte.data.bombes;
 	var explosions = carte.data.explosions;
+	var victory = carte.data.victory;
 	
 	for(var i=0;i<map.length;i++){
 		for(var j=0;j<map[i].length;j++){
@@ -137,6 +138,12 @@ var afficherCarte = function(carte){
 		}
 	}
 
+	if(victory){
+		ctx.font = '30pt Calibri';
+		ctx.fillStyle = "red";
+		ctx.fillText(victory,150, 100);
+	}
+	
 	ctx.drawImage(imgFondInfos,640,0);
 	var joueurTrouve = false;
 	for(var i=0;i<players.length;i++){
@@ -146,6 +153,8 @@ var afficherCarte = function(carte){
 			player = players[i]
 		}
 	}
+	
+	
 	drawInfosJoueur(joueurTrouve,player,carte.data.time,players);
 
 }
