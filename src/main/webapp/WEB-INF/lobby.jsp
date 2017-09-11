@@ -13,7 +13,7 @@
 <link href="../css/lobby.css" rel="stylesheet">
 
 
-<div id="div_list">
+<div id="div_list" oncontextmenu="return false;">
 
 	<h2>Création de la partie  : ${ nomPartie } </h2>
 	
