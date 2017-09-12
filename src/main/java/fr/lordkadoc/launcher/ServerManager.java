@@ -88,7 +88,7 @@ public class ServerManager {
 		Player joueur;
 		for(Session s : map.keySet()){
 			joueur = map.get(s);
-			info = new PlayerInfo(joueur.getName(),joueur instanceof Chicken ? "Poulet":"Chasseur");
+			info = new PlayerInfo(joueur.getPlayerParams().getName(),joueur instanceof Chicken ? "Poulet":"Chasseur");
 			set.add(info);
 		}
 		return set;
@@ -111,7 +111,7 @@ public class ServerManager {
 		for(String s : parties.keySet()){
 			server = parties.get(s);
 			if(server.containsPlayer(user)){
-				server.broadCastMessage("disconnect", Json.createObjectBuilder().add("login", server.getPlayer(user).getName()));
+				server.broadCastMessage("disconnect", Json.createObjectBuilder().add("login", server.getPlayer(user).getPlayerParams().getName()));
 				server.removePlayer(user);
 				if(server.serverIsEmpty()){
 					parties.remove(s);

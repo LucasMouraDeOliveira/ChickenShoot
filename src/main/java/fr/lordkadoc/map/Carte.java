@@ -197,13 +197,13 @@ public class Carte {
 	public String getWinMessage() {
 		if(hunters.isEmpty()){
 			if(chickens.size() == 1){
-				return chickens.get(0).getName() + " gagne !";
+				return chickens.get(0).getPlayerParams().getName() + " gagne !";
 			}else{
 				return "Les poulets gagnent !";	
 			}
 		}else if(chickens.isEmpty()){
 			if(hunters.size() == 1){
-				return hunters.get(0).getName() + " gagne !";
+				return hunters.get(0).getPlayerParams().getName() + " gagne !";
 			}else{
 				return "Les chasseurs gagnent !";
 			}
@@ -221,24 +221,24 @@ public class Carte {
 				
 		if(c[0]){ // north
 			x = 0;
-			y = -player.getSpeed();
+			y = -player.getPlayerParams().getSpeed();
 			points = player.hitboxPoints("NORTH");
 			calculerDeplacement("NORTH",x,y,points,player);
 		}
 		if(c[1]){ //south
 			x = 0;
-			y = player.getSpeed();
+			y = player.getPlayerParams().getSpeed();
 			points = player.hitboxPoints("SOUTH");
 			calculerDeplacement("SOUTH",x,y,points,player);
 		}
 		if(c[2]){ // west
-			x = -player.getSpeed();
+			x = -player.getPlayerParams().getSpeed();
 			y = 0;
 			points = player.hitboxPoints("WEST");
 			calculerDeplacement("WEST",x,y,points,player);
 		}
 		if(c[3]){ // east
-			x = player.getSpeed();
+			x = player.getPlayerParams().getSpeed();
 			y = 0;
 			points = player.hitboxPoints("EAST");
 			calculerDeplacement("EAST",x,y,points,player);
@@ -251,32 +251,32 @@ public class Carte {
 		Point p2 = new Point(points.get(1).x+x,points.get(1).y+y);
 		
 		if(estVide(typeCellule(p1)) && estVide(typeCellule(p2))){
-			player.setX(player.getX()+x);
-			player.setY(player.getY()+y);
+			player.getPlayerParams().setX(player.getPlayerParams().getX()+x);
+			player.getPlayerParams().setY(player.getPlayerParams().getY()+y);
 		}else{
 			if(direction.equals("NORTH")){
 				if(estVide(typeCellule(p1))){
-					player.setY((p1.y/32+1)*32+1+player.getSize()/2);				
+					player.getPlayerParams().setY((p1.y/32+1)*32+1+player.getPlayerParams().getSize()/2);				
 				}else{
-					player.setY((p2.y/32+1)*32+1+player.getSize()/2);		
+					player.getPlayerParams().setY((p2.y/32+1)*32+1+player.getPlayerParams().getSize()/2);		
 				}
 			}else if(direction.equals("SOUTH")){
 				if(estVide(typeCellule(p1))){
-					player.setY(p1.y/32*32-player.getSize()/2-1);				
+					player.getPlayerParams().setY(p1.y/32*32-player.getPlayerParams().getSize()/2-1);				
 				}else{
-					player.setY(p2.y/32*32-player.getSize()/2-1);	
+					player.getPlayerParams().setY(p2.y/32*32-player.getPlayerParams().getSize()/2-1);	
 				}
 			}else if(direction.equals("WEST")){
 				if(estVide(typeCellule(p1))){
-					player.setX((p1.x/32+1)*32+1+player.getSize()/2);
+					player.getPlayerParams().setX((p1.x/32+1)*32+1+player.getPlayerParams().getSize()/2);
 				}else{
-					player.setX((p2.x/32+1)*32+1+player.getSize()/2);
+					player.getPlayerParams().setX((p2.x/32+1)*32+1+player.getPlayerParams().getSize()/2);
 				}
 			}else if(direction.equals("EAST")){
 				if(estVide(typeCellule(p1))){
-					player.setX(p1.x/32*32-player.getSize()/2-1);
+					player.getPlayerParams().setX(p1.x/32*32-player.getPlayerParams().getSize()/2-1);
 				}else{
-					player.setX(p2.x/32*32-player.getSize()/2-1);
+					player.getPlayerParams().setX(p2.x/32*32-player.getPlayerParams().getSize()/2-1);
 				}
 			}
 		}
@@ -314,8 +314,8 @@ public class Carte {
 				b = true;
 			}
 		}
-		p.setX(x);
-		p.setY(y);
+		p.getPlayerParams().setX(x);
+		p.getPlayerParams().setY(y);
 	}
 	
 	public List<Chicken> getChickens(){

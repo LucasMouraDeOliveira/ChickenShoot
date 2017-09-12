@@ -17,8 +17,8 @@ public class Bullet extends Projectile {
 	public Bullet(Player owner, double x, double y, double angle, int damage) {
 		super(owner, x, y, damage);
 		this.angle = angle;
-		this.vx = 10*Math.cos(owner.getAngle()-Math.PI/2);
-		this.vy = 10*Math.sin(owner.getAngle()-Math.PI/2);
+		this.vx = 10*Math.cos(owner.getPlayerState().getAngle()-Math.PI/2);
+		this.vy = 10*Math.sin(owner.getPlayerState().getAngle()-Math.PI/2);
 		this.collided = false;
 	}
 	

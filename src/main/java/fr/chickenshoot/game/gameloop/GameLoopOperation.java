@@ -1,5 +1,7 @@
 package fr.chickenshoot.game.gameloop;
 
+import fr.lordkadoc.launcher.ServerInstance;
+
 /**
  * GameLoopOperation permet de découper les opérations de la boucle de jeu.
  * Chaque opération est définie par un contenu à exécuter et un délai d'exécution (2 opérations de la boucle peuvent être appelées avec des fréquences différentes).
@@ -11,9 +13,12 @@ public abstract class GameLoopOperation {
 	
 	protected final long delay;
 	
+	protected ServerInstance instance;
+	
 	protected long currentDelay;
 	
-	public GameLoopOperation(long delay) {
+	public GameLoopOperation(ServerInstance instance, long delay) {
+		this.instance = instance;
 		this.delay = delay;
 		this.currentDelay = delay;
 	}

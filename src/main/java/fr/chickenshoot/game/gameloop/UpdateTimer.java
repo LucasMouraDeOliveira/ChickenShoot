@@ -4,11 +4,8 @@ import fr.lordkadoc.launcher.ServerInstance;
 
 public class UpdateTimer extends GameLoopOperation {
 	
-	protected ServerInstance instance;
-
 	public UpdateTimer(ServerInstance instance, long delay) {
-		super(delay);
-		this.instance = instance;
+		super(instance, delay);
 	}
 
 	@Override

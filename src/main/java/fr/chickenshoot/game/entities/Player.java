@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.json.JsonObjectBuilder;
 
-import fr.chickenshoot.game.projectiles.Projectile;
 import fr.chickenshoot.game.weapons.Weapon;
 
 /**
@@ -17,28 +16,13 @@ import fr.chickenshoot.game.weapons.Weapon;
  * @author lucasmouradeoliveira
  *
  */
-public abstract class Player {
+public abstract class Player implements Parsable {
 	
-	protected String name;
+	protected PlayerParams playerParams;
 	
-	protected int maxHealth;
+	protected PlayerState playerState;
 	
-	protected int health;
-	
-	protected int size;
-	
-	protected int x,y;
-	
-	protected int speed;
-	
-	protected boolean[] moving;
-	
-	protected boolean shooting;
-	
-	//the direction in which the player is looking
-	protected double angle;
-	
-	protected Weapon<?> weapon;
+	protected Weapon weapon;
 	
 	protected PlayerActionListener listener;
 
@@ -52,33 +36,9 @@ public abstract class Player {
 	 * @param speed la vitesse de déplacement du joueur.
 	 */
 	public Player(String name, int x, int y, int size, int speed) {
-		this.name = name;
-		this.maxHealth = 100;
-		this.health = 100;
-		this.size = size;
-		this.x = x;
-		this.y = y;
-		this.speed = speed;
-		this.moving = new boolean[4];
-		this.shooting = false;
+		this.playerParams = new PlayerParams(name, size, x, y, speed);
+		this.playerState = new PlayerState();
 		this.listener = new PlayerActionListener(this);		
-	}
-	
-	/**
-	 * Retourne vrai si le joueur est en capacité de tirer avec son arme.
-	 * En fonction du type de joueur, les conditions pour tirer sont différentes.
-	 * 
-	 * @return vrai si le joueur peut tirer
-	 */
-	public abstract boolean canShoot();
-	
-	/**
-	 * Déclenche un tir de l'arme du joueur et retourne le projectile crée.
-	 * 
-	 * @return un projectile.
-	 */
-	public Projectile shoot(){
-		return weapon.shoot();
 	}
 
 	/**
@@ -87,7 +47,8 @@ public abstract class Player {
 	 * @return la hitbox du joueur
 	 */
 	public Rectangle2D.Double getHitbox() {
-		return new Rectangle2D.Double(x-size/2, y-size/2, size, size);
+		int size = this.playerParams.getSize();
+		return new Rectangle2D.Double(this.playerParams.getX()-size/2, this.playerParams.getY()-size/2, size, size);
 	}
 	
 	/**
@@ -96,7 +57,7 @@ public abstract class Player {
 	 * @param hitpoints le nombre de points de dégât infligés au joueur
 	 */
 	public void hit(int hitpoints) {
-		health = Math.max(0, health-hitpoints);
+		this.playerParams.setHealth(Math.max(0, this.playerParams.getHealth()-hitpoints));
 	}
 	
 	/**
@@ -105,7 +66,7 @@ public abstract class Player {
 	 * @param hitpoints le nombre de point de vie récupérés par le joueur.
 	 */
 	public void heal(int hitpoints) {
-		health = Math.min(maxHealth, health+hitpoints);
+		this.playerParams.setHealth(Math.min(this.playerParams.getMaxHealth(), this.playerParams.getHealth()+hitpoints));
 	}
 	
 	/**
@@ -115,9 +76,9 @@ public abstract class Player {
 	 * @param y la coordonnée y du point
 	 */
 	public void shift(int x, int y) {
-		int x1 = x-this.x;
-		int y1 = y-this.y;
-		this.angle = -Math.atan2(x1, y1)-Math.PI;
+		int x1 = x-this.playerParams.getX();
+		int y1 = y-this.playerParams.getY();
+		this.playerState.setAngle(-Math.atan2(x1, y1)-Math.PI);
 	}
 	
 	public void handle(Action action) {
@@ -130,118 +91,45 @@ public abstract class Player {
 	 * @return vrai si le joueur est vivant
 	 */
 	public boolean isAlive() {
-		return health > 0;
-	}
-	
-	/**
-	 * Renvoie vrai si le joueur est en train de se déplacer dans la direction spécifiée.
-	 * 
-	 * @param direction la direction à tester
-	 * 
-	 * @return vrai si le joueur se déplace dans cette direction
-	 */
-	public boolean isMoving(int direction) {
-		try{
-			return moving[direction];
-		}catch(ArrayIndexOutOfBoundsException e){
-			return false;
-		}
-	}
-	
-	/**
-	 * Met à jour la valeur de déplacement (vrai ou faux) du joueur pour une direction.
-	 * 
-	 * @param direction la direction à mettre à jour
-	 * @param value la nouvelle valeur de déplacement pour la direction
-	 */
-	public void setMoving(int direction, boolean value) {
-		try{
-			moving[direction] = value;
-		}catch(Exception e){}
-	}
-
-	/**
-	 * @return vrai si le joueur est en train de tirer.
-	 */
-	public boolean isShooting() {
-		return shooting;
-	}
-	
-	/**
-	 * Met à jour la valeur de tir du joueur.
-	 * 
-	 * @param shooting si le joueur est en train de tirer ou non
-	 */
-	public void setShooting(boolean shooting) {
-		this.shooting = shooting;
+		return this.playerParams.getHealth() > 0;
 	}
 	
 	/**
 	 * @return l'arme du joueur.
 	 */
-	public Weapon<?> getWeapon() {
+	public Weapon getWeapon() {
 		return weapon;
 	}
 	
-	public void setWeapon(Weapon<?> weapon) {
+	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}
 	
-	public void setX(int x) {
-		this.x = x;
-	}
-	
-	public void setY(int y) {
-		this.y = y;
-	}
-	
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
-	}
-	
-	public double getAngle() {
-		return angle;
-	}
-	
-	public int getSpeed() {
-		return speed;
-	}
-	
-	public int getSize() {
-		return size;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void addDefaultProperties(JsonObjectBuilder builder) {
-		builder.add("name", name);
-		builder.add("x", x);
-		builder.add("y", y);
-		builder.add("ammos", weapon.getAmmos());
-		builder.add("maxHealth", maxHealth);
-		builder.add("health", health);
-		builder.add("angle", angle);
-		builder.add("weapon", weapon.getName());
-	}
-	
-	public abstract void addCustomProperties(JsonObjectBuilder builder);
-	
+	@Override
 	public void getJSon(JsonObjectBuilder builder) {
 		addDefaultProperties(builder);
 		addCustomProperties(builder);
 	}
 	
+	private void addDefaultProperties(JsonObjectBuilder builder) {
+		builder.add("name", this.playerParams.getName());
+		builder.add("x", this.playerParams.getX());
+		builder.add("y", this.playerParams.getY());
+		builder.add("ammos", weapon.getAmmos());
+		builder.add("maxHealth", this.playerParams.getMaxHealth());
+		builder.add("health", this.playerParams.getHealth());
+		builder.add("angle", this.playerState.getAngle());
+		builder.add("weapon", weapon.getName());
+	}
+	
+	protected abstract void addCustomProperties(JsonObjectBuilder builder);
+	
 	@Deprecated
 	public List<Point> hitboxPoints(String direction) {
 		List<Point> points = new ArrayList<Point>();
-		int x1 = x - (size/2);
-		int y1 = y - (size/2);
+		int size = this.playerParams.getSize();
+		int x1 = this.playerParams.getX() - (size/2);
+		int y1 = this.playerParams.getY() - (size/2);
 		if(direction.equals("NORTH")){
 			points.add(new Point(x1,y1));
 			points.add(new Point(x1+size,y1));
@@ -256,6 +144,14 @@ public abstract class Player {
 			points.add(new Point(x1+size,y1+size));
 		}
 		return points;
+	}
+
+	public PlayerParams getPlayerParams() {
+		return this.playerParams;
+	}
+	
+	public PlayerState getPlayerState() {
+		return this.playerState;
 	}
 	
 }

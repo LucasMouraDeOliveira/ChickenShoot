@@ -6,19 +6,19 @@ import fr.chickenshoot.game.entities.Chicken;
 import fr.chickenshoot.game.entities.Hunter;
 import fr.chickenshoot.game.projectiles.Bombe;
 import fr.chickenshoot.game.projectiles.Bullet;
+import fr.lordkadoc.launcher.ServerInstance;
 import fr.lordkadoc.map.Carte;
 
 public class UpdatePlayer extends GameLoopOperation {
 	
-	protected Carte carte;
-
-	public UpdatePlayer(Carte carte, long delay) {
-		super(delay);
-		this.carte = carte;
+	public UpdatePlayer(ServerInstance instance, long delay) {
+		super(instance, delay);
 	}
 
 	@Override
 	protected void update() {
+		
+		Carte carte = instance.getCarte();
 		
 		Iterator<Chicken> chickens = carte.getChickens().iterator();
 		Iterator<Bombe> bombes;
@@ -27,12 +27,12 @@ public class UpdatePlayer extends GameLoopOperation {
 		while(chickens.hasNext()){
 			chicken = chickens.next();
 			if(chicken.isAlive()){
-				if(chicken.isShooting()){
-					carte.addBombe((Bombe)chicken.shoot());
+				if(chicken.getPlayerState().isShooting()){
+					chicken.getWeapon().onShoot();
 					chicken.setBombCount(chicken.getBombCount() + 1);
 					chicken.getWeapon().setAmmos(chicken.getWeapon().getAmmos()-1);
-					chicken.getWeapon().setOnReload();
-					chicken.setShooting(false);
+					chicken.getWeapon().startReloading();
+					chicken.getPlayerState().setShooting(false);
 				}
 				if(chicken.getDetonate()){
 					bombes = carte.getBombes().iterator();
@@ -54,11 +54,11 @@ public class UpdatePlayer extends GameLoopOperation {
 		while(hunters.hasNext()){
 			hunter = hunters.next();
 			if(hunter.isAlive()){
-				if(hunter.isShooting()){
-					carte.addBullet((Bullet)hunter.shoot());
+				if(hunter.getPlayerState().isShooting()){
+					hunter.getWeapon().onShoot();
 					hunter.getWeapon().setAmmos(hunter.getWeapon().getAmmos()-1);
-					hunter.getWeapon().setOnReload();
-					hunter.setShooting(false);
+					hunter.getWeapon().startReloading();
+					hunter.getPlayerState().setShooting(false);
 				}
 			}else{
 				hunters.remove();

@@ -1,18 +1,23 @@
 package fr.chickenshoot.game.weapons;
 
-import fr.chickenshoot.game.entities.Hunter;
+import fr.chickenshoot.game.entities.Player;
 import fr.chickenshoot.game.projectiles.Bullet;
-import fr.chickenshoot.game.projectiles.Projectile;
+import fr.lordkadoc.launcher.ServerInstance;
 
-public class Gun extends Weapon<Hunter> {
+public class Gun extends Weapon {
 
-	public Gun(Hunter player, int damage, int ammos) {
-		super(player, "Ghetto blasta", damage, ammos, 200);
+	public Gun(ServerInstance instance, Player player, int damage, int ammos) {
+		super(instance, player, "Ghetto blasta", damage, ammos, 200);
 	}
 
 	@Override
-	public Projectile shoot() {
-		return new Bullet(owner, owner.getX(), owner.getY(), owner.getAngle(), damage);
+	public void onShoot() {
+		this.instance.getCarte().addBullet(new Bullet(owner, owner.getPlayerParams().getX(), owner.getPlayerParams().getY(), owner.getPlayerState().getAngle(), damage));
+	}
+
+	@Override
+	public boolean canShoot() {
+		return ammos > 0 && isDoneReloading();
 	}
 
 }

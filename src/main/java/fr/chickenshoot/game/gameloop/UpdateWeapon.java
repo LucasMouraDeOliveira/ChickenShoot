@@ -4,30 +4,31 @@ import java.util.Iterator;
 
 import fr.chickenshoot.game.entities.Chicken;
 import fr.chickenshoot.game.entities.Hunter;
+import fr.lordkadoc.launcher.ServerInstance;
 import fr.lordkadoc.map.Carte;
 
 public class UpdateWeapon extends GameLoopOperation {
 	
-	protected Carte carte;
-
-	public UpdateWeapon(Carte carte, long delay) {
-		super(delay);
-		this.carte = carte;
+	public UpdateWeapon(ServerInstance instance, long delay) {
+		super(instance, delay);
 	}
 
 	@Override
 	protected void update() {
+
+		Carte carte = this.instance.getCarte();
+		
 		Iterator<Chicken> chickens = carte.getChickens().iterator();
 		Chicken chicken;
 		while(chickens.hasNext()){
 			chicken = chickens.next();
-			chicken.getWeapon().reload(delay);
+			chicken.getWeapon().reloadTick(delay);
 		}
 		Iterator<Hunter> hunters = carte.getHunters().iterator();
 		Hunter hunter;
 		while(hunters.hasNext()){
 			hunter = hunters.next();
-			hunter.getWeapon().reload(delay);
+			hunter.getWeapon().reloadTick(delay);
 		}
 	}
 

@@ -1,18 +1,23 @@
 package fr.chickenshoot.game.weapons;
 
-import fr.chickenshoot.game.entities.Chicken;
+import fr.chickenshoot.game.entities.Player;
 import fr.chickenshoot.game.projectiles.Bombe;
-import fr.chickenshoot.game.projectiles.Projectile;
+import fr.lordkadoc.launcher.ServerInstance;
 
-public class ChickenBomb extends Weapon<Chicken> {
+public class ChickenBomb extends Weapon {
 
-	public ChickenBomb(Chicken owner, int damage, int ammos) {
-		super(owner, "Bombe", damage, ammos, 300);
+	public ChickenBomb(ServerInstance instance, Player owner, int damage, int ammos) {
+		super(instance, owner, "Bombe", damage, ammos, 300);
 	}
 
 	@Override
-	public Projectile shoot() {
-		return new Bombe(owner, owner.getX(), owner.getY(), damage, 80);
+	public void onShoot() {
+		this.instance.getCarte().addBombe(new Bombe(owner, owner.getPlayerParams().getX(), owner.getPlayerParams().getY(), damage, 80));
+	}
+
+	@Override
+	public boolean canShoot() {
+		return ammos > 0 && isDoneReloading() /*&& getBombCount() < 3*/;
 	}
 
 }

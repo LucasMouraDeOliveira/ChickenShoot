@@ -13,7 +13,7 @@ public class MoveHandler implements ActionHandler {
 
 	@Override
 	public void handle() {
-		player.setMoving(direction, true);
+		player.getPlayerState().setMoving(direction, true);
 	}
 
 }

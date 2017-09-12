@@ -10,8 +10,8 @@ public class ShootHandler implements ActionHandler {
 
 	@Override
 	public void handle() {
-		if(player.canShoot()){
-			player.setShooting(true);
+		if(player.getWeapon().canShoot()){
+			player.getPlayerState().setShooting(true);
 		}
 	}
 

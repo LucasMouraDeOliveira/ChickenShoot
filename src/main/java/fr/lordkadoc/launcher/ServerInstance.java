@@ -78,13 +78,13 @@ public class ServerInstance {
 		//à déplacer vers une méthode spécialisée
 		if(this.carte.getHunterNumber()<this.carte.getChickenNumber()){
 			p = new Hunter(login, 0,0);
-			p.setWeapon(new Gun((Hunter)p, 10, 100));
+			p.setWeapon(new Gun(this, p, 10, 100));
 			type = "Chasseur";
 			this.carte.getHunters().add((Hunter) p);
 		}
 		else {
 			p = new Chicken(login,0,0);
-			p.setWeapon(new ChickenBomb((Chicken)p, 10, 100));
+			p.setWeapon(new ChickenBomb(this, p, 10, 100));
 			type = "Poulet";
 			this.carte.getChickens().add((Chicken) p);
 		}
@@ -123,7 +123,7 @@ public class ServerInstance {
 		for(Player player : users.values()){
 			pl = Json.createObjectBuilder();
 			pl.add("type", player instanceof Chicken ? "Poulet" : "Chasseur");
-			pl.add("login", player.getName());
+			pl.add("login", player.getPlayerParams().getName());
 			players.add(pl);
 		}
 		return players;

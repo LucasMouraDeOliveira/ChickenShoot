@@ -4,16 +4,13 @@ import fr.lordkadoc.launcher.ServerInstance;
 
 public class BroadcastMap extends GameLoopOperation {
 	
-	private ServerInstance instance;
-
 	public BroadcastMap(ServerInstance instance,long delay) {
-		super(delay);
-		this.instance = instance;
+		super(instance, delay);
 	}
 
 	@Override
 	protected void update() {
-		instance.broadCastMessage("update", instance.getCarte().getJSon());	
+		instance.broadCastMessage("update", this.instance.getCarte().getJSon());	
 	}
 
 }

@@ -1,11 +1,13 @@
 package fr.chickenshoot.game.weapons;
 
 import fr.chickenshoot.game.entities.Player;
-import fr.chickenshoot.game.projectiles.Projectile;
+import fr.lordkadoc.launcher.ServerInstance;
 
-public abstract class Weapon<P extends Player> {
+public abstract class Weapon {
 	
-	protected P owner;
+	protected ServerInstance instance;
+	
+	protected Player owner;
 	
 	protected String name;
 	
@@ -17,7 +19,8 @@ public abstract class Weapon<P extends Player> {
 	
 	protected long currentReloadTime;
 	
-	public Weapon(P owner, String name, int damage, int ammos, long reloadTime) {
+	public Weapon(ServerInstance instance, Player owner, String name, int damage, int ammos, long reloadTime) {
+		this.instance = instance;
 		this.name = name;
 		this.owner = owner;
 		this.damage = damage;
@@ -26,9 +29,11 @@ public abstract class Weapon<P extends Player> {
 		this.currentReloadTime = 0;
 	}
 	
-	public abstract Projectile shoot();
+	public abstract void onShoot();
+	
+	public abstract boolean canShoot();
 
-	public P getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
 	
@@ -48,15 +53,15 @@ public abstract class Weapon<P extends Player> {
 		return name;
 	}
 	
-	public void setOnReload(){
+	public void startReloading(){
 		currentReloadTime = reloadTime;
 	}
 
-	public void reload(long delay) {
+	public void reloadTick(long delay) {
 		currentReloadTime = Math.max(0, currentReloadTime-delay);
 	}
 	
-	public boolean isReloaded(){
+	public boolean isDoneReloading(){
 		return currentReloadTime == 0;
 	}
 

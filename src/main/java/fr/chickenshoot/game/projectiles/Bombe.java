@@ -32,7 +32,7 @@ public class Bombe extends Projectile {
 	}
 	
 	public void checkPlayerCollision(Player player){
-		Point point = new Point(player.getX(),player.getY());
+		Point point = new Point(player.getPlayerParams().getX(),player.getPlayerParams().getY());
 		Rectangle2D.Double r = getHitbox();
 		if(r.contains(point)){
 			int damage = this.damage;

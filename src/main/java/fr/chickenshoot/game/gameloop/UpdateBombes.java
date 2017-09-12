@@ -6,19 +6,20 @@ import fr.chickenshoot.game.entities.Chicken;
 import fr.chickenshoot.game.entities.Hunter;
 import fr.chickenshoot.game.projectiles.Bombe;
 import fr.chickenshoot.game.projectiles.Explosion;
+import fr.lordkadoc.launcher.ServerInstance;
 import fr.lordkadoc.map.Carte;
 
 public class UpdateBombes extends GameLoopOperation{
 	
-	private Carte carte;
-
-	public UpdateBombes(Carte carte, long delay) {
-		super(delay);
-		this.carte = carte;
+	public UpdateBombes(ServerInstance instance, long delay) {
+		super(instance, delay);
 	}
 
 	@Override
 	protected void update() {
+		
+		Carte carte = this.instance.getCarte();
+		
 		Iterator<Bombe> bombes = carte.getBombes().iterator();
 		Bombe bombe;
 		while(bombes.hasNext()){

@@ -45,11 +45,6 @@ public class Chicken extends Player {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-
-	@Override
-	public boolean canShoot() {
-		return weapon.getAmmos() > 0 && weapon.isReloaded() && getBombCount() < 3;
-	}
 	
 	public int getBombCount() {
 		return currentBombs;

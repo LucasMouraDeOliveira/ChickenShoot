@@ -3,19 +3,20 @@ package fr.chickenshoot.game.gameloop;
 import java.util.Iterator;
 
 import fr.chickenshoot.game.projectiles.Explosion;
+import fr.lordkadoc.launcher.ServerInstance;
 import fr.lordkadoc.map.Carte;
 
 public class UpdateExplosions extends GameLoopOperation {
 	
-	private Carte carte;
-
-	public UpdateExplosions(Carte carte, long delay) {
-		super(delay);
-		this.carte = carte;
+	public UpdateExplosions(ServerInstance instance, long delay) {
+		super(instance, delay);
 	}
 
 	@Override
 	protected void update() {
+
+		Carte carte = this.instance.getCarte();
+		
 		Iterator<Explosion> explosions = carte.getExplosions().iterator();
 		Explosion explosion;
 		while(explosions.hasNext()){

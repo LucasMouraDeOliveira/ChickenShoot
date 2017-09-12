@@ -11,11 +11,6 @@ public class Hunter extends Player {
 	public Hunter(String name, int x, int y) {
 		super(name, x, y, HUNTER_SIZE, HUNTER_SPEED);
 	}
-
-	@Override
-	public boolean canShoot() {
-		return weapon.getAmmos() > 0 && weapon.isReloaded();
-	}
 	
 	@Override
 	public void addCustomProperties(JsonObjectBuilder builder) {
