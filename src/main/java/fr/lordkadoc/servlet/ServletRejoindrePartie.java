@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.lordkadoc.launcher.ServerManager;
+import fr.refactoring.server.ServerManager;
 
 
 @WebServlet(name="ServletRejoindrePartie", urlPatterns = { "/rejoindreLobby" })
@@ -22,9 +22,9 @@ public class ServletRejoindrePartie extends ServletBasique{
 	@Override
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		String nomPartie = rq.getParameter("gameid");
-		ServerManager manager = ServerManager.getManager();
+		ServerManager manager = ServerManager.getInstance();
 		rq.setAttribute("nomPartie", nomPartie);
-		rq.setAttribute("nbJoueurs", manager.getServer(nomPartie).getMaxUsers());
+		rq.setAttribute("nbJoueurs", manager.getServerWithName(nomPartie).getMaxPlayers());
 		rq.setAttribute("creator", "false");
 		rq.setAttribute("page", "lobby");		
 		rq.getRequestDispatcher("WEB-INF/index.jsp").forward(rq, rs);

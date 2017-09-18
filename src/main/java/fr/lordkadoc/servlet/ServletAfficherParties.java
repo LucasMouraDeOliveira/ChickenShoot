@@ -7,8 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.lordkadoc.launcher.ServerInstance;
-import fr.lordkadoc.launcher.ServerManager;
+import fr.refactoring.server.ServerManager;
 
 @WebServlet(name="ServletAfficherParties", urlPatterns = { "/afficherParties" })
 public class ServletAfficherParties extends ServletBasique{
@@ -22,8 +21,8 @@ public class ServletAfficherParties extends ServletBasique{
 	public void doPost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		
 		if(rq.getSession(true).getAttribute("connecte") == "true"){
-			ServerManager manager = ServerManager.getManager();
-			rq.setAttribute("parties", manager.getInstanceInfos(manager.getSpecificInstances(ServerInstance.WAITING_PLAYERS)));
+			ServerManager manager = ServerManager.getInstance();
+			rq.setAttribute("parties", manager.getServersInformation(manager.getWaitingServers()));
 			rq.setAttribute("page", "listeParties");	
 		}else{	
 			rq.setAttribute("page","acceuil");	
