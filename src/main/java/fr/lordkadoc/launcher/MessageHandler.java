@@ -8,41 +8,37 @@ import javax.json.JsonObject;
 
 import org.eclipse.jetty.websocket.api.Session;
 
-import fr.chickenshoot.game.entities.Player;
+import fr.refactoring.server.ServerInstance;
+import fr.refactoring.server.ServerManager;
 
 public class MessageHandler {
 	
 	public void handleServerCreation(Session user, String serverName, int maxPlayers, String login) {
-		ServerInstance instance = ServerManager.getManager().addInstance(serverName, maxPlayers);
-		if(instance == null){
+		ServerInstance server = ServerManager.getInstance().addServer(serverName, maxPlayers);
+		if(server == null){
 			sendMessage(user, "error", "Un serveur de même nom existe déjà.");
 		}else{
-			instance.addPlayer(user, login);
+			server.addPlayer(user, login);
 		}
 	}
 	
 	public void handleServerJoin(Session user, String serverName, String login) {
-		ServerInstance instance = ServerManager.getManager().getServer(serverName);
+		ServerInstance instance = ServerManager.getInstance().getServerWithName(serverName);
 		if(instance == null){
 			sendMessage(user, "error", "Ce serveur n'existe pas.");
-		}else if(instance.serverIsFull()){
+		}else if(!instance.canAddPlayer()){
 			sendMessage(user, "error", "Ce serveur est plein");
 		}else{
-			instance.addPlayer(user,login);  	
+			instance.addPlayer(user, login);  	
 		}
 	}
 	
 	public void handleServerMessage(Session user, String serverName, String message) {
-		ServerInstance instance = ServerManager.getManager().getServer(serverName);
-		if(instance == null){
+		ServerInstance server = ServerManager.getInstance().getServerWithName(serverName);
+		if(server == null){
 			sendMessage(user, "error", "Ce serveur n'existe pas.");
 		}else{
-			Player player = instance.getPlayer(user);
-			if(player == null){
-				sendMessage(user, "error", "Vous n'êtes pas connecté à ce serveur");
-			}else{
-				instance.receiveMessage(player, message);
-			}
+			server.receiveMessage(user, message);
 		}
 	}
 	

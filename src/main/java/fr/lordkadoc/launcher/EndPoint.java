@@ -13,6 +13,8 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
+import fr.refactoring.server.ServerManager;
+
 
 @WebSocket()
 public class EndPoint {
@@ -36,7 +38,7 @@ public class EndPoint {
 		String gameID = object.getString("gameID");
 		
 		if(type.equals("start")){
-			ServerManager.getManager().getServer(gameID).startGame();
+			ServerManager.getInstance().getServerWithName(gameID).startGame();
 		}else if(type.equals("create")){
 			String login = object.getString("login");
 			int maxPlayers = object.getInt("nbJoueurs");
@@ -52,7 +54,7 @@ public class EndPoint {
 	
 	@OnWebSocketClose
 	public void handleClose(Session user, int code, String reason){
-		ServerManager.getManager().disconnect(user);
+//		ServerManager.getInstance().disconnect(user);
 	}
 	
 	@OnWebSocketError

@@ -45,8 +45,8 @@ var drawInfosJoueur = function(joueurTrouve,player, time, players){
 	}
 }
 
-var loadMap = function(carte){
-	map = carte.data.carte;
+var loadMap = function(message){
+	map = message.data.map;
 }
 
 var afficherCarte = function(carte){

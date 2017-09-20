@@ -25,8 +25,7 @@ public class HealthSystem extends EntitySystem {
 		HealthComponent entityHealth;
 		for(Entity entity : entities) {
 			entityHealth = healthMapper.get(entity);
-			entityHealth.hit(20);
-			entityHealth.display();
+			//TODO faire perdre ou regagner de la vie aux entités
 		}
 	}
 

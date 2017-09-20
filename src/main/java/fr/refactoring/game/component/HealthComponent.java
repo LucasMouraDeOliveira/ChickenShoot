@@ -12,6 +12,10 @@ public class HealthComponent implements Component {
 		this.maxHealth = health;
 		this.health = health;
 	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
+	}
 
 	public int getHealth() {
 		return health;
