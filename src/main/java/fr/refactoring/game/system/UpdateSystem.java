@@ -16,6 +16,8 @@ import fr.refactoring.game.component.HealthComponent;
 import fr.refactoring.game.component.PositionComponent;
 import fr.refactoring.game.component.VisibilityComponent;
 import fr.refactoring.game.component.WeaponComponent;
+import fr.refactoring.game.component.type.BombComponent;
+import fr.refactoring.game.component.type.BulletComponent;
 import fr.refactoring.game.component.type.ChickenComponent;
 import fr.refactoring.game.component.type.HunterComponent;
 
@@ -23,7 +25,8 @@ public class UpdateSystem extends EntitySystem {
 	
 	protected ImmutableArray<Entity> chickens;
 	protected ImmutableArray<Entity> hunters;
-	protected ImmutableArray<Entity> projectiles;
+	protected ImmutableArray<Entity> bullets;
+	protected ImmutableArray<Entity> bombs;
 	
 	protected GameInstance game;
 	
@@ -35,7 +38,8 @@ public class UpdateSystem extends EntitySystem {
 	public void addedToEngine(Engine engine) {
 		this.chickens = engine.getEntitiesFor(Family.all(ChickenComponent.class).get());
 		this.hunters = engine.getEntitiesFor(Family.all(HunterComponent.class).get());
-		this.projectiles = engine.getEntitiesFor(Family.exclude(ChickenComponent.class, HunterComponent.class).get());
+		this.bullets = engine.getEntitiesFor(Family.all(BulletComponent.class).get());
+		this.bombs = engine.getEntitiesFor(Family.all(BombComponent.class).get());
 	}
 	
 	@Override
@@ -67,16 +71,16 @@ public class UpdateSystem extends EntitySystem {
 		builder.add("players", playerListBuilder);
 		
 		//Projectiles
-		for(Entity projectile : this.projectiles) {
-			PositionComponent pc = Mapper.positionMapper.get(projectile);
-			AngleComponent ac = Mapper.angleMapper.get(projectile);
+		for(Entity bullet : this.bullets) {
+			PositionComponent pc = Mapper.positionMapper.get(bullet);
+			AngleComponent ac = Mapper.angleMapper.get(bullet);
 			projectileBuilder = Json.createObjectBuilder();
 			projectileBuilder.add("x", pc.getX());
 			projectileBuilder.add("y", pc.getY());
 			projectileBuilder.add("angle", ac.getAngle());
 			projectileListBuilder.add(projectileBuilder);
 		}
-		builder.add("projectiles", projectileListBuilder);
+		builder.add("balles", projectileListBuilder);
 		
 		this.game.broadcast("update", builder);
 	}

@@ -14,6 +14,8 @@ import fr.refactoring.game.component.SpeedComponent;
 import fr.refactoring.game.component.VelocityComponent;
 import fr.refactoring.game.component.VisibilityComponent;
 import fr.refactoring.game.component.WeaponComponent;
+import fr.refactoring.game.component.type.BombComponent;
+import fr.refactoring.game.component.type.BulletComponent;
 import fr.refactoring.game.component.type.ChickenComponent;
 import fr.refactoring.game.component.type.HunterComponent;
 
@@ -48,17 +50,20 @@ public class GameFactory {
 		return entity;
 	}
 	
-	public static Entity createBomb() {
+	public static Entity createBomb(double x, double y) {
 		Entity bomb = new Entity();
+		bomb.add(new BombComponent());
+		bomb.add(new PositionComponent(x, y));
 		return bomb;
 	}
 	
-	public static Entity createArrow(double x, double y, int dx, int dy) {
+	public static Entity createArrow(double x, double y, double dx, double dy, double angle) {
 		Entity arrow = new Entity();
+		arrow.add(new BulletComponent());
 		arrow.add(new PositionComponent(x, y));
 		arrow.add(new SizeComponent(4, 4));
 		arrow.add(new VelocityComponent(dx, dy));
-		arrow.add(new AngleComponent(0));
+		arrow.add(new AngleComponent(angle));
 		return arrow;
 	}
 

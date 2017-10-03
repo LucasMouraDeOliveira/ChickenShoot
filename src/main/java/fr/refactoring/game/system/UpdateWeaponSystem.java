@@ -9,7 +9,6 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 
-import fr.refactoring.game.GameFactory;
 import fr.refactoring.game.GameInstance;
 import fr.refactoring.game.component.PositionComponent;
 import fr.refactoring.game.component.WeaponComponent;

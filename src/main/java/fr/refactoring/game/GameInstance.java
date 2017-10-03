@@ -15,6 +15,8 @@ import fr.refactoring.game.loop.GameLoop;
 import fr.refactoring.game.system.HealthSystem;
 import fr.refactoring.game.system.PlayerInputSystem;
 import fr.refactoring.game.system.PlayerMovementSystem;
+import fr.refactoring.game.system.PlayerWeaponSystem;
+import fr.refactoring.game.system.ProjectileMovementSystem;
 import fr.refactoring.game.system.UpdateSystem;
 import fr.refactoring.game.system.UpdateWeaponSystem;
 import fr.refactoring.server.ServerInstance;
@@ -48,7 +50,9 @@ public class GameInstance {
 		this.engine.addSystem(new HealthSystem());
 		this.engine.addSystem(new PlayerInputSystem());
 		this.engine.addSystem(new PlayerMovementSystem(this.gameMap));
-		this.engine.addSystem(new UpdateWeaponSystem(engine, this));
+		this.engine.addSystem(new PlayerWeaponSystem(this.engine));
+		this.engine.addSystem(new ProjectileMovementSystem(this.gameMap, this.engine));
+		this.engine.addSystem(new UpdateWeaponSystem(this.engine, this));
 		//On ajoute l'update en dernier pour le traiter en fin de boucle
 		this.engine.addSystem(new UpdateSystem(this));
 		for(Entity entity : entities) {

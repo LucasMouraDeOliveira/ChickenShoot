@@ -12,14 +12,19 @@ import fr.refactoring.game.component.PositionComponent;
 import fr.refactoring.game.component.SpeedComponent;
 import fr.refactoring.game.component.VelocityComponent;
 import fr.refactoring.game.component.WeaponComponent;
+import fr.refactoring.game.component.type.ChickenComponent;
+import fr.refactoring.game.component.type.HunterComponent;
 
 public class PlayerInputSystem extends EntitySystem {
 	
 	protected ImmutableArray<Entity> entities;
 	
+	protected ImmutableArray<Entity> chickens;
+	
 	@Override
 	public void addedToEngine(Engine engine) {
-		entities = engine.getEntitiesFor(Family.all(KeyboardComponent.class).get());
+		entities = engine.getEntitiesFor(Family.all(KeyboardComponent.class).one(ChickenComponent.class, HunterComponent.class).get());
+		chickens = engine.getEntitiesFor(Family.all(ChickenComponent.class).get());
 	}
 	
 	@Override
@@ -57,6 +62,13 @@ public class PlayerInputSystem extends EntitySystem {
 			vc.setDy(dy);
 			//Shooting
 			wc.setShooting(kc.isShooting());
+		}
+		
+		for(Entity entity : chickens) {
+			kc = Mapper.keyboardMapper.get(entity);
+			if(kc.isExploding()) {
+				//TODO gérer l'explosion des bombes
+			}
 		}
 	}
 
