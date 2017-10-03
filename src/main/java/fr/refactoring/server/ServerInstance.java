@@ -1,22 +1,27 @@
 package fr.refactoring.server;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 
 import org.eclipse.jetty.websocket.api.Session;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 
 import fr.refactoring.game.GameFactory;
 import fr.refactoring.game.GameInstance;
+import fr.refactoring.game.component.HealthComponent;
 
 public class ServerInstance {
 
@@ -51,10 +56,18 @@ public class ServerInstance {
 	}
 
 	public void addPlayer(Session session, String login) {
-		Entity playerEntity = GameFactory.createRandomPlayerEntity();
+		String type;
+		Entity playerEntity;
+		if(new Random().nextBoolean()) {
+			playerEntity = GameFactory.createChicken(200, 200);
+			type = "Chicken";
+		} else {
+			playerEntity = GameFactory.createHunter(200, 200);
+			type = "Hunter";
+		}
 		this.clients.put(session, playerEntity);
 		JsonObjectBuilder playerMessage = Json.createObjectBuilder()
-				.add("type", "Chicken")
+				.add("type", type)
 				.add("login", login);
 		this.broadcastMessage("connect", playerMessage);
 	}
@@ -99,7 +112,19 @@ public class ServerInstance {
 	}
 
 	public void receiveMessage(Session user, String message) {
-		// TODO traiter les messages des clients
+		//Si le joueur est mort, on ne prends pas en compte son message
+		Entity player = this.clients.get(user);
+		ComponentMapper<HealthComponent> healthMapper = ComponentMapper.getFor(HealthComponent.class);
+		HealthComponent hc = healthMapper.get(player);
+		if(!hc.isAlive()){
+			return;
+		}
+		JsonReader jsonReader = Json.createReader(new StringReader(message));
+		JsonObject action = jsonReader.readObject();
+		
+		if(action.getString("type").equals("playerUpdate")){			
+			this.game.handlePlayerAction(player,action);		
+		}
 	}
 
 	public int getState() {

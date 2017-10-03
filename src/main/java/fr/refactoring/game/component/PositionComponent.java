@@ -1,12 +1,10 @@
-package fr.ashley.entity;
+package fr.refactoring.game.component;
 
 import com.badlogic.ashley.core.Component;
 
 public class PositionComponent implements Component {
 	
-	protected double x;
-	
-	protected double y;
+	protected double x, y;
 	
 	public PositionComponent(double x, double y) {
 		this.x = x;
@@ -17,12 +15,12 @@ public class PositionComponent implements Component {
 		return x;
 	}
 	
-	public void setX(double x) {
-		this.x = x;
-	}
-	
 	public double getY() {
 		return y;
+	}
+	
+	public void setX(double x) {
+		this.x = x;
 	}
 	
 	public void setY(double y) {

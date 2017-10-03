@@ -1,19 +1,29 @@
 package fr.refactoring.game;
 
+import java.awt.Point;
+
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
+import com.badlogic.ashley.core.Entity;
+
 import fr.chickenshoot.game.entities.Parsable;
+import fr.refactoring.game.component.PositionComponent;
+import fr.refactoring.game.component.SizeComponent;
+import fr.refactoring.game.system.Mapper;
 
 public class GameMap implements Parsable {
 	
 	protected int[][] positions;
 	
+	protected int cellSize;
+	
 	protected GameInstance gameInstance;
 	
 	public GameMap(GameInstance gameInstance) {
 		this.gameInstance = gameInstance;
+		this.cellSize = 32;
 		this.init(20);
 	}
 	
@@ -98,6 +108,22 @@ public class GameMap implements Parsable {
 			}
 		}
 	}
+	
+	public int getTypeForPosition(Point point) {
+		try {
+			return this.positions[point.x/this.cellSize][point.y/this.cellSize];
+		} catch(ArrayIndexOutOfBoundsException e) {
+			return -1;
+		}
+	}
+	
+	public boolean isEmpty(int cellule) {
+		return cellule == 1 || cellule == 3 || cellule == 5;
+	}
+	
+	public boolean isTree(int cellule) {
+		return cellule == 3;
+	}
 
 	@Override
 	public void getJSon(JsonObjectBuilder builder) {
@@ -112,6 +138,45 @@ public class GameMap implements Parsable {
 			mapBuilder.add(line);
 		}	
 		builder.add("map", mapBuilder);
+	}
+	
+	/**
+	 * Retourne vrai si une entité est en collision avec un ou plusieurs élements du terrain de jeu.
+	 * @param entity l'entité
+	 * @return true en cas de collision, false sinon
+	 */
+	public boolean collides(Entity entity) {
+		PositionComponent pc = Mapper.positionMapper.get(entity);
+		SizeComponent sc = Mapper.sizeMapper.get(entity);
+		double x1 = pc.getX()-sc.getWidth()/2;
+		double x2 = x1+sc.getWidth();
+		double y1 = pc.getY()-sc.getHeight()/2;
+		double y2 = y1+sc.getHeight();
+		return !isEmpty(getTypeForPosition(new Point((int)(x1/this.cellSize), (int)(y1/this.cellSize))))
+				|| !isEmpty(getTypeForPosition(new Point((int)(x1/this.cellSize), (int)(y2/this.cellSize))))
+				|| !isEmpty(getTypeForPosition(new Point((int)(x2/this.cellSize), (int)(y1/this.cellSize))))
+				|| !isEmpty(getTypeForPosition(new Point((int)(x2/this.cellSize), (int)(y2/this.cellSize))));
+	}
+	
+	public int getTypeForCell(int x, int y) {
+		try {
+			return this.positions[x][y];
+		} catch(ArrayIndexOutOfBoundsException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public int getCellSize() {
+		return this.cellSize;
+	}
+	
+	public int getWidth() {
+		return this.positions.length;
+	}
+	
+	public int getHeight() {
+		return this.positions[0].length;
 	}
 
 }

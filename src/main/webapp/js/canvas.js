@@ -90,9 +90,11 @@ var afficherCarte = function(carte){
 	}
 
 	var bombe;
-	for(var i=0;i<bombes.length;i++){
-		bombe = bombes[i];
-		ctx.drawImage(imgBombe,bombe.x-imgBombe.width/2,bombe.y-imgBombe.height/2);
+	if(bombes != null) {
+		for(var i=0;i<bombes.length;i++){
+			bombe = bombes[i];
+			ctx.drawImage(imgBombe,bombe.x-imgBombe.width/2,bombe.y-imgBombe.height/2);
+		}
 	}
 
 	//Pour que les persos puissent se cacher sous les arbres on les dessinent après
@@ -115,26 +117,30 @@ var afficherCarte = function(carte){
 	}
 
 	var balle;
-	for(var i=0;i<balles.length;i++){
-		balle = balles[i];
-		drawRotatedImage(balle.x,balle.y,balle.angle,imgFleche);
+	if(balles != null) {
+		for(var i=0;i<balles.length;i++){
+			balle = balles[i];
+			drawRotatedImage(balle.x,balle.y,balle.angle,imgFleche);
+		}
 	}
 	
 	var explosion;
-	for(var i=0;i<explosions.length;i++){
-		explosion = explosions[i];
-		if(explosion.pourcentage < 30){
-			var blue = 255-(8*explosion.pourcentage);
-			ctx.fillStyle = 'rgb(255,255,'+blue+')';
-		}else if(explosion.pourcentage < 71){
-			var green = 255-(3*explosion.pourcentage);
-			ctx.fillStyle = 'rgb(255,'+green+',0)';
-		}else{
-			ctx.fillStyle = "black";
-		}
-
-		for(var j=0;j<200;j++){
-			dessinerParticuleAleatoire(explosion);
+	if(explosions != null) {
+		for(var i=0;i<explosions.length;i++){
+			explosion = explosions[i];
+			if(explosion.pourcentage < 30){
+				var blue = 255-(8*explosion.pourcentage);
+				ctx.fillStyle = 'rgb(255,255,'+blue+')';
+			}else if(explosion.pourcentage < 71){
+				var green = 255-(3*explosion.pourcentage);
+				ctx.fillStyle = 'rgb(255,'+green+',0)';
+			}else{
+				ctx.fillStyle = "black";
+			}
+			
+			for(var j=0;j<200;j++){
+				dessinerParticuleAleatoire(explosion);
+			}
 		}
 	}
 

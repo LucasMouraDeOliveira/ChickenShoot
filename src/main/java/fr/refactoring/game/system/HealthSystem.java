@@ -1,6 +1,5 @@
 package fr.refactoring.game.system;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -13,8 +12,6 @@ public class HealthSystem extends EntitySystem {
 	
 	private ImmutableArray<Entity> entities;
 	
-	private ComponentMapper<HealthComponent> healthMapper = ComponentMapper.getFor(HealthComponent.class);
-
 	@Override
 	public void addedToEngine(Engine engine) {
 		this.entities = engine.getEntitiesFor(Family.all(HealthComponent.class).get());
@@ -24,7 +21,7 @@ public class HealthSystem extends EntitySystem {
 	public void update(float deltaTime) {
 		HealthComponent entityHealth;
 		for(Entity entity : entities) {
-			entityHealth = healthMapper.get(entity);
+			entityHealth = Mapper.healthMapper.get(entity);
 			//TODO faire perdre ou regagner de la vie aux entités
 		}
 	}
