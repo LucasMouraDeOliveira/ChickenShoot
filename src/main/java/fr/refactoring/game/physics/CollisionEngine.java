@@ -158,10 +158,14 @@ public class CollisionEngine implements ICollisionEngine {
 		int cellX2 = (int)(collisionArea.getMaxX()/cellSize);
 		int cellY1 = (int)(collisionArea.getY()/cellSize);
 		int cellY2 = (int)(collisionArea.getMaxY()/cellSize);
+		Rectangle2D.Double rect;
 		for(int i=cellX1; i <= cellX2; i++) {
 			for (int j = cellY1; j <= cellY2; j++) {
 				if(!gameMap.isEmpty(gameMap.getTypeForCell(i, j))) {
-					hitboxes.add(new Rectangle2D.Double(i*cellSize-1, j*cellSize-1, cellSize+2, cellSize+2));
+					rect = new Rectangle2D.Double(i*cellSize, j*cellSize, cellSize, cellSize);
+					if(rect.intersects(collisionArea)) {
+						hitboxes.add(rect);
+					}
 				}
 			}
 		}

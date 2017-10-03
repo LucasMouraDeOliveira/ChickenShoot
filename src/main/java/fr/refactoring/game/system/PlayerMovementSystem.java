@@ -86,7 +86,9 @@ public class PlayerMovementSystem extends EntitySystem {
 					moveX = collisionDist.getX();
 					pc.setX(pc.getX()+moveX);
 				}
-			} else if(!vcVertical.isVoid()) { // Mouvement vertical
+			}
+			
+			if(!vcVertical.isVoid()) { // Mouvement vertical
 				collisionParams = collisionEngine.getCollisionWithGameMap(gameMap, entity, pc, sc, vcVertical);
 				if(collisionParams == null) { // Mouvement total
 					pc.setY(pc.getY()+vc.getDy());
